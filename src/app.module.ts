@@ -6,6 +6,7 @@ import { User } from './user/user.entity';
 import { UserModule } from './user/user.module';
 import { CardModule } from './card/card.module';
 import { Card } from './card/card.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { Card } from './card/card.entity';
     }),
     UserModule,
     CardModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CreateCardDto } from './card.dto';
 import { CardService } from './card.service';
 
@@ -6,6 +6,7 @@ import { CardService } from './card.service';
 export class CardController {
   constructor(private cardService: CardService) {}
 
+  // TODO: what if I added a @UseGuards(AuthGuard) here?
   @Get()
   async getCards() {
     return await this.cardService.getCards();

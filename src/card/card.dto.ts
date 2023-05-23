@@ -1,38 +1,42 @@
+import { PickType } from '@nestjs/mapped-types';
 import { IsIn, IsOptional, IsString } from 'class-validator';
 
 export class CreateCardDto {
   @IsString()
-  number: string;
+  card_number: string;
 
   @IsString()
   @IsIn(['visa', 'mastercard'])
-  brand: string;
+  card_brand: string;
 
   @IsString()
-  @IsIn(['virtual', 'giftcard'])
-  type: string;
+  @IsIn(['virtual', 'giftcard', 'physical'])
+  card_type: string;
 
   @IsString()
-  expiry: string;
+  expiry_date: string;
 
   @IsString()
-  cvv: string;
-
-  @IsString()
-  @IsOptional()
-  pin: string;
+  card_cvv: string;
 
   @IsString()
   @IsOptional()
-  balance: string;
-
-  @IsString()
-  amount: string;
+  card_balance: string;
 
   @IsString()
   @IsOptional()
-  currency: string;
+  card_status: string;
+
+  @IsString()
+  @IsOptional()
+  card_currency: string;
 
   @IsString()
   user_id: string;
 }
+
+export class RegisterCardDto extends PickType(CreateCardDto, [
+  'card_brand',
+  'card_type',
+  'card_currency',
+] as const) {}

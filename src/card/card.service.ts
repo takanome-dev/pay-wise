@@ -6,12 +6,13 @@ import { CreateCardDto } from './card.dto';
 import { Card } from './card.entity';
 import { User } from '../user/user.entity';
 import { ConfigService } from '@nestjs/config';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class CardService {
   constructor(
     @InjectRepository(Card) private cardRepository: Repository<Card>,
-    @InjectRepository(User) private userRepository: Repository<User>,
+    private userRepository: UserService,
   ) {}
 
   async getCards() {
@@ -19,11 +20,7 @@ export class CardService {
   }
 
   async createCard(cardInfos: CreateCardDto) {
-    const foundUser = await this.userRepository.findOne({
-      where: {
-        id: Number(cardInfos.user_id),
-      },
-    });
+    const foundUser = await this.userRepository.findById(cardInfos.user_id);
 
     if (!foundUser) {
       throw new NotFoundException('User not found');

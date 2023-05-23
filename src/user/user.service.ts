@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { LoginUserDto, RegisterUserDto } from './user.dto';
 import { Repository } from 'typeorm';
+import { RegisterUserDto } from 'src/auth/auth.dto';
 
 @Injectable()
 export class UserService {
@@ -10,7 +10,7 @@ export class UserService {
     @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
 
-  findUsers() {
+  findAll() {
     return this.usersRepository.find({
       relations: {
         cards: true,
@@ -18,22 +18,24 @@ export class UserService {
     });
   }
 
-  registerUser(userInfos: RegisterUserDto) {
-    const newUser = this.usersRepository.create(userInfos);
-    return this.usersRepository.save(newUser);
-  }
-
-  async loginUser(userInfos: LoginUserDto) {
-    const foundUser = await this.usersRepository.findOne({
+  findById(id: string) {
+    return this.usersRepository.findOne({
       where: {
-        email: userInfos.email,
+        id,
       },
     });
+  }
 
-    if (!foundUser) {
-      throw new NotFoundException('User not found');
-    }
+  findByEmail(email: string) {
+    return this.usersRepository.findOne({
+      where: {
+        email,
+      },
+    });
+  }
 
-    return foundUser;
+  create(userInfos: RegisterUserDto) {
+    const newUser = this.usersRepository.create(userInfos);
+    return this.usersRepository.save(newUser);
   }
 }

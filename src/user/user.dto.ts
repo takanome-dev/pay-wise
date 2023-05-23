@@ -42,14 +42,3 @@ export class CreateUserDto {
   @IsString()
   image: string;
 }
-
-export class RegisterUserDto extends PickType(CreateUserDto, [
-  'username',
-  'email',
-  'password',
-] as const) {}
-
-export class LoginUserDto extends PickType(CreateUserDto, [
-  'email',
-  'password',
-] as const) {}

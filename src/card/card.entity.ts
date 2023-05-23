@@ -11,35 +11,32 @@ import { User } from '../user/user.entity';
 
 @Entity({ name: 'cards' })
 export class Card {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
-  id: number;
-
-  @Column({ nullable: true })
-  number: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
-  brand: string;
+  card_number: string;
 
   @Column()
-  type: string;
+  card_brand: string;
+
+  @Column()
+  card_type: string;
+
+  @Column()
+  expiry_date: string;
+
+  @Column()
+  card_cvv: string;
 
   @Column({ nullable: true })
-  expiry: string;
+  card_balance: string;
 
   @Column({ nullable: true })
-  cvv: string;
+  card_status: string;
 
-  @Column({ nullable: true })
-  pin: string;
-
-  @Column({ nullable: true })
-  balance: string;
-
-  @Column({ nullable: true })
-  status: string;
-
-  @Column({ nullable: true, default: 'XOF' })
-  currency: string;
+  @Column({ default: 'XOF' })
+  card_currency: string;
 
   @ManyToOne(() => User, (user) => user.cards)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
