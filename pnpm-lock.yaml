@@ -40,6 +40,9 @@ dependencies:
   rxjs:
     specifier: ^7.2.0
     version: 7.2.0
+  semver:
+    specifier: ^7.5.1
+    version: 7.5.1
   typeorm:
     specifier: ^0.3.16
     version: 0.3.16(mysql2@3.3.1)(ts-node@10.0.0)
@@ -66,6 +69,9 @@ devDependencies:
   '@types/node':
     specifier: 18.16.12
     version: 18.16.12
+  '@types/semver':
+    specifier: ^7.5.0
+    version: 7.5.0
   '@types/supertest':
     specifier: ^2.0.11
     version: 2.0.11
@@ -1261,6 +1267,10 @@ packages:
 
   /@types/range-parser@1.2.4:
     resolution: {integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==}
+    dev: true
+
+  /@types/semver@7.5.0:
+    resolution: {integrity: sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw==}
     dev: true
 
   /@types/send@0.17.1:
