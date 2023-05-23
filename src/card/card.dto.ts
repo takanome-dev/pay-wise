@@ -1,10 +1,15 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsIn, IsOptional, IsString } from 'class-validator';
 
 export class CreateCardDto {
   @IsString()
   number: string;
 
   @IsString()
+  @IsIn(['visa', 'mastercard'])
+  brand: string;
+
+  @IsString()
+  @IsIn(['virtual', 'giftcard'])
   type: string;
 
   @IsString()
@@ -20,6 +25,9 @@ export class CreateCardDto {
   @IsString()
   @IsOptional()
   balance: string;
+
+  @IsString()
+  amount: string;
 
   @IsString()
   @IsOptional()

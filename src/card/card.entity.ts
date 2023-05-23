@@ -17,7 +17,10 @@ export class Card {
   @Column({ nullable: true })
   number: string;
 
-  @Column({ nullable: true })
+  @Column()
+  brand: string;
+
+  @Column()
   type: string;
 
   @Column({ nullable: true })
