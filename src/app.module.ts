@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { clc } from '@nestjs/common/utils/cli-colors.util';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
@@ -7,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { CardModule } from './card/card.module';
 import { Card } from './card/card.entity';
 import { AuthModule } from './auth/auth.module';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
@@ -27,6 +29,22 @@ import { AuthModule } from './auth/auth.module';
         synchronize: true,
       }),
       inject: [ConfigService],
+    }),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            colorize: true,
+            levelFirst: true,
+            translateTime: 'UTC:hh:MM:ss.l',
+            singleLine: true,
+            messageFormat: `${clc.yellow(`[{context}]`)} ${clc.green(`{msg}`)}`,
+            ignore: 'pid,hostname,context',
+          },
+        },
+        customProps: () => ({ context: 'HTTP' }),
+      },
     }),
     UserModule,
     CardModule,

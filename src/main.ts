@@ -3,10 +3,12 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 
 import { AppModule } from './app.module';
 import { major } from 'semver';
+import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    logger: ['error', 'warn', 'debug', 'log', 'verbose'],
+    bufferLogs: true,
+    rawBody: true,
   });
   app.enableVersioning({
     type: VersioningType.URI,
@@ -18,6 +20,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.useLogger(app.get(Logger));
   await app.listen(3000);
 }
 bootstrap();
