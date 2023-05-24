@@ -1,13 +1,13 @@
 {
-  "name": "oryacard-api",
-  "version": "0.0.1",
+  "name": "fake-cc-api",
+  "version": "1.0.0",
   "description": "",
   "author": "",
   "private": true,
   "engines": {
     "node": ">=16.x <18.x"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
