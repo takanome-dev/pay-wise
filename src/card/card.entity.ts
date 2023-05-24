@@ -11,8 +11,8 @@ import { User } from '../user/user.entity';
 
 @Entity({ name: 'cards' })
 export class Card {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn({ type: 'bigint' })
+  id: number;
 
   @Column()
   card_number: string;
@@ -28,6 +28,9 @@ export class Card {
 
   @Column()
   card_cvv: string;
+
+  @Column()
+  card_pin: string;
 
   @Column({ nullable: true })
   card_balance: string;

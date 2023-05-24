@@ -31,9 +31,6 @@ export class CreateUserDto {
   country: string;
 
   @IsString()
-  country_code: string;
-
-  @IsString()
   zip_code: string;
 
   @IsString()

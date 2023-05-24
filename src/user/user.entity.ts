@@ -10,8 +10,8 @@ import { Card } from '../card/card.entity';
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn({ type: 'bigint' })
+  id: number;
 
   @Column({ nullable: true })
   id_type: string;
@@ -39,9 +39,6 @@ export class User {
 
   @Column({ nullable: true })
   country: string;
-
-  @Column({ nullable: true })
-  country_code: string;
 
   @Column({ nullable: true })
   zip_code: string;
