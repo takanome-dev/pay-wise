@@ -26,6 +26,8 @@ export class CardService {
       throw new NotFoundException('User not found');
     }
 
+    // create a unique card number for the user
+
     const newCard = this.cardRepository.create({
       ...cardInfos,
       user: foundUser,
