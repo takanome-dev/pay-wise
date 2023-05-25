@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { RegisterUserDto } from 'src/auth/auth.dto';
+import { CompleteKYCDto, JwtUserDto } from 'src/user/user.dto';
 
 @Injectable()
 export class UserService {
@@ -37,5 +38,16 @@ export class UserService {
   create(userInfos: RegisterUserDto) {
     const newUser = this.usersRepository.create(userInfos);
     return this.usersRepository.save(newUser);
+  }
+
+  async completeKyc(kycInfos: CompleteKYCDto, user: JwtUserDto) {
+    await this.usersRepository.update(Number(user.sub), {
+      ...kycInfos,
+      is_verified: true,
+    });
+
+    return {
+      message: 'KYC completed successfully',
+    };
   }
 }

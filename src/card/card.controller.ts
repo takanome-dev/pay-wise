@@ -3,7 +3,7 @@ import { RegisterCardDto } from './card.dto';
 import { CardService } from './card.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { User } from '../common/decorators/user.decorator';
-import { User as UserEntity } from '../user/user.entity';
+import { JwtUserDto } from '../user/user.dto';
 
 @Controller('cards')
 export class CardController {
@@ -19,7 +19,7 @@ export class CardController {
   @Post()
   async createCard(
     @Body() cardInfos: RegisterCardDto,
-    @User() user: UserEntity,
+    @User() user: JwtUserDto,
   ) {
     return await this.cardService.createCard(cardInfos, user);
   }

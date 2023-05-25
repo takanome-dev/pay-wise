@@ -47,7 +47,13 @@ export class User {
   address: string;
 
   @Column({ nullable: true })
-  image: string;
+  image_url: string;
+
+  @Column({ nullable: true })
+  front_id_card_url: string;
+
+  @Column({ nullable: true })
+  back_id_card_url: string;
 
   @Column({ default: 'user' })
   role: string;
