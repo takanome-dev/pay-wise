@@ -49,11 +49,11 @@ export class User {
   @Column({ nullable: true })
   image: string;
 
-  @Column({ default: false })
-  is_verified: boolean;
+  @Column({ default: 'user' })
+  role: string;
 
   @Column({ default: false })
-  is_admin: boolean;
+  is_verified: boolean;
 
   @Column({ default: false })
   is_active: boolean;

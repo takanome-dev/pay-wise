@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { CreateCardDto, RegisterCardDto } from './card.dto';
+import { RegisterCardDto } from './card.dto';
 import { CardService } from './card.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { User } from '../common/decorators/user.decorator';
