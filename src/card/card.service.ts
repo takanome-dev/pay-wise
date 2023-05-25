@@ -1,39 +1,28 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateCardDto, RegisterCardDto } from './card.dto';
+import { RegisterCardDto } from './card.dto';
 import { Card } from './card.entity';
-import { ConfigService } from '@nestjs/config';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
-import { hashPassword } from '../common/utils/bcrypt';
+import { JwtConfigService } from '../jwt/jwt.service';
 
 @Injectable()
 export class CardService {
   constructor(
     @InjectRepository(Card) private cardRepository: Repository<Card>,
     private userService: UserService,
+    private jwtConfigService: JwtConfigService,
   ) {}
 
   async getCards() {
     return await this.cardRepository.find();
   }
-
-  // async createCard(cardInfos: CreateCardDto) {
-  //   const foundUser = await this.userService.findById(cardInfos.user_id);
-
-  //   if (!foundUser) {
-  //     throw new NotFoundException('User not found');
-  //   }
-
-  //   const newCard = this.cardRepository.create({
-  //     ...cardInfos,
-  //     user: foundUser,
-  //   });
-
-  //   return await this.cardRepository.save(newCard);
-  // }
 
   async createCard(cardInfos: RegisterCardDto, user: User) {
     const foundUser = await this.userService.findById(user.id);
@@ -43,7 +32,6 @@ export class CardService {
     }
 
     // TODO: check if the user is verified (completed the KYC process)
-    // TODO:
 
     let cardNumber = this.generateCardNumber();
     let cvv = this.generateCVV();
@@ -60,24 +48,31 @@ export class CardService {
     }
 
     const expiryDate = this.generateExpiryDate();
-    const hashedPin = await hashPassword(cardInfos.card_pin);
+    const hashedPin = await this.jwtConfigService.bcryptHash(
+      cardInfos.card_pin,
+    );
 
-    console.log({
-      cardNumber,
-      cvv,
-      expiryDate,
-      hashedPin,
-    });
+    try {
+      const result = await Promise.all([
+        await this.jwtConfigService.encrypt(cardNumber),
+        await this.jwtConfigService.encrypt(cvv),
+      ]);
 
-    // const newCard = this.cardRepository.create({
-    //   ...cardInfos,
-    //   card_number: cardNumber,
-    //   card_cvv: cvv,
-    //   user: foundUser,
-    // });
+      const newCard = this.cardRepository.create({
+        ...cardInfos,
+        card_number: result[0],
+        card_cvv: result[1],
+        card_pin: hashedPin,
+        expiry_date: expiryDate,
+        user: foundUser,
+      });
 
-    // return await this.cardRepository.save(newCard);
-    return { message: 'Card created successfully' };
+      return await this.cardRepository.save(newCard);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'An unexpected error occurred, please try again later',
+      );
+    }
   }
 
   private generateCardNumber() {

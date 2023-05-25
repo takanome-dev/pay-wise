@@ -1,9 +1,9 @@
 import { PickType } from '@nestjs/mapped-types';
 import {
   IsIn,
+  IsNumber,
   IsOptional,
   IsString,
-  Max,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -31,9 +31,9 @@ export class CreateCardDto {
   @MinLength(4)
   card_pin: string;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  card_balance: string;
+  card_balance: number;
 
   @IsString()
   @IsOptional()

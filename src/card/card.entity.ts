@@ -6,6 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   JoinColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { User } from '../user/user.entity';
 
@@ -32,8 +33,8 @@ export class Card {
   @Column()
   card_pin: string;
 
-  @Column({ nullable: true })
-  card_balance: string;
+  @Column({ default: 0 })
+  card_balance: number;
 
   @Column({ nullable: true })
   card_status: string;
@@ -50,4 +51,7 @@ export class Card {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @DeleteDateColumn({ nullable: true })
+  deleted_at: Date;
 }

@@ -5,13 +5,16 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from '../common/decorators/skip-auth.decorator';
+import { JwtConfigService } from '../jwt/jwt.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService, private reflector: Reflector) {}
+  constructor(
+    private jwtConfigService: JwtConfigService,
+    private reflector: Reflector,
+  ) {}
 
   async canActivate(ctx: ExecutionContext) {
     const isPublic = this.reflector.getAllAndOverride(IS_PUBLIC_KEY, [
@@ -29,9 +32,10 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: process.env.JWT_SECRET,
-      });
+      const payload = await this.jwtConfigService.verifyAsync(
+        token,
+        'JWT_PASSWD_SECRET',
+      );
 
       req['user'] = payload;
       return true;
