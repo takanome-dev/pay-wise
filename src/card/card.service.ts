@@ -9,8 +9,8 @@ import { Repository } from 'typeorm';
 import { RegisterCardDto } from './card.dto';
 import { Card } from './card.entity';
 import { UserService } from '../user/user.service';
-import { User } from '../user/user.entity';
 import { JwtConfigService } from '../jwt/jwt.service';
+import { JwtUserDto } from '../user/user.dto';
 
 @Injectable()
 export class CardService {
@@ -24,8 +24,8 @@ export class CardService {
     return await this.cardRepository.find();
   }
 
-  async createCard(cardInfos: RegisterCardDto, user: User) {
-    const foundUser = await this.userService.findById(user.id);
+  async createCard(cardInfos: RegisterCardDto, user: JwtUserDto) {
+    const foundUser = await this.userService.findById(Number(user.sub));
 
     if (!foundUser) {
       throw new NotFoundException('User not found');
