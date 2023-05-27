@@ -10,6 +10,7 @@ import { Card } from './card/card.entity';
 import { AuthModule } from './auth/auth.module';
 import { LoggerModule } from 'nestjs-pino';
 import { JwtConfigModule } from './jwt/jwt.module';
+import { CustomerModule } from './customer/customer.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { JwtConfigModule } from './jwt/jwt.module';
     CardModule,
     AuthModule,
     JwtConfigModule,
+    CustomerModule,
   ],
   controllers: [],
   providers: [],
