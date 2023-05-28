@@ -21,6 +21,7 @@ export class CardController {
     @Body() cardInfos: RegisterCardDto,
     @User() user: JwtUserDto,
   ) {
-    return await this.cardService.createCard(cardInfos, user);
+    // return await this.cardService.createCard(cardInfos, user);
+    // TODO: user should create a customer first and then send the customer id
   }
 }

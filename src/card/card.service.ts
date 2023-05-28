@@ -8,15 +8,15 @@ import { Repository } from 'typeorm';
 
 import { RegisterCardDto } from './card.dto';
 import { Card } from './card.entity';
-import { UserService } from '../user/user.service';
 import { JwtConfigService } from '../jwt/jwt.service';
 import { JwtUserDto } from '../user/user.dto';
+import { CustomerService } from '../customer/customer.service';
 
 @Injectable()
 export class CardService {
   constructor(
     @InjectRepository(Card) private cardRepository: Repository<Card>,
-    private userService: UserService,
+    private customerService: CustomerService,
     private jwtConfigService: JwtConfigService,
   ) {}
 
@@ -24,33 +24,30 @@ export class CardService {
     return await this.cardRepository.find();
   }
 
-  async createCard(cardInfos: RegisterCardDto, user: JwtUserDto) {
-    const foundUser = await this.userService.findById(Number(user.sub));
+  async createCard(cardInfos: RegisterCardDto, userId: number) {
+    // TODO: user should create a customer first and then send the customer id
+    const customer = await this.customerService.findById(userId);
 
-    if (!foundUser) {
-      throw new NotFoundException('User not found');
+    if (!customer) {
+      throw new NotFoundException('Customer not found');
     }
-
-    // TODO: check if the user is verified (completed the KYC process)
 
     let cardNumber = this.generateCardNumber();
     let cvv = this.generateCVV();
     let card = await this.cardRepository.findOne({
-      where: { card_number: cardNumber, card_cvv: cvv },
+      where: { cc_number: cardNumber, cvv: cvv },
     });
 
     while (card) {
       cardNumber = this.generateCardNumber();
       cvv = this.generateCVV();
       card = await this.cardRepository.findOne({
-        where: { card_number: cardNumber, card_cvv: cvv },
+        where: { cc_number: cardNumber, cvv: cvv },
       });
     }
 
-    const expiryDate = this.generateExpiryDate();
-    const hashedPin = await this.jwtConfigService.bcryptHash(
-      cardInfos.card_pin,
-    );
+    const { exp_month, exp_year } = this.generateExpiryDate();
+    const hashedPin = await this.jwtConfigService.bcryptHash(cardInfos.pin);
 
     try {
       const result = await Promise.all([
@@ -60,11 +57,12 @@ export class CardService {
 
       const newCard = this.cardRepository.create({
         ...cardInfos,
-        card_number: result[0],
-        card_cvv: result[1],
-        card_pin: hashedPin,
-        expiry_date: expiryDate,
-        user: foundUser,
+        cc_number: result[0],
+        cvv: result[1],
+        pin: hashedPin,
+        exp_month,
+        exp_year,
+        customer,
       });
 
       return await this.cardRepository.save(newCard);
@@ -94,7 +92,10 @@ export class CardService {
     );
 
     const expiryMonth = expiryDate.getMonth() + 1;
-    const expiryYear = `${expiryDate.getFullYear()}`.slice(2);
-    return `${expiryMonth}/${expiryYear}`;
+    const expiryYear = expiryDate.getFullYear();
+    return {
+      exp_month: expiryMonth,
+      exp_year: expiryYear,
+    };
   }
 }

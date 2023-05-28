@@ -5,16 +5,14 @@ import {
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
-import { Card } from '../card/card.entity';
+import { Customer } from '../customer/customer.entity';
 
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;
-
-  @Column({ nullable: true })
-  id_type: string;
 
   @Column({ unique: true })
   username: string;
@@ -41,19 +39,10 @@ export class User {
   country: string;
 
   @Column({ nullable: true })
-  zip_code: string;
-
-  @Column({ nullable: true })
   address: string;
 
   @Column({ nullable: true })
-  image_url: string;
-
-  @Column({ nullable: true })
-  front_id_card_url: string;
-
-  @Column({ nullable: true })
-  back_id_card_url: string;
+  image: string;
 
   @Column({ default: 'user' })
   role: string;
@@ -61,15 +50,25 @@ export class User {
   @Column({ default: false })
   is_verified: boolean;
 
-  @Column({ default: false })
-  is_active: boolean;
+  @OneToMany(() => Customer, (customer) => customer.user)
+  customer: Customer[];
 
-  @OneToMany(() => Card, (card) => card.user)
-  cards: Card[];
-
-  @CreateDateColumn()
+  @CreateDateColumn({
+    type: 'timestamp without time zone',
+    default: () => 'now()',
+  })
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    type: 'timestamp without time zone',
+    default: () => 'now()',
+  })
   updated_at: Date;
+
+  @DeleteDateColumn({
+    type: 'timestamp without time zone',
+    default: () => 'now()',
+    select: false,
+  })
+  deleted_at: Date;
 }

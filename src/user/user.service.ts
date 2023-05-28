@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import { RegisterUserDto } from 'src/auth/auth.dto';
-import { CompleteKYCDto, JwtUserDto } from 'src/user/user.dto';
+import { RegisterUserDto } from '../auth/auth.dto';
 
 @Injectable()
 export class UserService {
@@ -12,9 +11,13 @@ export class UserService {
   ) {}
 
   findAll() {
+    return this.usersRepository.find();
+  }
+
+  findAllWithCustomers() {
     return this.usersRepository.find({
       relations: {
-        cards: true,
+        customer: true,
       },
     });
   }
@@ -40,14 +43,14 @@ export class UserService {
     return this.usersRepository.save(newUser);
   }
 
-  async completeKyc(kycInfos: CompleteKYCDto, user: JwtUserDto) {
-    await this.usersRepository.update(Number(user.sub), {
-      ...kycInfos,
-      is_verified: true,
-    });
+  // async completeKyc(kycInfos: CompleteKYCDto, user: JwtUserDto) {
+  //   await this.usersRepository.update(Number(user.sub), {
+  //     ...kycInfos,
+  //     is_verified: true,
+  //   });
 
-    return {
-      message: 'KYC completed successfully',
-    };
-  }
+  //   return {
+  //     message: 'KYC completed successfully',
+  //   };
+  // }
 }

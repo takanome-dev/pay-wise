@@ -8,6 +8,7 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 import { Card } from '../card/card.entity';
+import { User } from '../user/user.entity';
 
 @Entity({ name: 'customers' })
 export class Customer {
@@ -41,8 +42,11 @@ export class Customer {
   @Column({ default: 'USD' })
   currency: string;
 
-  // @OneToMany(() => Card, (card) => card.user)
-  // user: User[];
+  @OneToMany(() => User, (user) => user.customer)
+  user: User;
+
+  @OneToMany(() => Card, (card) => card.customer)
+  cards: Card[];
 
   @CreateDateColumn({
     type: 'timestamp without time zone',
