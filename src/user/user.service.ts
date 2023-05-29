@@ -1,26 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import { RegisterUserDto } from 'src/auth/auth.dto';
-import { CompleteKYCDto, JwtUserDto } from 'src/user/user.dto';
+import { RegisterUserDto } from '../auth/auth.dto';
+import { UpdateUserDto } from './user.dto';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
   findAll() {
-    return this.usersRepository.find({
+    return this.userRepository.find();
+  }
+
+  findAllWithCustomers() {
+    return this.userRepository.find({
       relations: {
-        cards: true,
+        customers: true,
       },
     });
   }
 
-  findById(id: number) {
-    return this.usersRepository.findOne({
+  findById(id: string) {
+    return this.userRepository.findOne({
       where: {
         id,
       },
@@ -28,26 +32,43 @@ export class UserService {
   }
 
   findByEmail(email: string) {
-    return this.usersRepository.findOne({
+    return this.userRepository.findOne({
       where: {
         email,
       },
     });
   }
 
-  create(userInfos: RegisterUserDto) {
-    const newUser = this.usersRepository.create(userInfos);
-    return this.usersRepository.save(newUser);
+  async create(userInfos: RegisterUserDto) {
+    const foundUser = await this.findByEmail(userInfos.email);
+
+    if (foundUser) {
+      throw new BadRequestException('email already in use');
+    }
+
+    const newUser = this.userRepository.create(userInfos);
+    return this.userRepository.save(newUser);
   }
 
-  async completeKyc(kycInfos: CompleteKYCDto, user: JwtUserDto) {
-    await this.usersRepository.update(Number(user.sub), {
-      ...kycInfos,
-      is_verified: true,
-    });
+  // TODO: break down this method into smaller ones
+  // TODO: like updatePassword, updateProfile, etc.
+  // async update(userInfos: UpdateUserDto, userId: string) {
+  //   const foundUser = await this.findById(userId);
 
-    return {
-      message: 'KYC completed successfully',
-    };
+  //   if (!foundUser) {
+  //     throw new BadRequestException('user not found');
+  //   }
+
+  //   return this.userRepository.update(userId, {
+  //     ...foundUser,
+  //     ...userInfos,
+  //     password: foundUser.password,
+  //     role: foundUser.role,
+  //     is_verified: foundUser.is_verified,
+  //   });
+  // }
+
+  deleteAll() {
+    return this.userRepository.delete({});
   }
 }

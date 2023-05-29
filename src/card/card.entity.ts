@@ -8,50 +8,59 @@ import {
   JoinColumn,
   DeleteDateColumn,
 } from 'typeorm';
-import { User } from '../user/user.entity';
+import { Customer } from '../customer/customer.entity';
 
 @Entity({ name: 'cards' })
 export class Card {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
-  card_number: string;
+  cc_number: string;
 
   @Column()
-  card_brand: string;
+  brand: string;
 
   @Column()
-  card_type: string;
+  type: string;
 
   @Column()
-  expiry_date: string;
+  exp_month: number;
 
   @Column()
-  card_cvv: string;
+  exp_year: number;
 
   @Column()
-  card_pin: string;
+  cvv: string;
 
-  @Column({ default: 0 })
-  card_balance: number;
+  @Column()
+  pin: string;
 
   @Column({ nullable: true })
-  card_status: string;
+  status: string;
 
-  @Column({ default: 'XOF' })
-  card_currency: string;
+  @Column({ default: 0 })
+  balance: number;
 
-  @ManyToOne(() => User, (user) => user.cards)
-  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-  user: User;
+  @ManyToOne(() => Customer, (customer) => customer.cards)
+  @JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
+  customer: Customer;
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    type: 'timestamp without time zone',
+    default: () => 'now()',
+  })
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    type: 'timestamp without time zone',
+    default: () => 'now()',
+  })
   updated_at: Date;
 
-  @DeleteDateColumn({ nullable: true })
+  @DeleteDateColumn({
+    type: 'timestamp without time zone',
+    select: false,
+  })
   deleted_at: Date;
 }

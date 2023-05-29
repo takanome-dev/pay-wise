@@ -7,15 +7,13 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
 } from 'typeorm';
-import { Customer } from '../customer/customer.entity';
+import { Card } from '../card/card.entity';
+import { User } from '../user/user.entity';
 
-@Entity({ name: 'users' })
-export class User {
+@Entity({ name: 'customers' })
+export class Customer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column({ unique: true })
-  username: string;
 
   @Column({ nullable: true })
   first_name: string;
@@ -25,9 +23,6 @@ export class User {
 
   @Column({ unique: true })
   email: string;
-
-  @Column()
-  password: string;
 
   @Column({ nullable: true })
   phone: string;
@@ -41,17 +36,17 @@ export class User {
   @Column({ nullable: true })
   address: string;
 
-  @Column({ nullable: true })
-  image: string;
-
-  @Column({ default: 'user' })
+  @Column({ default: 'customer' })
   role: string;
 
-  @Column({ default: false })
-  is_verified: boolean;
+  @Column({ default: 'USD' })
+  currency: string;
 
-  @OneToMany(() => Customer, (customer) => customer.user)
-  customers: Customer[];
+  @OneToMany(() => User, (user) => user.customers)
+  user: User;
+
+  @OneToMany(() => Card, (card) => card.customer)
+  cards: Card[];
 
   @CreateDateColumn({
     type: 'timestamp without time zone',
