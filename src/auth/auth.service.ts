@@ -26,13 +26,10 @@ export class AuthService {
       throw new BadRequestException('Invalid credentials');
     }
 
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, role: user.role };
 
     return {
-      access_token: await this.jwtConfigService.signAsync(
-        payload,
-        'JWT_PASSWD_SECRET',
-      ),
+      access_token: await this.jwtConfigService.signAsync(payload),
     };
   }
 
@@ -46,13 +43,14 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    const payload = { sub: newUser.id, email: newUser.email };
+    const payload = {
+      sub: newUser.id,
+      email: newUser.email,
+      role: newUser.role,
+    };
 
     return {
-      access_token: await this.jwtConfigService.signAsync(
-        payload,
-        'JWT_PASSWD_SECRET',
-      ),
+      access_token: await this.jwtConfigService.signAsync(payload),
     };
   }
 

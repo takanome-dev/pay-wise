@@ -1,21 +1,23 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { RegisterCardDto } from './card.dto';
 import { CardService } from './card.service';
-import { AuthGuard } from '../auth/auth.guard';
 import { User } from '../common/decorators/user.decorator';
 import { JwtUserDto } from '../user/user.dto';
+import { AuthGuard } from '../auth/auth.guard';
+import { RolesGuard } from '../common/guards/roles.guard';
+import { Roles } from '../common/decorators/role.decorator';
 
+@Roles('customer')
+@UseGuards(AuthGuard, RolesGuard)
 @Controller('cards')
 export class CardController {
   constructor(private cardService: CardService) {}
 
-  @UseGuards(AuthGuard)
   @Get()
   async getCards() {
     return await this.cardService.getCards();
   }
 
-  @UseGuards(AuthGuard)
   @Post()
   async createCard(
     @Body() cardInfos: RegisterCardDto,

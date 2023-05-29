@@ -5,6 +5,7 @@ import { JWT_KEYS } from '../common/utils/constants';
 import { ConfigService } from '@nestjs/config';
 import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
 import { promisify } from 'util';
+import { JwtUserDto } from '../user/user.dto';
 
 @Injectable()
 export class JwtConfigService {
@@ -13,18 +14,15 @@ export class JwtConfigService {
     private configService: ConfigService,
   ) {}
 
-  async signAsync(
-    payload: { sub: number; email: string },
-    key: keyof typeof JWT_KEYS,
-  ) {
+  async signAsync(payload: Omit<JwtUserDto, 'iat' | 'exp'>) {
     return await this.jwtService.signAsync(payload, {
-      secret: this.configService.get(JWT_KEYS[key]),
+      secret: this.configService.get(JWT_KEYS.JWT_PASSWD_SECRET),
     });
   }
 
-  async verifyAsync(token: string, key: keyof typeof JWT_KEYS) {
+  async verifyAsync(token: string) {
     return await this.jwtService.verifyAsync(token, {
-      secret: this.configService.get(JWT_KEYS[key]),
+      secret: this.configService.get(JWT_KEYS.JWT_PASSWD_SECRET),
     });
   }
 

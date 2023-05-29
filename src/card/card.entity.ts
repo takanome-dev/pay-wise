@@ -12,8 +12,8 @@ import { Customer } from '../customer/customer.entity';
 
 @Entity({ name: 'cards' })
 export class Card {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   cc_number: string;

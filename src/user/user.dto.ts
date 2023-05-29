@@ -41,6 +41,9 @@ export class JwtUserDto {
   @IsString()
   email: string;
 
+  @IsString()
+  role: string;
+
   @IsNumber()
   iat: number;
 

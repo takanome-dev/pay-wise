@@ -4,21 +4,11 @@ import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { JwtConfigModule } from '../jwt/jwt.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from '../common/guards/roles.guard';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([User]),
-    JwtConfigModule,
-    // JwtModule.registerAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: async (configService: ConfigService) => ({
-    //     global: true,
-    //     secret: configService.get('JWT_SECRET'),
-    //     signOptions: { expiresIn: '7d' },
-    //   }),
-    //   inject: [ConfigService],
-    // }),
-  ],
+  imports: [TypeOrmModule.forFeature([User]), JwtConfigModule],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],

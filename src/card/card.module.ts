@@ -5,29 +5,13 @@ import { Card } from './card.entity';
 import { CardService } from './card.service';
 import { UserModule } from '../user/user.module';
 import { JwtConfigModule } from '../jwt/jwt.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from '../auth/auth.guard';
+import { CustomerModule } from '../customer/customer.module';
 
 @Module({
-  imports: [
-    UserModule,
-    TypeOrmModule.forFeature([Card]),
-    JwtConfigModule,
-    // JwtModule.registerAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: async (configService: ConfigService) => ({
-    //     global: true,
-    //     secret: configService.get('JWT_SECRET'),
-    //     signOptions: { expiresIn: '7d' },
-    //   }),
-    //   inject: [ConfigService],
-    // }),
-  ],
+  imports: [CustomerModule, TypeOrmModule.forFeature([Card]), JwtConfigModule],
   controllers: [CardController],
-  providers: [
-    CardService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: AuthGuard,
-    // },
-  ],
+  providers: [CardService],
 })
 export class CardModule {}

@@ -5,19 +5,7 @@ import { UserModule } from '../user/user.module';
 import { JwtConfigModule } from '../jwt/jwt.module';
 
 @Module({
-  imports: [
-    UserModule,
-    JwtConfigModule,
-    // JwtModule.registerAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: async (configService: ConfigService) => ({
-    //     global: true,
-    //     secret: configService.get('JWT_SECRET'),
-    //     signOptions: { expiresIn: '7d' },
-    //   }),
-    //   inject: [ConfigService],
-    // }),
-  ],
+  imports: [UserModule, JwtConfigModule],
   controllers: [AuthController],
   providers: [AuthService],
 })

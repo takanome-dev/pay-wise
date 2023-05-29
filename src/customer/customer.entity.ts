@@ -12,8 +12,8 @@ import { User } from '../user/user.entity';
 
 @Entity({ name: 'customers' })
 export class Customer {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ nullable: true })
   first_name: string;
@@ -42,7 +42,7 @@ export class Customer {
   @Column({ default: 'USD' })
   currency: string;
 
-  @OneToMany(() => User, (user) => user.customer)
+  @OneToMany(() => User, (user) => user.customers)
   user: User;
 
   @OneToMany(() => Card, (card) => card.customer)

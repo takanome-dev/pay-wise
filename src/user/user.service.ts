@@ -7,23 +7,23 @@ import { RegisterUserDto } from '../auth/auth.dto';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
   findAll() {
-    return this.usersRepository.find();
+    return this.userRepository.find();
   }
 
   findAllWithCustomers() {
-    return this.usersRepository.find({
+    return this.userRepository.find({
       relations: {
-        customer: true,
+        customers: true,
       },
     });
   }
 
-  findById(id: number) {
-    return this.usersRepository.findOne({
+  findById(id: string) {
+    return this.userRepository.findOne({
       where: {
         id,
       },
@@ -31,7 +31,7 @@ export class UserService {
   }
 
   findByEmail(email: string) {
-    return this.usersRepository.findOne({
+    return this.userRepository.findOne({
       where: {
         email,
       },
@@ -39,18 +39,7 @@ export class UserService {
   }
 
   create(userInfos: RegisterUserDto) {
-    const newUser = this.usersRepository.create(userInfos);
-    return this.usersRepository.save(newUser);
+    const newUser = this.userRepository.create(userInfos);
+    return this.userRepository.save(newUser);
   }
-
-  // async completeKyc(kycInfos: CompleteKYCDto, user: JwtUserDto) {
-  //   await this.usersRepository.update(Number(user.sub), {
-  //     ...kycInfos,
-  //     is_verified: true,
-  //   });
-
-  //   return {
-  //     message: 'KYC completed successfully',
-  //   };
-  // }
 }

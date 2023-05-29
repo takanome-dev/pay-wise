@@ -14,7 +14,7 @@ export class CustomerService {
     private userService: UserService,
   ) {}
 
-  findById(id: number) {
+  findById(id: string) {
     return this.customerRepository.findOne({
       where: {
         id,
@@ -30,7 +30,7 @@ export class CustomerService {
     });
   }
 
-  async create(customerInfos: CreateCustomerDto, userId: number) {
+  async create(customerInfos: CreateCustomerDto, userId: string) {
     const user = await this.userService.findById(userId);
 
     if (!user) {
@@ -44,15 +44,4 @@ export class CustomerService {
 
     return this.customerRepository.save(newCustomer);
   }
-
-  // async completeKyc(kycInfos: CompleteKYCDto, user: JwtUserDto) {
-  //   await this.usersRepository.update(Number(user.sub), {
-  //     ...kycInfos,
-  //     is_verified: true,
-  //   });
-
-  //   return {
-  //     message: 'KYC completed successfully',
-  //   };
-  // }
 }

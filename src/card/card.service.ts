@@ -24,7 +24,7 @@ export class CardService {
     return await this.cardRepository.find();
   }
 
-  async createCard(cardInfos: RegisterCardDto, userId: number) {
+  async createCard(cardInfos: RegisterCardDto, userId: string) {
     // TODO: user should create a customer first and then send the customer id
     const customer = await this.customerService.findById(userId);
 

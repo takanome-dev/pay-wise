@@ -11,8 +11,8 @@ import { Customer } from '../customer/customer.entity';
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryGeneratedColumn({ type: 'bigint' })
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ unique: true })
   username: string;
@@ -51,7 +51,7 @@ export class User {
   is_verified: boolean;
 
   @OneToMany(() => Customer, (customer) => customer.user)
-  customer: Customer[];
+  customers: Customer[];
 
   @CreateDateColumn({
     type: 'timestamp without time zone',
@@ -65,6 +65,7 @@ export class User {
   })
   updated_at: Date;
 
+  // TODO: the default value shouldn't be now() but null
   @DeleteDateColumn({
     type: 'timestamp without time zone',
     default: () => 'now()',
