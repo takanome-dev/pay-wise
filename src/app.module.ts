@@ -3,15 +3,12 @@ import { clc } from '@nestjs/common/utils/cli-colors.util';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { User } from './user/user.entity';
 import { UserModule } from './user/user.module';
 import { CardModule } from './card/card.module';
-import { Card } from './card/card.entity';
 import { AuthModule } from './auth/auth.module';
 import { LoggerModule } from 'nestjs-pino';
 import { JwtConfigModule } from './jwt/jwt.module';
 import { CustomerModule } from './customer/customer.module';
-import { Customer } from './customer/customer.entity';
 
 @Module({
   imports: [
@@ -27,7 +24,8 @@ import { Customer } from './customer/customer.entity';
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, Card, Customer],
+        entities: [__dirname + '/**/*.entity.ts'],
+        autoLoadEntities: true,
         // TODO: remove synchronize in production
         synchronize: true,
       }),

@@ -60,7 +60,6 @@ export class Card {
 
   @DeleteDateColumn({
     type: 'timestamp without time zone',
-    default: () => 'now()',
     select: false,
   })
   deleted_at: Date;

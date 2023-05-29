@@ -65,10 +65,8 @@ export class User {
   })
   updated_at: Date;
 
-  // TODO: the default value shouldn't be now() but null
   @DeleteDateColumn({
     type: 'timestamp without time zone',
-    default: () => 'now()',
     select: false,
   })
   deleted_at: Date;

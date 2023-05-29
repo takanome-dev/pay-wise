@@ -8,7 +8,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from '../common/guards/roles.guard';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), JwtConfigModule],
+  imports: [JwtConfigModule, TypeOrmModule.forFeature([User])],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],
