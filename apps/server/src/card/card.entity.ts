@@ -8,7 +8,8 @@ import {
   JoinColumn,
   DeleteDateColumn,
 } from 'typeorm';
-import { Customer } from '../customer/customer.entity';
+
+import type { Customer } from '../customer/customer.entity';
 
 @Entity({ name: 'cards' })
 export class Card {

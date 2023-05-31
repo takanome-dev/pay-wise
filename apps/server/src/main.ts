@@ -1,9 +1,9 @@
-import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { Logger } from 'nestjs-pino';
+import { major } from 'semver';
 
 import { AppModule } from './app.module';
-import { major } from 'semver';
-import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

@@ -4,12 +4,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
-import { RegisterCardDto } from './card.dto';
 import { Card } from './card.entity';
-import { JwtConfigService } from '../jwt/jwt.service';
-import { CustomerService } from '../customer/customer.service';
+
+import type { RegisterCardDto } from './card.dto';
+import type { CustomerService } from '../customer/customer.service';
+import type { JwtConfigService } from '../jwt/jwt.service';
+import type { Repository } from 'typeorm';
 
 @Injectable()
 export class CardService {
@@ -19,8 +20,8 @@ export class CardService {
     private jwtConfigService: JwtConfigService,
   ) {}
 
-  async getCards() {
-    return await this.cardRepository.find();
+  getCards() {
+    return this.cardRepository.find();
   }
 
   async createCard(cardInfos: RegisterCardDto, userId: string) {
@@ -34,14 +35,14 @@ export class CardService {
     let cardNumber = this.generateCardNumber();
     let cvv = this.generateCVV();
     let card = await this.cardRepository.findOne({
-      where: { cc_number: cardNumber, cvv: cvv },
+      where: { cc_number: cardNumber, cvv },
     });
 
     while (card) {
       cardNumber = this.generateCardNumber();
       cvv = this.generateCVV();
       card = await this.cardRepository.findOne({
-        where: { cc_number: cardNumber, cvv: cvv },
+        where: { cc_number: cardNumber, cvv },
       });
     }
 

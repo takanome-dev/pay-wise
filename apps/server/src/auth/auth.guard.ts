@@ -1,14 +1,17 @@
 import {
   BadRequestException,
-  CanActivate,
-  ExecutionContext,
   Injectable,
   UnauthorizedException,
+  type CanActivate,
+  type ExecutionContext,
 } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import { Request } from 'express';
+
 import { IS_PUBLIC_KEY } from '../common/decorators/skip-auth.decorator';
-import { JwtConfigService } from '../jwt/jwt.service';
+
+import type { JwtConfigService } from '../jwt/jwt.service';
+import type { JwtUserDto } from '../user/user.dto';
+import type { Reflector } from '@nestjs/core';
+import type { Request } from 'express';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -18,7 +21,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(ctx: ExecutionContext) {
-    const isPublic = this.reflector.getAllAndOverride(IS_PUBLIC_KEY, [
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       ctx.getHandler(),
       ctx.getClass(),
     ]);
@@ -33,9 +36,11 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      const payload = await this.jwtConfigService.verifyAsync(token);
+      const payload = (await this.jwtConfigService.verifyAsync(
+        token,
+      )) as JwtUserDto;
 
-      req['user'] = payload;
+      req.user = payload;
       return true;
     } catch (err) {
       throw new BadRequestException('Invalid token');

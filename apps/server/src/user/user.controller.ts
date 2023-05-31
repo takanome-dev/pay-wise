@@ -1,9 +1,11 @@
 import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
-import { UserService } from './user.service';
+
 import { AuthGuard } from '../auth/auth.guard';
-import { RegisterUserDto } from '../auth/auth.dto';
 import { Roles } from '../common/decorators/role.decorator';
 import { RolesGuard } from '../common/guards/roles.guard';
+
+import type { UserService } from './user.service';
+import type { RegisterUserDto } from '../auth/auth.dto';
 
 @Controller('users')
 export class UserController {
@@ -13,12 +15,12 @@ export class UserController {
   @Roles('admin')
   @UseGuards(AuthGuard, RolesGuard)
   async getUsers() {
-    return await this.userService.findAll();
+    return this.userService.findAll();
   }
 
   @Post()
   async createUser(@Body() userInfos: RegisterUserDto) {
-    return await this.userService.create(userInfos);
+    return this.userService.create(userInfos);
   }
 
   // @Patch()
@@ -32,6 +34,6 @@ export class UserController {
   @Roles('admin')
   @UseGuards(AuthGuard, RolesGuard)
   async deleteAllUsers() {
-    return await this.userService.deleteAll();
+    return this.userService.deleteAll();
   }
 }

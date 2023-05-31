@@ -1,11 +1,14 @@
-import * as bcrypt from 'bcrypt';
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { JWT_KEYS } from '../common/utils/constants';
-import { ConfigService } from '@nestjs/config';
 import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
 import { promisify } from 'util';
-import { JwtUserDto } from '../user/user.dto';
+
+import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+
+import { JWT_KEYS } from '../common/utils/constants';
+
+import type { JwtUserDto } from '../user/user.dto';
+import type { ConfigService } from '@nestjs/config';
+import type { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class JwtConfigService {
@@ -15,23 +18,23 @@ export class JwtConfigService {
   ) {}
 
   async signAsync(payload: Omit<JwtUserDto, 'iat' | 'exp'>) {
-    return await this.jwtService.signAsync(payload, {
+    return this.jwtService.signAsync(payload, {
       secret: this.configService.get(JWT_KEYS.JWT_PASSWD_SECRET),
     });
   }
 
   async verifyAsync(token: string) {
-    return await this.jwtService.verifyAsync(token, {
+    return this.jwtService.verifyAsync(token, {
       secret: this.configService.get(JWT_KEYS.JWT_PASSWD_SECRET),
     });
   }
 
   async bcryptHash(str: string) {
-    return await bcrypt.hash(str, 10);
+    return bcrypt.hash(str, 10);
   }
 
   async bcryptCompare(str: string, hash: string) {
-    return await bcrypt.compare(str, hash);
+    return bcrypt.compare(str, hash);
   }
 
   async encrypt(str: string) {

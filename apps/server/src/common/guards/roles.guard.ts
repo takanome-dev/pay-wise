@@ -1,6 +1,14 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import { ROLES_KEY, Role } from '../utils/roles';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import {
+  Injectable,
+  type CanActivate,
+  type ExecutionContext,
+} from '@nestjs/common';
+
+import { ROLES_KEY, type Role } from '../utils/roles';
+
+import type { JwtUserDto } from '../../user/user.dto';
+import type { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -14,7 +22,7 @@ export class RolesGuard implements CanActivate {
 
     if (!requiredRoles) return true;
 
-    const { user } = context.switchToHttp().getRequest();
+    const user = context.switchToHttp().getRequest()?.user as JwtUserDto;
 
     return requiredRoles.some((role) => user.role === role);
   }

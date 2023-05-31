@@ -7,8 +7,9 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
 } from 'typeorm';
-import { Card } from '../card/card.entity';
-import { User } from '../user/user.entity';
+
+import type { Card } from '../card/card.entity';
+import type { User } from '../user/user.entity';
 
 @Entity({ name: 'customers' })
 export class Customer {

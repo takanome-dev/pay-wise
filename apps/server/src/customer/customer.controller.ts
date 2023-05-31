@@ -1,10 +1,12 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { CustomerService } from './customer.service';
-import { UserId } from '../common/decorators/user.decorator';
-import { CreateCustomerDto } from './customer.dto';
-import { Roles } from '../common/decorators/role.decorator';
+
 import { AuthGuard } from '../auth/auth.guard';
+import { Roles } from '../common/decorators/role.decorator';
+import { UserId } from '../common/decorators/user.decorator';
 import { RolesGuard } from '../common/guards/roles.guard';
+
+import type { CreateCustomerDto } from './customer.dto';
+import type { CustomerService } from './customer.service';
 
 @Roles('user')
 @UseGuards(AuthGuard, RolesGuard)
@@ -17,6 +19,6 @@ export class CustomerController {
     @Body() customerInfos: CreateCustomerDto,
     @UserId() userId: string,
   ) {
-    return await this.customerService.create(customerInfos, userId);
+    return this.customerService.create(customerInfos, userId);
   }
 }

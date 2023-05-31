@@ -1,7 +1,6 @@
 module.exports = {
   plugins: ['@typescript-eslint'],
   extends: [
-    'next/core-web-vitals',
     'airbnb',
     'airbnb-typescript',
     'plugin:prettier/recommended',
@@ -13,10 +12,7 @@ module.exports = {
     'prettier',
   ],
   rules: {
-    '@typescript-eslint/consistent-type-imports': [
-      'error',
-      { prefer: 'type-imports', fixStyle: 'inline-type-imports' },
-    ],
+    '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off',

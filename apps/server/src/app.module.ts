@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { clc } from '@nestjs/common/utils/cli-colors.util';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-
-import { UserModule } from './user/user.module';
-import { CardModule } from './card/card.module';
-import { AuthModule } from './auth/auth.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerModule } from 'nestjs-pino';
-import { JwtConfigModule } from './jwt/jwt.module';
+
+import { AuthModule } from './auth/auth.module';
+import { CardModule } from './card/card.module';
 import { CustomerModule } from './customer/customer.module';
+import { JwtConfigModule } from './jwt/jwt.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
