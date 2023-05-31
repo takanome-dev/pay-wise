@@ -9,7 +9,7 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 
-import type { Customer } from '../customer/customer.entity';
+import { Customer } from '../customer/customer.entity';
 
 @Entity({ name: 'cards' })
 export class Card {

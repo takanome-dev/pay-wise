@@ -40,7 +40,7 @@ export class AuthGuard implements CanActivate {
         token,
       )) as JwtUserDto;
 
-      req.user = payload;
+      req['user'] = payload;
       return true;
     } catch (err) {
       throw new BadRequestException('Invalid token');
