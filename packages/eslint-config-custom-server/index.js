@@ -7,7 +7,6 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:import/typescript',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'plugin:prettier/recommended',
     'prettier',
   ],
   plugins: ['@typescript-eslint'],
@@ -16,6 +15,7 @@ module.exports = {
   },
   rules: {
     '@typescript-eslint/consistent-type-imports': 'warn',
+    '@typescript-eslint/dot-notation': 'warn',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off',
@@ -34,12 +34,13 @@ module.exports = {
     'import/exports-last': 'error',
     'import/first': 'error',
     'import/newline-after-import': 'error',
+    'import/no-cycle': 'warn',
     'import/no-extraneous-dependencies': [
       'error',
       { devDependencies: true, peerDependencies: false },
     ],
     'import/order': [
-      'error',
+      'warn',
       {
         groups: [
           'builtin',

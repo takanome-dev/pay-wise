@@ -6,10 +6,10 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Card } from './card.entity';
+import { CustomerService } from '../customer/customer.service';
+import { JwtConfigService } from '../jwt/jwt.service';
 
 import type { RegisterCardDto } from './card.dto';
-import type { CustomerService } from '../customer/customer.service';
-import type { JwtConfigService } from '../jwt/jwt.service';
 import type { Repository } from 'typeorm';
 
 @Injectable()

@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { JwtConfigModule } from '../jwt/jwt.module';
 import { UserModule } from '../user/user.module';
-
 import { CustomerController } from './customer.controller';
 import { Customer } from './customer.entity';
 import { CustomerService } from './customer.service';

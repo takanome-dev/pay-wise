@@ -1,26 +1,24 @@
 'use client';
 
-import Link from 'next/link';
-import { Metadata } from 'next';
-
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { LoginSchema, loginSchema } from '~/schemas/index.schema';
+
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '~/components/form';
-import { Input } from '~/components/ui/input';
 import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import { loginSchema, type LoginSchema } from '~/schemas/index.schema';
 
-const metadata: Metadata = {
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
   title: 'Login',
   description: 'Login page for the app.',
 };
@@ -41,6 +39,7 @@ export default function LoginPage() {
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
+
   return (
     <div className="container relative min-h-screen flex justify-center items-center mx-auto">
       {/* <div className="lg:p-8"> */}

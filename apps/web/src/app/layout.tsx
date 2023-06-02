@@ -1,4 +1,3 @@
-import { cn } from '~/utils/merge-classnames';
 import './globals.css';
 import { Inter } from 'next/font/google';
 
