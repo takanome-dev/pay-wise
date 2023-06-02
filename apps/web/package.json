@@ -21,7 +21,7 @@
     "next": "13.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.44.2",
+    "react-hook-form": "^7.44.3",
     "tailwind-merge": "^1.13.0",
     "zod": "^3.21.4"
   },
@@ -33,7 +33,8 @@
     "eslint": "8.41.0",
     "eslint-config-custom": "workspace:*",
     "postcss": "8.4.24",
-    "tailwind-config": "workspace:*",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.3.0",
     "tailwindcss": "3.3.2",
     "tsconfig": "workspace:*",
     "typescript": "5.0.4"
