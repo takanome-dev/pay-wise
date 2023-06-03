@@ -6,9 +6,8 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    // project: ['./tsconfig.json'],
-    project: true,
-    tsconfigRootDir: __dirname,
+    project: ['./tsconfig.json'],
+    // tsconfigRootDir: __dirname,
   },
-  extends: ['custom/server'],
+  extends: ['custom-server'],
 };
