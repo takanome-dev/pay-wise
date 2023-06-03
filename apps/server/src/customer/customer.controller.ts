@@ -4,9 +4,9 @@ import { AuthGuard } from '../auth/auth.guard';
 import { Roles } from '../common/decorators/role.decorator';
 import { UserId } from '../common/decorators/user.decorator';
 import { RolesGuard } from '../common/guards/roles.guard';
+import { CustomerService } from './customer.service';
 
 import type { CreateCustomerDto } from './customer.dto';
-import type { CustomerService } from './customer.service';
 
 @Roles('user')
 @UseGuards(AuthGuard, RolesGuard)

@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 
 import { IS_PUBLIC_KEY } from '../common/decorators/skip-auth.decorator';
+import { JwtConfigService } from '../jwt/jwt.service';
 
-import type { JwtConfigService } from '../jwt/jwt.service';
 import type { JwtUserDto } from '../user/user.dto';
 import type { Reflector } from '@nestjs/core';
 import type { Request } from 'express';

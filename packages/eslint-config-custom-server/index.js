@@ -6,16 +6,16 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'plugin:prettier/recommended',
+    // 'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'prettier',
   ],
   plugins: ['@typescript-eslint'],
-  parserOptions: {
-    project: ['./tsconfig.json'],
-  },
+  // parserOptions: {
+  //   project: ['./tsconfig.json'],
+  // },
   rules: {
     '@typescript-eslint/consistent-type-imports': 'warn',
+    '@typescript-eslint/dot-notation': 'warn',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off',
@@ -34,12 +34,13 @@ module.exports = {
     'import/exports-last': 'error',
     'import/first': 'error',
     'import/newline-after-import': 'error',
+    'import/no-cycle': 'warn',
     'import/no-extraneous-dependencies': [
       'error',
       { devDependencies: true, peerDependencies: false },
     ],
     'import/order': [
-      'error',
+      'warn',
       {
         groups: [
           'builtin',
@@ -102,6 +103,18 @@ module.exports = {
     'vars-on-top': 'off',
     yoda: 'error',
   },
-  ignorePatterns: ['**/*.js', 'node_modules', '.turbo', 'dist'],
+  overrides: [
+    {
+      extends: [
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+      ],
+      files: ['./**/*.{ts,tsx}'],
+    },
+    // @typescript-eslint/disable-type-checked -> v6
+    // {
+    //   extends: ['plugin:@typescript-eslint/disable-type-checked'],
+    //   files: ['./**/*.js'],
+    // },
+  ],
   reportUnusedDisableDirectives: true,
 };

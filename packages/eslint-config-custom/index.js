@@ -3,7 +3,6 @@ module.exports = {
   extends: [
     'airbnb',
     'airbnb-typescript',
-    'plugin:prettier/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -15,6 +14,8 @@ module.exports = {
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-misused-promises': 'warn',
+    '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off',
     'arrow-body-style': 'error',
     'arrow-spacing': ['warn', { before: true, after: true }],
@@ -24,9 +25,11 @@ module.exports = {
     curly: ['error', 'multi-line', 'consistent'],
     'dot-location': ['error', 'property'],
     eqeqeq: 'error',
+    'global-require': 'off',
     'handle-callback-err': 'off',
     indent: 'off',
-    'import/exports-last': 'error',
+    'import/exports-last': 'off',
+    'import/extensions': 'off',
     'import/first': 'error',
     'import/newline-after-import': 'error',
     'import/no-extraneous-dependencies': [
@@ -34,7 +37,7 @@ module.exports = {
       { devDependencies: true, peerDependencies: false },
     ],
     'import/order': [
-      'error',
+      'warn',
       {
         groups: [
           'builtin',
@@ -81,6 +84,7 @@ module.exports = {
     'react/function-component-definition': 'off',
     'react/prop-types': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'react/jsx-no-constructed-context-values': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/require-default-props': 'off',
     semi: ['error', 'always'],
@@ -99,6 +103,11 @@ module.exports = {
     'spaced-comment': 'error',
     'vars-on-top': 'off',
     yoda: 'error',
+  },
+  settings: {
+    'import/resolver': {
+      typescript: {},
+    },
   },
   ignorePatterns: [
     '**/*.js',
