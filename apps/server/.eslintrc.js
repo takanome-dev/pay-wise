@@ -5,10 +5,10 @@ module.exports = {
     jest: true,
   },
   extends: ['custom-server'],
-  // parser: '@typescript-eslint/parser',
-  // parserOptions: {
-  //   project: './tsconfig.json',
-  // },
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json',
+  },
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -17,4 +17,5 @@ module.exports = {
     '@typescript-eslint/no-floating-promises': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
   },
+  ignorePatterns: ['**/*.js', 'node_modules', '.turbo', 'dist'],
 };

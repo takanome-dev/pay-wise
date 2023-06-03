@@ -18,7 +18,7 @@ import { loginSchema, type LoginSchema } from '~/schemas/index.schema';
 
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'Login',
   description: 'Login page for the app.',
 };
