@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
+import type { Metadata } from 'next';
 import {
   Form,
   FormControl,
@@ -15,8 +16,6 @@ import {
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 import { loginSchema, type LoginSchema } from '~/schemas/index.schema';
-
-import type { Metadata } from 'next';
 
 const metadata: Metadata = {
   title: 'Login',

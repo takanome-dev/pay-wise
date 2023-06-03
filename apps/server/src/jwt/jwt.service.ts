@@ -3,11 +3,11 @@ import { promisify } from 'util';
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { JWT_KEYS } from '../common/utils/constants';
 
 import type { JwtUserDto } from '../user/user.dto';
-import type { ConfigService } from '@nestjs/config';
-import type { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class JwtConfigService {
@@ -16,7 +16,7 @@ export class JwtConfigService {
     private configService: ConfigService,
   ) {}
 
-  async signAsync(payload: Omit<JwtUserDto, 'iat' | 'exp'>) {
+  async signAsync(payload: Omit<JwtUserDto, 'exp' | 'iat'>) {
     return this.jwtService.signAsync(payload, {
       secret: this.configService.get(JWT_KEYS.JWT_PASSWD_SECRET),
     });
@@ -40,7 +40,7 @@ export class JwtConfigService {
     const iv = randomBytes(16);
 
     const key = (await promisify(scrypt)(
-      this.configService.get(JWT_KEYS.JWT_CYPHER_KEY),
+      this.configService.get(JWT_KEYS.JWT_CYPHER_KEY)!,
       'salt',
       32,
     )) as Buffer;
@@ -54,7 +54,7 @@ export class JwtConfigService {
   async decrypt(str: string) {
     const [iv, encryptedText] = str.split(':');
     const key = (await promisify(scrypt)(
-      this.configService.get(JWT_KEYS.JWT_CYPHER_KEY),
+      this.configService.get(JWT_KEYS.JWT_CYPHER_KEY)!,
       'salt',
       32,
     )) as Buffer;

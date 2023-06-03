@@ -3,15 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./src/*"
-      ]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+      "~/*": ["./src/*"]
+    }
   },
   "include": [
     "src",
@@ -20,9 +13,5 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    ".next",
-    ".turbo"
-  ]
+  "exclude": ["node_modules", ".next", ".turbo"]
 }

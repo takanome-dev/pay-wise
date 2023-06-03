@@ -9,19 +9,18 @@ import {
   type FieldValues,
 } from 'react-hook-form';
 
+import type * as LabelPrimitive from '@radix-ui/react-label';
 import { Label } from '~/components/ui/label';
 import { cn } from '~/utils/merge-classnames';
 
-import type * as LabelPrimitive from '@radix-ui/react-label';
-
 const Form = FormProvider;
 
-type FormFieldContextValue<
+interface FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = {
+> {
   name: TName;
-};
+}
 
 const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue,
@@ -33,7 +32,7 @@ const FormField = <
 >({
   ...props
 }: ControllerProps<TFieldValues, TName>) => (
-  <FormFieldContext.Provider value={{ name: props.name }}>
+    <FormFieldContext.Provider value={{ name: props.name }}>
     <Controller {...props} />
   </FormFieldContext.Provider>
 );
@@ -61,9 +60,9 @@ const useFormField = () => {
   };
 };
 
-type FormItemContextValue = {
+interface FormItemContextValue {
   id: string;
-};
+}
 
 const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue,

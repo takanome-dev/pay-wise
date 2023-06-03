@@ -1,4 +1,10 @@
 module.exports = {
+  env: {
+    es6: true,
+    browser: true,
+    node: true,
+    jest: true,
+  },
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended-type-checked',
@@ -6,16 +12,11 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:import/typescript',
     'plugin:prettier/recommended',
-    'prettier',
   ],
   plugins: ['@typescript-eslint'],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: true,
-    tsconfigRootDir: __dirname,
-  },
   rules: {
     '@typescript-eslint/consistent-type-imports': 'error',
+    '@typescript-eslint/indent': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-misused-promises': 'warn',
@@ -80,6 +81,7 @@ module.exports = {
     'no-var': 'error',
     'no-void': 'warn',
     'no-duplicate-imports': 'error',
+    'object-curly-newline': ['error', 'never'],
     'object-curly-spacing': ['error', 'always'],
     'prefer-const': 'warn',
     'prefer-destructuring': 'warn',

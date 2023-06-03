@@ -12,8 +12,10 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off',
     'class-methods-use-this': 'off',
     'import/no-cycle': 'warn',
+    'import/prefer-default-export': 'off',
     'max-classes-per-file': 'off',
     'no-await-in-loop': 'warn',
+    'prettier/prettier': 'warn',
   },
   ignorePatterns: ['**/*.js', 'node_modules', '.turbo', 'dist'],
 };
