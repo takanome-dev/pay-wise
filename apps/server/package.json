@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "clean": "rm -rf .turbo node_modules",
+    "clean": "rm -rf .turbo node_modules dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -55,8 +55,7 @@
     "@types/node": "18.16.12",
     "@types/semver": "^7.5.0",
     "@types/supertest": "^2.0.11",
-    "@typescript-eslint/parser": "^5.27.1",
-    "eslint-config-custom-server": "workspace:*",
+    "eslint-config-custom": "workspace:*",
     "jest": "29.5.0",
     "prettier": "^2.3.2",
     "source-map-support": "^0.5.20",
