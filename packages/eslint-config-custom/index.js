@@ -1,7 +1,9 @@
 module.exports = {
   extends: ['eslint-config-base', 'airbnb', 'airbnb-typescript'],
   rules: {
+    '@typescript-eslint/indent': 'off',
     '@typescript-eslint/no-misused-promises': 'warn',
+    '@typescript-eslint/no-use-before-define': 'off',
     'global-require': 'off',
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',

@@ -1,8 +1,9 @@
 module.exports = {
-  extends: ['./index', 'airbnb-base', 'airbnb-typescript/base'],
+  extends: ['eslint-config-base', 'airbnb-base', 'airbnb-typescript/base'],
   rules: {
     // TODO: remove this and fix all the errors
     '@typescript-eslint/dot-notation': 'warn',
+    '@typescript-eslint/indent': 'off',
     '@typescript-eslint/naming-convention': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
