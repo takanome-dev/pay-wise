@@ -5,7 +5,7 @@
   "author": "",
   "private": true,
   "engines": {
-    "node": "<18.17"
+    "node": ">18.x"
   },
   "license": "MIT",
   "scripts": {
