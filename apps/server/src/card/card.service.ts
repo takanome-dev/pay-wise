@@ -5,12 +5,12 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
+import { Repository } from 'typeorm';
 import { Card } from './card.entity';
 import { CustomerService } from '../customer/customer.service';
 import { JwtConfigService } from '../jwt/jwt.service';
 
 import type { RegisterCardDto } from './card.dto';
-import type { Repository } from 'typeorm';
 
 @Injectable()
 export class CardService {

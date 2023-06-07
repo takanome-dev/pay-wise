@@ -16,8 +16,7 @@
   "include": [
     "src",
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "tailwind.config.ts",
     ".next/types/**/*.ts"
   ],
   "exclude": [

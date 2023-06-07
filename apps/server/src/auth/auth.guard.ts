@@ -6,12 +6,12 @@ import {
   type ExecutionContext,
 } from '@nestjs/common';
 
+import { Reflector } from '@nestjs/core';
+import type { Request } from 'express';
 import { IS_PUBLIC_KEY } from '../common/decorators/skip-auth.decorator';
 import { JwtConfigService } from '../jwt/jwt.service';
 
 import type { JwtUserDto } from '../user/user.dto';
-import type { Reflector } from '@nestjs/core';
-import type { Request } from 'express';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -40,7 +40,7 @@ export class AuthGuard implements CanActivate {
         token,
       )) as JwtUserDto;
 
-      req['user'] = payload;
+      req.user = payload;
       return true;
     } catch (err) {
       throw new BadRequestException('Invalid token');
