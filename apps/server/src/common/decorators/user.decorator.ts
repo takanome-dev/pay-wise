@@ -5,13 +5,13 @@ import type { Request } from 'express';
 export const User = createParamDecorator(
   (_: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest<Request>();
-    return request.user!;
+    return request.user;
   },
 );
 
 export const UserId = createParamDecorator(
   (_: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest<Request>();
-    return String(request.user!.sub);
+    return String(request.user.sub);
   },
 );

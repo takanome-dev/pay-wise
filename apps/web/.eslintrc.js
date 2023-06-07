@@ -1,10 +1,9 @@
 module.exports = {
   root: true,
-  extends: ['custom/web'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    // project: ['./tsconfig.json'],
-    project: true,
+    project: ['./tsconfig.json'],
     tsconfigRootDir: __dirname,
   },
+  extends: ['custom'],
 };

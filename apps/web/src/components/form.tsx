@@ -10,6 +10,7 @@ import {
 } from 'react-hook-form';
 
 import type * as LabelPrimitive from '@radix-ui/react-label';
+
 import { Label } from '~/components/ui/label';
 import { cn } from '~/utils/merge-classnames';
 
@@ -32,7 +33,7 @@ const FormField = <
 >({
   ...props
 }: ControllerProps<TFieldValues, TName>) => (
-    <FormFieldContext.Provider value={{ name: props.name }}>
+  <FormFieldContext.Provider value={{ name: props.name }}>
     <Controller {...props} />
   </FormFieldContext.Provider>
 );
