@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['eslint-config-base', 'airbnb', 'airbnb-typescript'],
+  extends: ['airbnb', 'airbnb-typescript', 'eslint-config-base'],
   rules: {
     '@typescript-eslint/indent': 'off',
     '@typescript-eslint/no-misused-promises': 'warn',
@@ -18,6 +18,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/require-default-props': 'off',
+    'object-curly-newline': 'off',
   },
   ignorePatterns: [
     '**/*.js',

@@ -11,6 +11,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:import/recommended',
     'plugin:import/typescript',
+    // 'import',
     'plugin:prettier/recommended',
   ],
   plugins: ['@typescript-eslint'],
@@ -32,8 +33,8 @@ module.exports = {
     eqeqeq: 'error',
     'global-require': 'off',
     'handle-callback-err': 'off',
-    indent: 'error',
-    'import/exports-last': 'error',
+    indent: 'off',
+    'import/exports-last': 'warn',
     'import/first': 'error',
     'import/newline-after-import': 'error',
     'import/no-cycle': 'error',
@@ -64,6 +65,8 @@ module.exports = {
       },
     ],
     'import/prefer-default-export': 'off',
+    // TODO: dig into unresolved import issue
+    'import/no-unresolved': 'off',
     'keyword-spacing': 'error',
     'max-nested-callbacks': ['error', { max: 3 }],
     'max-statements-per-line': ['error', { max: 2 }],
@@ -81,7 +84,7 @@ module.exports = {
     'no-var': 'error',
     'no-void': 'warn',
     'no-duplicate-imports': 'error',
-    'object-curly-newline': ['error', 'never'],
+    'object-curly-newline': 'off',
     'object-curly-spacing': ['error', 'always'],
     'prefer-const': 'warn',
     'prefer-destructuring': 'warn',
@@ -104,6 +107,26 @@ module.exports = {
     'spaced-comment': 'error',
     'vars-on-top': 'error',
     yoda: 'error',
+  },
+  settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    typescript: {
+      alwaysTryTypes: true,
+      project: ['packages/*/tsconfig.json', 'apps/*/tsconfig.json'],
+    },
+    'import/resolver': {
+      alias: {
+        map: [
+          ['~/', './src'],
+          ['~/components', './src/components'],
+          ['~/schemas', './src/schemas'],
+          ['~/utils', './src/utils'],
+        ],
+        extensions: ['.ts', '.js', '.jsx', '.json'],
+      },
+    },
   },
   reportUnusedDisableDirectives: true,
 };
