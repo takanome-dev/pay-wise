@@ -6,8 +6,8 @@ import { User } from '../common/decorators/user.decorator';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { CardService } from './card.service';
 
-import type { RegisterCardDto } from './card.dto';
-import type { JwtUserDto } from '../user/user.dto';
+import { RegisterCardDto } from './card.dto';
+import { JwtUserDto } from '../user/user.dto';
 
 @Roles('customer')
 @UseGuards(AuthGuard, RolesGuard)

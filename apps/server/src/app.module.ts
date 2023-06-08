@@ -3,6 +3,7 @@ import { clc } from '@nestjs/common/utils/cli-colors.util';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerModule } from 'nestjs-pino';
+import path from 'path';
 
 import { AuthModule } from './auth/auth.module';
 import { CardModule } from './card/card.module';
@@ -24,7 +25,7 @@ import { UserModule } from './user/user.module';
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [__dirname + '/**/*.entity.ts'],
+        entities: [path.join(`${__dirname}/**/*.entity.ts`)],
         autoLoadEntities: true,
         // TODO: remove synchronize in production
         synchronize: true,
@@ -40,7 +41,7 @@ import { UserModule } from './user/user.module';
             levelFirst: true,
             translateTime: 'UTC:hh:MM:ss.l',
             singleLine: true,
-            messageFormat: `${clc.yellow(`[{context}]`)} ${clc.green(`{msg}`)}`,
+            messageFormat: `${clc.yellow('[{context}]')} ${clc.green('{msg}')}`,
             ignore: 'pid,hostname,context',
           },
         },

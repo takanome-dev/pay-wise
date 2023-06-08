@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
-import type { Metadata } from 'next';
+// import type { Metadata } from 'next';
 
 import {
   Form,
@@ -18,10 +18,10 @@ import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 import { registerSchema, type RegisterSchema } from '~/schemas/index.schema';
 
-const metadata: Metadata = {
-  title: 'Login',
-  description: 'Login page for the app.',
-};
+// const metadata: Metadata = {
+//   title: 'Login',
+//   description: 'Login page for the app.',
+// };
 
 export default function LoginPage() {
   // 1. Define your form.

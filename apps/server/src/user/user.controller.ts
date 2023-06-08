@@ -4,8 +4,8 @@ import { AuthGuard } from '../auth/auth.guard';
 import { Roles } from '../common/decorators/role.decorator';
 import { RolesGuard } from '../common/guards/roles.guard';
 
-import type { UserService } from './user.service';
-import type { RegisterUserDto } from '../auth/auth.dto';
+import { UserService } from './user.service';
+import { RegisterUserDto } from '../auth/auth.dto';
 
 @Controller('users')
 export class UserController {
