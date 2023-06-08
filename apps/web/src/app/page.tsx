@@ -1,3 +1,7 @@
+import Link from 'next/link';
+
+import { buttonVariants } from '~/components/ui/button';
+
 export default function Home() {
   return (
     <>
@@ -6,7 +10,21 @@ export default function Home() {
           <div className="">
             <p className="uppercase font-bold">Pay Wise</p>
           </div>
-          <div className="w-10 h-10 bg-black rounded-full" />
+          {/* <div className="w-10 h-10 bg-black rounded-full" /> */}
+          <div className="flex gap-4">
+            <Link
+              href="/auth/register"
+              className={buttonVariants({ variant: 'outline' })}
+            >
+              Sign up
+            </Link>
+            <Link
+              href="/auth/login"
+              className={buttonVariants({ variant: 'default' })}
+            >
+              Signin
+            </Link>
+          </div>
         </div>
       </header>
       <main className="flex min-h-screen flex-col p-24">

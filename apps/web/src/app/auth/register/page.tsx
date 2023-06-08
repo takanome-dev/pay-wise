@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
 // import type { Metadata } from 'next';
+
 import {
   Form,
   FormControl,
@@ -15,25 +16,26 @@ import {
 } from '~/components/form';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
-import { loginSchema, type LoginSchema } from '~/schemas/index.schema';
+import { registerSchema, type RegisterSchema } from '~/schemas/index.schema';
 
 // const metadata: Metadata = {
-//  title: 'Login',
-//  description: 'Login page for the app.',
+//   title: 'Login',
+//   description: 'Login page for the app.',
 // };
 
 export default function LoginPage() {
   // 1. Define your form.
-  const form = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
+      username: '',
       email: '',
       password: '',
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: LoginSchema) {
+  function onSubmit(values: RegisterSchema) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
@@ -45,14 +47,31 @@ export default function LoginPage() {
       <div className="flex w-full flex-col justify-center space-y-6 sm:w-[400px] border border-slate-500 dark:border-slate-700 p-8 rounded-lg">
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">
-            Login to your account
+            Create an account
           </h1>
           <p className="text-muted-foreground text-sm">
-            Enter your credentials below to log in into your account
+            Register an account to start using our service
           </p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border-slate-500 dark:border-slate-700"
+                      placeholder="johndoe"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"
@@ -88,7 +107,7 @@ export default function LoginPage() {
               )}
             />
             <Button type="submit" className="w-full">
-              Login
+              Create an account
             </Button>
           </form>
         </Form>
@@ -110,12 +129,12 @@ export default function LoginPage() {
           .
         </p>
         <p className="text-muted-foreground flex justify-between items-center">
-          Don&apos;t have an account?{' '}
+          Already have an account?
           <Link
-            href="/register"
+            href="/auth/login"
             className="hover:text-primary underline underline-offset-4"
           >
-            register here
+            login here
           </Link>
         </p>
       </div>
