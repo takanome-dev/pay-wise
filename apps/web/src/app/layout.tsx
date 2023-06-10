@@ -1,3 +1,5 @@
+import Sidebar from '~/components/sidebar';
+
 import './globals.css';
 import { Inter } from 'next/font/google';
 
@@ -19,7 +21,17 @@ export default function RootLayout({
   // )}
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={
+          (inter.className,
+          'flex-1 md:grid md:grid-cols-[70px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-8')
+        }
+      >
+        <aside className="border-r">
+          <Sidebar />
+        </aside>
+        <main className="border border-red-200">{children}</main>
+      </body>
     </html>
   );
 }
