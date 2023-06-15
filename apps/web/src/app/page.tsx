@@ -5,7 +5,7 @@ import { buttonVariants } from '~/components/ui/button';
 export default function Home() {
   return (
     <>
-      <header className="bg-white sticky top-0 shadow-md h-16">
+      <header className="bg-background/30 backdrop-blur-md sticky top-0 shadow-lg h-16">
         <div className="container px-40 flex justify-between items-center h-full">
           <div className="">
             <p className="uppercase font-bold">Pay Wise</p>
@@ -13,13 +13,13 @@ export default function Home() {
           {/* <div className="w-10 h-10 bg-black rounded-full" /> */}
           <div className="flex gap-4">
             <Link
-              href="/auth/register"
+              href="/register"
               className={buttonVariants({ variant: 'outline' })}
             >
               Sign up
             </Link>
             <Link
-              href="/auth/login"
+              href="/login"
               className={buttonVariants({ variant: 'default' })}
             >
               Signin
@@ -69,7 +69,7 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <footer className="bg-slate-200 shadow-md h-14">
+      <footer className="bg-background shadow-md h-14">
         <div className="container h-full  px-40  flex justify-between items-center">
           <div className="">
             <p className="uppercase font-bold">Pay Wise</p>

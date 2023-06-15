@@ -12,7 +12,7 @@ import React from 'react';
 
 import { buttonVariants } from './ui/button';
 
-import { cn } from '~/utils/merge-classnames';
+import { cn } from '~/lib/utils';
 
 interface SidebarLinkProps {
   path: string;

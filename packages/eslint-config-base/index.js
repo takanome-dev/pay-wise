@@ -34,7 +34,7 @@ module.exports = {
     'global-require': 'off',
     'handle-callback-err': 'off',
     indent: 'off',
-    'import/exports-last': 'warn',
+    'import/exports-last': 'off',
     'import/first': 'error',
     'import/newline-after-import': 'error',
     'import/no-cycle': 'error',

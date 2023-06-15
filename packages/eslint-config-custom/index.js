@@ -15,6 +15,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'react/jsx-no-constructed-context-values': 'off',
+    'react/jsx-pascal-case': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/require-default-props': 'off',
