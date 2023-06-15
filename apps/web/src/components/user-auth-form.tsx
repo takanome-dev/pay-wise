@@ -6,13 +6,14 @@ import { signIn } from 'next-auth/react';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
+import { toast } from '~/components/ui/use-toast';
+
 import type * as z from 'zod';
 
 import { Icons } from '~/components/icons';
 import { buttonVariants } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
-import { toast } from '~/components/ui/use-toast';
 import { userAuthSchema } from '~/lib/schemas/auth';
 import { cn } from '~/lib/utils';
 

@@ -3,9 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./src/*"
-      ]
+      "~/*": ["./src/*"],
+      "~/env": ["./env.mjs"]
     },
     "plugins": [
       {
