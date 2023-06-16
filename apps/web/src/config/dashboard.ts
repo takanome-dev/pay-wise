@@ -5,6 +5,7 @@ export const dashboardConfig: DashboardConfig = {
     {
       title: 'Documentation',
       href: '/docs',
+      disabled: true,
     },
     {
       title: 'Support',
@@ -14,14 +15,19 @@ export const dashboardConfig: DashboardConfig = {
   ],
   sidebarNav: [
     {
-      title: 'Posts',
+      title: 'Dashboard',
       href: '/dashboard',
-      icon: 'post',
+      icon: 'dashboard',
     },
     {
-      title: 'Billing',
-      href: '/dashboard/billing',
-      icon: 'billing',
+      title: 'Cards',
+      href: '/dashboard/cards',
+      icon: 'wallet',
+    },
+    {
+      title: 'Transactions',
+      href: '/dashboard/transactions',
+      icon: 'transaction',
     },
     {
       title: 'Settings',

@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 import { buttonVariants } from '~/components/ui/button';
 import { siteConfig } from '~/config/site';
-import { env } from '~/env';
 import { cn } from '~/lib/utils';
 
 // async function getGitHubStars(): Promise<string | null> {

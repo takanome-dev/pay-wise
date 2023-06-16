@@ -1,6 +1,7 @@
 import {
   AlertTriangle,
   ArrowRight,
+  ArrowLeftRight,
   Check,
   ChevronLeft,
   ChevronRight,
@@ -9,8 +10,10 @@ import {
   File,
   FileText,
   HelpCircle,
+  History,
   Image,
   Laptop,
+  LayoutDashboard,
   Loader2,
   Moon,
   MoreVertical,
@@ -21,6 +24,7 @@ import {
   Trash,
   Twitter,
   User,
+  Wallet,
   X,
   type Icon as LucideIcon,
   type LucideProps,
@@ -49,6 +53,10 @@ export const Icons = {
   pizza: Pizza,
   sun: SunMedium,
   moon: Moon,
+  dashboard: LayoutDashboard,
+  wallet: Wallet,
+  history: History,
+  transaction: ArrowLeftRight,
   laptop: Laptop,
   gitHub: ({ ...props }: LucideProps) => (
     <svg

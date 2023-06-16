@@ -4,7 +4,6 @@ import { MainNav } from '~/components/main-nav';
 import { SiteFooter } from '~/components/site-footer';
 import { buttonVariants } from '~/components/ui/button';
 import { marketingConfig } from '~/config/marketing';
-import { cn } from '~/lib/utils';
 
 interface MarketingLayoutProps {
   children: React.ReactNode;
@@ -23,24 +22,10 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
             >
               Sign up
             </Link>
-            <Link
-              href="/login"
-              className={buttonVariants({ variant: 'default' })}
-            >
+            <Link href="/login" className={buttonVariants()}>
               Signin
             </Link>
           </nav>
-          {/* <nav>
-            <Link
-              href="/login"
-              className={cn(
-                buttonVariants({ variant: "secondary", size: "sm" }),
-                "px-4"
-              )}
-            >
-              Login
-            </Link>
-          </nav> */}
         </div>
       </header>
       <main className="flex-1">{children}</main>

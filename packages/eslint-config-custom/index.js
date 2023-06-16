@@ -7,10 +7,7 @@ module.exports = {
     'global-require': 'off',
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
-    'import/no-extraneous-dependencies': [
-      'error',
-      { devDependencies: true, peerDependencies: false },
-    ],
+    'import/no-extraneous-dependencies': 'warn',
     'jsx-a11y/anchor-is-valid': 'warn',
     'react/function-component-definition': 'off',
     'react/jsx-one-expression-per-line': 'off',

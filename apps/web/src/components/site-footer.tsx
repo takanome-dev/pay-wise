@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { Icons } from '~/components/icons';
-import { ModeToggle } from '~/components/mode-toggle';
 import { siteConfig } from '~/config/site';
 import { cn } from '~/lib/utils';
 
@@ -19,7 +18,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               rel="noreferrer"
               className="font-medium underline underline-offset-4"
             >
-              shadcn
+              takanome-dev
             </a>
             . Hosted on{' '}
             <a
@@ -51,7 +50,6 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             .
           </p>
         </div>
-        <ModeToggle />
       </div>
     </footer>
   );
