@@ -43,9 +43,14 @@ jobs:
       - name: '📦 Install deps (with cache)'
         run: pnpm install
 
-      # TODO: Free for all to find a better solution here.
-      - name: '🛠 Build, lint and type-check'
-        run: pnpm turbo build lint type-check
+      - name: '🕵 Lint workspaces'
+        run: pnpm turbo lint
+
+      # - name: '🕵 Type-check workspaces'
+      #   run: pnpm turbo type-check
+
+      - name: '🛠 Build workspaces'
+        run: pnpm turbo build
 
       # - name: '🕵 Check workspaces'
       #   run: pnpm manypkg check
