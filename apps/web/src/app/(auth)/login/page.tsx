@@ -1,44 +1,15 @@
-'use client';
-
-import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import { useForm } from 'react-hook-form';
 
-// import type { Metadata } from 'next';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '~/components/form';
-import { Button } from '~/components/ui/button';
-import { Input } from '~/components/ui/input';
-import { loginSchema, type LoginSchema } from '~/schemas/index.schema';
+import type { Metadata } from 'next';
 
-// const metadata: Metadata = {
-//  title: 'Login',
-//  description: 'Login page for the app.',
-// };
+import { UserAuthForm } from '~/components/user-auth-form';
+
+export const metadata: Metadata = {
+  title: 'Login',
+  description: 'Login page for the app.',
+};
 
 export default function LoginPage() {
-  // 1. Define your form.
-  const form = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  });
-
-  // 2. Define a submit handler.
-  function onSubmit(values: LoginSchema) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
-
   return (
     <div className="container relative min-h-screen flex justify-center items-center mx-auto">
       {/* <div className="lg:p-8"> */}
@@ -51,7 +22,8 @@ export default function LoginPage() {
             Enter your credentials below to log in into your account
           </p>
         </div>
-        <Form {...form}>
+        <UserAuthForm />
+        {/* <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
@@ -91,7 +63,7 @@ export default function LoginPage() {
               Login
             </Button>
           </form>
-        </Form>
+        </Form> */}
         <p className="text-muted-foreground px-8 text-center text-sm">
           By clicking continue, you agree to our{' '}
           <Link
@@ -112,7 +84,7 @@ export default function LoginPage() {
         <p className="text-muted-foreground flex justify-between items-center">
           Don&apos;t have an account?{' '}
           <Link
-            href="/auth/register"
+            href="/register"
             className="hover:text-primary underline underline-offset-4"
           >
             register here
