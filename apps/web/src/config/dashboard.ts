@@ -30,6 +30,16 @@ export const dashboardConfig: DashboardConfig = {
       icon: 'transaction',
     },
     {
+      title: 'History',
+      href: '/dashboard/history',
+      icon: 'history',
+    },
+    {
+      title: 'Statistics',
+      href: '/dashboard/statistics',
+      icon: 'statistic',
+    },
+    {
       title: 'Settings',
       href: '/dashboard/settings',
       icon: 'settings',
