@@ -3,14 +3,19 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
-      "~/env": ["./env.mjs"]
+      "~/*": [
+        "./src/*"
+      ],
+      "~/env": [
+        "./env.mjs"
+      ]
     },
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "src",
