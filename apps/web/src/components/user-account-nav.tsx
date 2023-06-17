@@ -5,6 +5,7 @@ import { signOut } from 'next-auth/react';
 
 import type { User } from 'next-auth';
 
+import { AvatarImage } from '~/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,14 +22,23 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 export function UserAccountNav({ user }: UserAccountNavProps) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger className="focus:ring-0">
         <UserAvatar
           user={{ name: user.name || null, image: user.image || null }}
           className="h-8 w-8"
         />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent
+        align="end"
+        className="border-slate-400 bg-background"
+      >
         <div className="flex items-center justify-start gap-2 p-2">
+          {user.image && (
+            <UserAvatar
+              user={{ name: user.name || null, image: user.image || null }}
+              className="h-10 w-10"
+            />
+          )}
           <div className="flex flex-col space-y-1 leading-none">
             {user.name && <p className="font-medium">{user.name}</p>}
             {user.email && (
@@ -43,7 +53,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           <Link href="/dashboard">Dashboard</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/billing">Billing</Link>
+          <Link href="/dashboard/cards">Cards</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/dashboard/settings">Settings</Link>

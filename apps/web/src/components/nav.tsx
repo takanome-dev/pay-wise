@@ -10,9 +10,10 @@ import { cn } from '~/lib/utils';
 
 interface DashboardNavProps {
   items: SidebarNavItem[];
+  className?: string;
 }
 
-export function DashboardNav({ items }: DashboardNavProps) {
+export function DashboardNav({ items, className }: DashboardNavProps) {
   const path = usePathname();
 
   if (!items?.length) {
@@ -20,7 +21,7 @@ export function DashboardNav({ items }: DashboardNavProps) {
   }
 
   return (
-    <nav className="grid items-start gap-2">
+    <nav className={cn('grid items-start gap-2', className)}>
       {items.map((item, index) => {
         const Icon = Icons[item.icon || 'arrowRight'];
         return (

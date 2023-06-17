@@ -19,7 +19,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-40 border-b bg-background">
+      <header className="sticky top-0 z-40 border-b border-b-slate-400 bg-background">
         <div className="container flex h-16 items-center justify-between py-4">
           <MainNav items={dashboardConfig.mainNav} />
           <div className="flex gap-4">
@@ -35,14 +35,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
       </header>
       <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
-        <aside className="hidden w-[200px] flex-col md:flex pt-6">
-          <DashboardNav items={dashboardConfig.sidebarNav} />
+        <aside className="hidden w-[200px] flex-col md:flex pt-6 justify-between">
+          <DashboardNav items={dashboardConfig.sidebarTopNav} />
+          <DashboardNav
+            items={dashboardConfig.sidebarBottomNav}
+            className="pb-8"
+          />
         </aside>
         <main className="flex w-full flex-1 pt-6 flex-col overflow-hidden">
           {children}
         </main>
       </div>
-      <SiteFooter className="border-t" />
+      <SiteFooter className="border-t border-t-slate-400" />
     </div>
   );
 }
