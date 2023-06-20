@@ -1,55 +1,72 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
+// import { InjectRepository } from '@nestjs/typeorm';
 
-import { Repository } from 'typeorm';
-import { User } from './user.entity';
+// import { Repository } from 'typeorm';
+// // import { User } from './user.entity';
 
-import type { RegisterUserDto } from '../auth/auth.dto';
+// import type { RegisterUserDto } from '../auth/auth.dto';
+
+export type User = any;
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
-  ) {}
+  private readonly users = [
+    {
+      userId: 1,
+      username: 'john',
+      password: 'changeme',
+    },
+    {
+      userId: 2,
+      username: 'maria',
+      password: 'guess',
+    },
+  ];
 
-  findAll() {
-    return this.userRepository.find();
+  async findOne(username: string): Promise<User | undefined> {
+    return this.users.find((user) => user.username === username);
   }
+  // constructor(
+  //   @InjectRepository(User) private userRepository: Repository<User>,
+  // ) {}
+  // findAll() {
+  //   return this.userRepository.find();
+  // }
 
-  findAllWithCustomers() {
-    return this.userRepository.find({
-      relations: {
-        customers: true,
-      },
-    });
-  }
+  // findAllWithCustomers() {
+  //   return this.userRepository.find({
+  //     relations: {
+  //       customers: true,
+  //     },
+  //   });
+  // }
 
-  findById(id: string) {
-    return this.userRepository.findOne({
-      where: {
-        id,
-      },
-    });
-  }
+  // findById(id: string) {
+  //   return this.userRepository.findOne({
+  //     where: {
+  //       id,
+  //     },
+  //   });
+  // }
 
-  findByEmail(email: string) {
-    return this.userRepository.findOne({
-      where: {
-        email,
-      },
-    });
-  }
+  // findByEmail(email: string) {
+  //   return this.userRepository.findOne({
+  //     where: {
+  //       email,
+  //     },
+  //   });
+  // }
 
-  async create(userInfos: RegisterUserDto) {
-    const foundUser = await this.findByEmail(userInfos.email);
+  // async create(userInfos: RegisterUserDto) {
+  //   const foundUser = await this.findByEmail(userInfos.email);
 
-    if (foundUser) {
-      throw new BadRequestException('email already in use');
-    }
+  //   if (foundUser) {
+  //     throw new BadRequestException('email already in use');
+  //   }
 
-    const newUser = this.userRepository.create(userInfos);
-    return this.userRepository.save(newUser);
-  }
+  //   const newUser = this.userRepository.create(userInfos);
+  //   return this.userRepository.save(newUser);
+  // }
 
   // TODO: break down this method into smaller ones
   // TODO: like updatePassword, updateProfile, etc.
@@ -69,7 +86,7 @@ export class UserService {
   //   });
   // }
 
-  deleteAll() {
-    return this.userRepository.delete({});
-  }
+  // deleteAll() {
+  //   return this.userRepository.delete({});
+  // }
 }
