@@ -19,6 +19,7 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       forbidNonWhitelisted: true,
+      whitelist: true,
     }),
   );
   app.useLogger(app.get(Logger));

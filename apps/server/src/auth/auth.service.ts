@@ -16,7 +16,7 @@ export class AuthService {
     const user = await this.userService.findByEmail(userInfos.email);
 
     if (!user) {
-      throw new BadRequestException('Invalid credentials');
+      throw new BadRequestException('Invalid email or password');
     }
 
     const isPasswordValid = await this.jwtConfigService.bcryptCompare(
@@ -25,7 +25,7 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
-      throw new BadRequestException('Invalid credentials');
+      throw new BadRequestException('Invalid email or password');
     }
 
     const payload = { sub: user.id, email: user.email, role: user.role };
@@ -36,6 +36,20 @@ export class AuthService {
   }
 
   async signUp(userInfos: RegisterUserDto) {
+    const foundUserByMail = await this.userService.findByEmail(userInfos.email);
+
+    if (foundUserByMail) {
+      throw new BadRequestException('Email already in use, try another one');
+    }
+
+    const foundUserByUsername = await this.userService.findByUsername(
+      userInfos.username,
+    );
+
+    if (foundUserByUsername) {
+      throw new BadRequestException('Username already taken, try another one');
+    }
+
     const hashedPassword = await this.jwtConfigService.bcryptHash(
       userInfos.password,
     );
