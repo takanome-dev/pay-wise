@@ -7,7 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { JWT_KEYS } from '../common/utils/constants';
 
-// import type { JwtUserDto } from '../user/user.dto';
+import type { JwtUserDto } from '../user/user.dto';
 
 @Injectable()
 export class JwtConfigService {
@@ -16,17 +16,11 @@ export class JwtConfigService {
     private configService: ConfigService,
   ) {}
 
-  async signAsync(payload: any) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  async signAsync(payload: Omit<JwtUserDto, 'exp' | 'iat'>) {
     return this.jwtService.signAsync(payload, {
       secret: this.configService.get(JWT_KEYS.JWT_PASSWD_SECRET),
     });
   }
-  // async signAsync(payload: Omit<JwtUserDto, 'exp' | 'iat'>) {
-  //   return this.jwtService.signAsync(payload, {
-  //     secret: this.configService.get(JWT_KEYS.JWT_PASSWD_SECRET),
-  //   });
-  // }
 
   async verifyAsync(token: string) {
     return this.jwtService.verifyAsync(token, {
