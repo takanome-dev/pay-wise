@@ -8,13 +8,13 @@ import {
 
 import { Reflector } from '@nestjs/core';
 import type { Request } from 'express';
-import { IS_PUBLIC_KEY } from '../common/decorators/skip-auth.decorator';
-import { JwtConfigService } from '../jwt/jwt.service';
+import { IS_PUBLIC_KEY } from '../../common/decorators/skip-auth.decorator';
+import { JwtConfigService } from '../../jwt/jwt.service';
 
-import type { JwtUserDto } from '../user/user.dto';
+import type { JwtUserDto } from '../../user/user.dto';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class LocalAuthGuard implements CanActivate {
   constructor(
     private jwtConfigService: JwtConfigService,
     private reflector: Reflector,

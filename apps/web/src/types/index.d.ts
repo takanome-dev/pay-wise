@@ -48,7 +48,9 @@ export type MarketingConfig = {
 
 export type DashboardConfig = {
   mainNav: MainNavItem[];
-  sidebarNav: SidebarNavItem[];
+  sidebarTopNav: SidebarNavItem[];
+  sidebarBottomNav: SidebarNavItem[];
+  // sidebarNav: SidebarNavItem[];
 };
 
 export type SubscriptionPlan = {

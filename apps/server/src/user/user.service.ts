@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
@@ -13,15 +13,8 @@ export class UserService {
   ) {}
 
   findAll() {
+    // TODO: add params to include relations
     return this.userRepository.find();
-  }
-
-  findAllWithCustomers() {
-    return this.userRepository.find({
-      relations: {
-        customers: true,
-      },
-    });
   }
 
   findById(id: string) {
@@ -40,13 +33,15 @@ export class UserService {
     });
   }
 
+  findByUsername(username: string) {
+    return this.userRepository.findOne({
+      where: {
+        username,
+      },
+    });
+  }
+
   async create(userInfos: RegisterUserDto) {
-    const foundUser = await this.findByEmail(userInfos.email);
-
-    if (foundUser) {
-      throw new BadRequestException('email already in use');
-    }
-
     const newUser = this.userRepository.create(userInfos);
     return this.userRepository.save(newUser);
   }
@@ -69,7 +64,7 @@ export class UserService {
   //   });
   // }
 
-  deleteAll() {
-    return this.userRepository.delete({});
-  }
+  // deleteAll() {
+  //   return this.userRepository.delete({});
+  // }
 }

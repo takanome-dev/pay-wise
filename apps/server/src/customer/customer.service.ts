@@ -1,18 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
-import { UserService } from '../user/user.service';
+// import { UserService } from '../user/user.service';
 import { Customer } from './customer.entity';
 
-import type { CreateCustomerDto } from './customer.dto';
+// import type { CreateCustomerDto } from './customer.dto';
 
 @Injectable()
 export class CustomerService {
   constructor(
     @InjectRepository(Customer)
-    private customerRepository: Repository<Customer>,
-    private userService: UserService,
+    private customerRepository: Repository<Customer>, // private userService: UserService,
   ) {}
 
   findById(id: string) {
@@ -31,18 +30,18 @@ export class CustomerService {
     });
   }
 
-  async create(customerInfos: CreateCustomerDto, userId: string) {
-    const user = await this.userService.findById(userId);
+  // async create(customerInfos: CreateCustomerDto, userId: string) {
+  //   const user = await this.userService.findById(userId);
 
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+  //   if (!user) {
+  //     throw new NotFoundException('User not found');
+  //   }
 
-    const newCustomer = this.customerRepository.create({
-      ...customerInfos,
-      user,
-    });
+  //   const newCustomer = this.customerRepository.create({
+  //     ...customerInfos,
+  //     user,
+  //   });
 
-    return this.customerRepository.save(newCustomer);
-  }
+  //   return this.customerRepository.save(newCustomer);
+  // }
 }

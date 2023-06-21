@@ -1,19 +1,20 @@
-import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 
-import { AuthGuard } from '../auth/auth.guard';
+import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
 import { Roles } from '../common/decorators/role.decorator';
 import { RolesGuard } from '../common/guards/roles.guard';
 
 import { UserService } from './user.service';
 import { RegisterUserDto } from '../auth/auth.dto';
 
+@UseGuards(LocalAuthGuard)
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
   @Roles('admin')
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   async getUsers() {
     return this.userService.findAll();
   }
@@ -24,16 +25,15 @@ export class UserController {
   }
 
   // @Patch()
-  // @Roles('user', 'admin')
-  // @UseGuards(AuthGuard, RolesGuard)
+  // @UseGuards(RolesGuard)
   // async updateUser(@Body() userInfos: UpdateUserDto, @UserId() userId: string) {
   //   return await this.userService.update(userInfos, userId);
   // }
 
-  @Delete()
-  @Roles('admin')
-  @UseGuards(AuthGuard, RolesGuard)
-  async deleteAllUsers() {
-    return this.userService.deleteAll();
-  }
+  // @Delete()
+  // @Roles('admin')
+  // @UseGuards(RolesGuard)
+  // async deleteAllUsers() {
+  //   return this.userService.deleteAll();
+  // }
 }

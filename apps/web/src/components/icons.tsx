@@ -2,6 +2,7 @@ import {
   AlertTriangle,
   ArrowRight,
   ArrowLeftRight,
+  BarChart,
   Check,
   ChevronLeft,
   ChevronRight,
@@ -15,6 +16,7 @@ import {
   Laptop,
   LayoutDashboard,
   Loader2,
+  LogOut,
   Moon,
   MoreVertical,
   Pizza,
@@ -57,6 +59,8 @@ export const Icons = {
   wallet: Wallet,
   history: History,
   transaction: ArrowLeftRight,
+  statistic: BarChart,
+  logout: LogOut,
   laptop: Laptop,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
