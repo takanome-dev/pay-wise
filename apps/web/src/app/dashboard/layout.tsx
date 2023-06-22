@@ -31,9 +31,9 @@ export default async function DashboardLayout({
             <ModeToggle />
             <UserAccountNav
               user={{
-                name: 'Test',
-                image: 'https://avatars.githubusercontent.com/u/79809121?v=4',
-                email: 'test@gmail.com',
+                name: user.name,
+                image: user.image,
+                email: user.email,
               }}
             />
           </div>

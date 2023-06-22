@@ -2,7 +2,7 @@
 
 import autoAnimate from '@formkit/auto-animate';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
@@ -43,7 +43,7 @@ function Separator() {
   return (
     <div className="relative">
       <div className="absolute inset-0 flex items-center">
-        <span className="w-full border-t" />
+        <span className="w-full border-t dark:border-t-slate-400" />
       </div>
       <div className="relative flex justify-center text-xs uppercase">
         <span className="bg-background px-2 text-muted-foreground">
@@ -61,6 +61,7 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
   const [isGitHubLoading, setIsGitHubLoading] = React.useState(false);
   const parent = React.useRef(null);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const emailForm = useForm<UserEmailSchema>({
     defaultValues: {
@@ -127,10 +128,9 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
 
     const signInResult = await signIn('credentials', {
       ...data,
-      // redirect: false,
+      redirect: false,
       callbackUrl: searchParams?.get('from') || '/dashboard',
     });
-    // console.log({ signInResult });
 
     setIsLoading(false);
 
@@ -142,6 +142,7 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
       });
     }
 
+    router.replace(signInResult?.url || '/dashboard');
     return toast({
       title: 'Login successful.',
       description: 'You are now logged in.',
@@ -185,29 +186,29 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
       });
     }
 
-    const signInResult = await signIn('credentials', {
+    const signUpResult = await signIn('credentials', {
       email: data.email,
       password: data.password,
-      // redirect: false,
+      redirect: false,
       callbackUrl: searchParams?.get('from') || '/dashboard',
     });
-    // console.log({ signInResult });
 
     setIsLoading(false);
 
-    if (signInResult?.error) {
+    if (signUpResult?.error) {
       return toast({
         title: 'Something went wrong.',
-        description: signInResult.error,
+        description: signUpResult.error,
         variant: 'destructive',
       });
     }
 
-    return toast({
+    toast({
       title: 'Registration successful.',
       // eslint-disable-next-line quotes
       description: "You've been successfully registered.",
     });
+    return router.replace(signUpResult?.url || '/dashboard');
   }
 
   React.useEffect(() => {
@@ -262,6 +263,9 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
               className="w-full"
               disabled={isLoading || isGitHubLoading}
             >
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Login
             </Button>
           </form>
@@ -329,6 +333,9 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
               className="w-full"
               disabled={isLoading || isGitHubLoading}
             >
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Sign up
             </Button>
           </form>
@@ -373,6 +380,9 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
               className="w-full"
               disabled={isLoading || isGitHubLoading}
             >
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Sign In with Email
             </Button>
           </form>
