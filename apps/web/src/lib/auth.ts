@@ -71,35 +71,35 @@ export const authOptions: NextAuthOptions = {
           throw new Error(parsedError.data.message);
         }
 
-        const parsedData = successAuthSchema.safeParse(data);
+        const parsedData = successAuthSchema.parse(data);
 
-        if (!parsedData.success) {
-          throw new Error(parsedData.error.message);
-        }
-
-        return parsedData.data.user;
+        console.log({ dataFromBackend: parsedData.user });
+        return parsedData.user;
       },
     }),
   ],
   callbacks: {
-    session({ token, session }) {
+    session({ token, session, user }) {
+      console.log('SESSION: ', session);
+      console.log('SESSION TOKEN: ', token);
+      console.log('SESSION USER: ', user);
       if (token) {
         session.user.id = token.id;
         session.user.email = token.email;
         session.user.role = token.role;
         session.user.name = token.name;
-        session.user.image =
-          avatarImages[Math.floor(Math.random() * avatarImages.length)];
+        session.user.image = token.picture;
       }
 
       return session;
     },
-    jwt({ token }) {
+    jwt({ token, user }) {
       return {
         id: token.id,
         email: token.email,
-        role: token?.role,
-        name: token?.name,
+        role: user?.role,
+        name: user?.username,
+        picture: avatarImages[Math.floor(Math.random() * avatarImages.length)],
       };
     },
   },
