@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 
 import { Customer } from '../customer/customer.entity';
+import { User } from '../user/user.entity';
 
 @Entity({ name: 'cards' })
 export class Card {
@@ -34,10 +35,14 @@ export class Card {
   @Column()
   cvv: string;
 
-  @Column()
-  pin: string;
+  // TODO: is this necessary?
+  // @Column()
+  // pin: string;
 
-  @Column({ nullable: true })
+  @Column({ default: 'USD' })
+  currency: string;
+
+  @Column({ default: 'inactive' })
   status: string;
 
   @Column({ default: 0 })
@@ -46,6 +51,10 @@ export class Card {
   @ManyToOne(() => Customer, (customer) => customer.cards)
   @JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
   customer: Customer;
+
+  @ManyToOne(() => User, (user) => user.cards)
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  user: User;
 
   @CreateDateColumn({
     type: 'timestamp without time zone',

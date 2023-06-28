@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 
 import { Customer } from '../customer/customer.entity';
+import { Card } from '../card/card.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -53,6 +54,9 @@ export class User {
 
   @OneToMany(() => Customer, (customer) => customer.user)
   customers: Customer[];
+
+  @OneToMany(() => Card, (card) => card.user)
+  cards: Card[];
 
   @CreateDateColumn({
     type: 'timestamp without time zone',

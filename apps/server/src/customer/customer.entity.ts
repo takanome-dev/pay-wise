@@ -40,9 +40,6 @@ export class Customer {
   @Column({ default: 'customer' })
   role: string;
 
-  @Column({ default: 'USD' })
-  currency: string;
-
   @OneToMany(() => User, (user) => user.customers)
   user: User;
 
