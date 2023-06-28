@@ -20,12 +20,11 @@ export const errorSchema = z.object({
 });
 
 export const successAuthSchema = z.object({
-  user: z.object({
-    id: z.string(),
-    email: z.string(),
-    role: z.string(),
-    username: z.string(),
-  }),
+  id: z.string(),
+  email: z.string(),
+  role: z.string(),
+  username: z.string(),
+  access_token: z.string(),
 });
 
 export type ErrorSchemaType = z.infer<typeof errorSchema>;

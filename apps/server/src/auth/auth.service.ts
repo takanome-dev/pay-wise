@@ -28,18 +28,14 @@ export class AuthService {
       throw new BadRequestException('Invalid email or password');
     }
 
-    // const payload = { sub: user.id, email: user.email, role: user.role };
+    const payload = { sub: user.id, email: user.email, role: user.role };
 
-    // return {
-    //   access_token: await this.jwtConfigService.signAsync(payload),
-    // };
     return {
-      user: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-      },
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      access_token: await this.jwtConfigService.signAsync(payload),
     };
   }
 
@@ -67,22 +63,18 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    // const payload = {
-    //   sub: newUser.id,
-    //   email: newUser.email,
-    //   role: newUser.role,
-    // };
+    const payload = {
+      sub: newUser.id,
+      email: newUser.email,
+      role: newUser.role,
+    };
 
-    // return {
-    //   access_token: await this.jwtConfigService.signAsync(payload),
-    // };
     return {
-      user: {
-        id: newUser.id,
-        username: newUser.username,
-        email: newUser.email,
-        role: newUser.role,
-      },
+      id: newUser.id,
+      username: newUser.username,
+      email: newUser.email,
+      role: newUser.role,
+      access_token: await this.jwtConfigService.signAsync(payload),
     };
   }
 }

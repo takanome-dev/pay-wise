@@ -6,8 +6,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const avatarImages = [
-  'https://asset.cloudinary.com/dafwzsod0/050ce1bf4ab920ea29dcf4f9b0114760',
-  'https://asset.cloudinary.com/dafwzsod0/a9d7e3bd2b79b108453fcec7236252df',
-  'https://asset.cloudinary.com/dafwzsod0/5a2f42a74f4a2b965e1d7c5747342ae2',
-  'https://asset.cloudinary.com/dafwzsod0/92b0eb817c2d6142dfdd95a04f7db868',
+  'https://res.cloudinary.com/dafwzsod0/image/upload/v1687431852/user-avatar-1_cj4ldr.svg',
+  'https://res.cloudinary.com/dafwzsod0/image/upload/v1687431892/user-avatar-2_sf24il.svg',
+  'https://res.cloudinary.com/dafwzsod0/image/upload/v1687431907/user-avatar-3_zwo5ub.svg',
+  'https://res.cloudinary.com/dafwzsod0/image/upload/v1687431921/user-avatar-4_zdqcbw.svg',
 ];

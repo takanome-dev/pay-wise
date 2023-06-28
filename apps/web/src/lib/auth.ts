@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
           password: string;
         };
 
+        // TODO: do not hard code the url here
         const resp = await fetch('http://localhost:3000/api/v1/auth/login', {
           method: 'POST',
           headers: {
@@ -71,34 +72,27 @@ export const authOptions: NextAuthOptions = {
           throw new Error(parsedError.data.message);
         }
 
-        const parsedData = successAuthSchema.parse(data);
-
-        console.log({ dataFromBackend: parsedData.user });
-        return parsedData.user;
+        return successAuthSchema.parse(data);
       },
     }),
   ],
   callbacks: {
-    session({ token, session, user }) {
-      console.log('SESSION: ', session);
-      console.log('SESSION TOKEN: ', token);
-      console.log('SESSION USER: ', user);
+    session({ token, session }) {
       if (token) {
         session.user.id = token.id;
         session.user.email = token.email;
         session.user.role = token.role;
-        session.user.name = token.name;
+        session.user.name = token.username;
         session.user.image = token.picture;
+        session.user.token = token.access_token;
       }
 
       return session;
     },
     jwt({ token, user }) {
       return {
-        id: token.id,
-        email: token.email,
-        role: user?.role,
-        name: user?.username,
+        ...token,
+        ...user,
         picture: avatarImages[Math.floor(Math.random() * avatarImages.length)],
       };
     },

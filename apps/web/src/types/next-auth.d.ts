@@ -7,6 +7,7 @@ declare module 'next-auth/jwt' {
     id: UserId;
     role?: string;
     username?: string;
+    access_token?: string;
   }
 }
 
@@ -14,6 +15,7 @@ declare module 'next-auth' {
   export interface User extends DefaultUser {
     role?: string;
     username?: string;
+    token?: string;
   }
 
   interface Session {
