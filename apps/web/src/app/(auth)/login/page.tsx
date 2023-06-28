@@ -22,7 +22,7 @@ export default function LoginPage() {
             Enter your credentials below to log in into your account
           </p>
         </div>
-        <UserAuthForm />
+        <UserAuthForm path="login" />
         <p className="text-muted-foreground px-8 text-center text-sm">
           By clicking continue, you agree to our{' '}
           <Link

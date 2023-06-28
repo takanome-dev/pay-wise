@@ -2,7 +2,7 @@
 
 import autoAnimate from '@formkit/auto-animate';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
@@ -18,22 +18,32 @@ import {
   FormMessage,
 } from '~/components/form';
 import { Icons } from '~/components/icons';
-import { Button, buttonVariants } from '~/components/ui/button';
+import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
-import { Label } from '~/components/ui/label';
 import { toast } from '~/components/ui/use-toast';
-import { userCredentialsSchema, userEmailSchema } from '~/lib/schemas/auth';
+import {
+  errorSchema,
+  registerSchema,
+  successAuthSchema,
+  userCredentialsSchema,
+  userEmailSchema,
+  type ErrorSchemaType,
+  type SuccessAuthSchemaType,
+} from '~/lib/schemas/auth';
 import { cn } from '~/lib/utils';
 
-type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
+type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement> & {
+  path: 'login' | 'register';
+};
 type UserEmailSchema = z.infer<typeof userEmailSchema>;
 type UserCredentialsSchema = z.infer<typeof userCredentialsSchema>;
+type RegisterSchema = z.infer<typeof registerSchema>;
 
 function Separator() {
   return (
     <div className="relative">
       <div className="absolute inset-0 flex items-center">
-        <span className="w-full border-t" />
+        <span className="w-full border-t dark:border-t-slate-400" />
       </div>
       <div className="relative flex justify-center text-xs uppercase">
         <span className="bg-background px-2 text-muted-foreground">
@@ -44,13 +54,14 @@ function Separator() {
   );
 }
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
   const [isCredentialsForm, setIsCredentialsForm] = React.useState(true);
   const [isEmailForm, setIsEmailForm] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isGitHubLoading, setIsGitHubLoading] = React.useState(false);
   const parent = React.useRef(null);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const emailForm = useForm<UserEmailSchema>({
     defaultValues: {
@@ -67,6 +78,15 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     resolver: zodResolver(userCredentialsSchema),
   });
 
+  const registerForm = useForm<RegisterSchema>({
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+    },
+    resolver: zodResolver(registerSchema),
+  });
+
   const toggleCredentialsForm = React.useCallback(() => {
     setIsEmailForm(false);
     setIsCredentialsForm(true);
@@ -77,43 +97,17 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     setIsCredentialsForm(false);
   }, []);
 
-  async function onSubmitEmail(data: UserEmailSchema) {
-    setIsLoading(true);
-
-    const signInResult = await signIn('email', {
-      email: data.email.toLowerCase(),
-      redirect: false,
-      callbackUrl: searchParams?.get('from') || '/dashboard',
-    });
-
-    setIsLoading(false);
-
-    if (!signInResult?.ok) {
-      return toast({
-        title: 'Something went wrong.',
-        description: 'Your sign in request failed. Please try again.',
-        variant: 'destructive',
-      });
-    }
-
-    return toast({
-      title: 'Check your email',
-      description: 'We sent you a login link. Be sure to check your spam too.',
-    });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/require-await
-  async function onSubmitCredentials(data: UserCredentialsSchema) {
+  function onSubmitEmail(data: UserEmailSchema) {
     console.log({ data });
-    // setIsLoading(true);
-
+    setIsLoading(true);
     // const signInResult = await signIn('email', {
     //   email: data.email.toLowerCase(),
     //   redirect: false,
     //   callbackUrl: searchParams?.get('from') || '/dashboard',
     // });
 
-    // setIsLoading(false);
+    // console.log({ signInResult });
+    setIsLoading(false);
 
     // if (!signInResult?.ok) {
     //   return toast({
@@ -123,10 +117,98 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     //   });
     // }
 
-    // return toast({
-    //   title: 'Check your email',
-    //   description: 'We sent you a login link. Be sure to check your spam too.',
-    // });
+    return toast({
+      title: 'Check your email',
+      description: 'We sent you a login link. Be sure to check your spam too.',
+    });
+  }
+
+  async function onSubmitCredentials(data: UserCredentialsSchema) {
+    setIsLoading(true);
+
+    const signInResult = await signIn('credentials', {
+      ...data,
+      redirect: false,
+      callbackUrl: searchParams?.get('from') || '/dashboard',
+    });
+
+    setIsLoading(false);
+
+    if (signInResult?.error) {
+      return toast({
+        title: 'Something went wrong.',
+        description: signInResult.error,
+        variant: 'destructive',
+      });
+    }
+
+    router.replace(signInResult?.url || '/dashboard');
+    return toast({
+      title: 'Login successful.',
+      description: 'You are now logged in.',
+    });
+  }
+
+  async function onSubmitRegister(data: RegisterSchema) {
+    setIsLoading(true);
+
+    const resp = await fetch('http://localhost:3000/api/v1/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = (await resp.json()) as
+      | ErrorSchemaType
+      | SuccessAuthSchemaType;
+
+    const parsedError = errorSchema.safeParse(result);
+
+    if (parsedError.success) {
+      setIsLoading(false);
+      return toast({
+        title: 'Something went wrong.',
+        description: parsedError.data.message,
+        variant: 'destructive',
+      });
+    }
+
+    const parsedData = successAuthSchema.safeParse(result);
+
+    if (!parsedData.success) {
+      setIsLoading(false);
+      return toast({
+        title: 'Something went wrong.',
+        description: 'Your sign up request failed. Please try again.',
+        variant: 'destructive',
+      });
+    }
+
+    const signUpResult = await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+      callbackUrl: searchParams?.get('from') || '/dashboard',
+    });
+
+    setIsLoading(false);
+
+    if (signUpResult?.error) {
+      return toast({
+        title: 'Something went wrong.',
+        description: signUpResult.error,
+        variant: 'destructive',
+      });
+    }
+
+    toast({
+      title: 'Registration successful.',
+      // eslint-disable-next-line quotes
+      description: "You've been successfully registered.",
+    });
+    return router.replace(signUpResult?.url || '/dashboard');
   }
 
   React.useEffect(() => {
@@ -136,7 +218,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   return (
     <div className={cn('grid gap-6', className)} {...props} ref={parent}>
-      {isCredentialsForm ? (
+      {isCredentialsForm && path === 'login' && (
         <Form {...credentialsForm}>
           <form
             onSubmit={credentialsForm.handleSubmit(onSubmitCredentials)}
@@ -176,13 +258,96 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isLoading || isGitHubLoading}
+            >
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Login
             </Button>
           </form>
         </Form>
-      ) : (
-        <Button variant="outline" type="button" onClick={toggleCredentialsForm}>
+      )}
+      {isCredentialsForm && path === 'register' && (
+        <Form {...registerForm}>
+          <form
+            onSubmit={registerForm.handleSubmit(onSubmitRegister)}
+            className="space-y-6"
+          >
+            <FormField
+              control={registerForm.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border-slate-500 dark:border-slate-700"
+                      placeholder="johndoe"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={registerForm.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border-slate-500 dark:border-slate-700"
+                      placeholder="johndoe@gmail.com"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={registerForm.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="border-slate-500 dark:border-slate-700"
+                      placeholder="supersecret"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isLoading || isGitHubLoading}
+            >
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Sign up
+            </Button>
+          </form>
+        </Form>
+      )}
+      {!isCredentialsForm && (
+        <Button
+          variant="outline"
+          type="button"
+          onClick={toggleCredentialsForm}
+          disabled={isLoading || isGitHubLoading}
+        >
           Sign in with credentials
         </Button>
       )}
@@ -210,13 +375,25 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isLoading || isGitHubLoading}
+            >
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Sign In with Email
             </Button>
           </form>
         </Form>
       ) : (
-        <Button variant="outline" type="button" onClick={toggleEmailForm}>
+        <Button
+          variant="outline"
+          type="button"
+          onClick={toggleEmailForm}
+          disabled={isLoading || isGitHubLoading}
+        >
           Sign in with email
         </Button>
       )}

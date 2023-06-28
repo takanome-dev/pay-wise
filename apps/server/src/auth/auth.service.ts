@@ -31,6 +31,10 @@ export class AuthService {
     const payload = { sub: user.id, email: user.email, role: user.role };
 
     return {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
       access_token: await this.jwtConfigService.signAsync(payload),
     };
   }
@@ -66,6 +70,10 @@ export class AuthService {
     };
 
     return {
+      id: newUser.id,
+      username: newUser.username,
+      email: newUser.email,
+      role: newUser.role,
       access_token: await this.jwtConfigService.signAsync(payload),
     };
   }

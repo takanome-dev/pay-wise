@@ -22,65 +22,7 @@ export default function RegisterPage() {
             Register an account to start using our service
           </p>
         </div>
-        <UserAuthForm />
-        {/* <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-slate-500 dark:border-slate-700"
-                      placeholder="johndoe"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-slate-500 dark:border-slate-700"
-                      placeholder="johndoe@gmail.com"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-slate-500 dark:border-slate-700"
-                      placeholder="supersecret"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full">
-              Create an account
-            </Button>
-          </form>
-        </Form> */}
+        <UserAuthForm path="register" />
         <p className="text-muted-foreground px-8 text-center text-sm">
           By clicking continue, you agree to our{' '}
           <Link

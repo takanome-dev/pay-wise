@@ -1,21 +1,25 @@
-// import { getCurrentUser } from "~/lib/session"
+import { notFound } from 'next/navigation';
+
 import { MainNav } from '~/components/main-nav';
 import { ModeToggle } from '~/components/mode-toggle';
 import { DashboardNav } from '~/components/nav';
 import { SiteFooter } from '~/components/site-footer';
 import { UserAccountNav } from '~/components/user-account-nav';
 import { dashboardConfig } from '~/config/dashboard';
+import { getCurrentUser } from '~/lib/session';
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
 }
 
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  // const user = await getCurrentUser()
+export default async function DashboardLayout({
+  children,
+}: DashboardLayoutProps) {
+  const user = await getCurrentUser();
 
-  // if (!user) {
-  //   return notFound()
-  // }
+  if (!user) {
+    return notFound();
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -26,9 +30,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <ModeToggle />
             <UserAccountNav
               user={{
-                name: 'Test',
-                image: 'https://avatars.githubusercontent.com/u/79809121?v=4',
-                email: 'test@gmail.com',
+                name: user.name,
+                image: user.image,
+                email: user.email,
               }}
             />
           </div>

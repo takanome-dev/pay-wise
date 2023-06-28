@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Patch,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 
 import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
 import { Roles } from '../common/decorators/role.decorator';
@@ -14,8 +6,6 @@ import { RolesGuard } from '../common/guards/roles.guard';
 
 import { UserService } from './user.service';
 import { RegisterUserDto } from '../auth/auth.dto';
-import { UpdateUserDto } from './user.dto';
-import { UserId } from '../common/decorators/user.decorator';
 
 @UseGuards(LocalAuthGuard)
 @Controller('users')
