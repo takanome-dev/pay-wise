@@ -10,7 +10,7 @@ export class CreateCardDto {
   brand: string;
 
   @IsString()
-  @IsIn(['virtual', 'physical'])
+  @IsIn(['virtual'])
   type: string;
 
   @IsString()
@@ -42,15 +42,14 @@ export class CreateCardDto {
 
 export class RegisterCardDto extends PickType(CreateCardDto, [
   'brand',
-  'type',
   'currency',
 ] as const) {}
 
-export class RegisterUserCardDto extends RegisterCardDto {
-  @IsString()
-  @MinLength(36)
-  user_id: string;
-}
+// export class RegisterUserCardDto extends RegisterCardDto {
+//   @IsString()
+//   @MinLength(36)
+//   user_id: string;
+// }
 
 export class RegisterCustomerCardDto extends RegisterCardDto {
   @IsString()

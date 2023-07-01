@@ -23,7 +23,7 @@ export class Card {
   @Column()
   brand: string;
 
-  @Column()
+  @Column({ default: 'virtual' })
   type: string;
 
   @Column()
@@ -42,7 +42,7 @@ export class Card {
   @Column({ default: 'USD' })
   currency: string;
 
-  @Column({ default: 'inactive' })
+  @Column({ default: 'active' })
   status: string;
 
   @Column({ default: 0 })
