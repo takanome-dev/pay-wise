@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { CreateCardButton } from '~/components/create-card-button';
@@ -38,13 +39,40 @@ export default async function Cards() {
   const cards = [
     {
       id: 'a22e05d5-64c2-48ed-94f2-90cef33d4382',
-      cc_number:
-        '32ae2b0196fe1b6791acbb517c317bb1:1c31902c2551542c74fa68a29f975e69',
+      cc_number: '**** **** **** 24242',
       brand: 'visa',
       type: 'virtual',
       exp_month: 10,
       exp_year: 2023,
-      cvv: '859f029e0187ed5c97e965f00eba9ca2:aec3ef',
+      cvv: '***',
+      currency: 'USD',
+      status: 'active',
+      balance: 0,
+      created_at: '2023-07-01T19:39:05.439Z',
+      updated_at: '2023-07-01T19:39:05.439Z',
+    },
+    {
+      id: 'a22e05d5-64c3-48ed-94f2-90cef33d4383',
+      cc_number: '**** **** **** 67514',
+      brand: 'mastercard',
+      type: 'virtual',
+      exp_month: 9,
+      exp_year: 2023,
+      cvv: '***',
+      currency: 'USD',
+      status: 'active',
+      balance: 0,
+      created_at: '2023-07-01T19:39:05.439Z',
+      updated_at: '2023-07-01T19:39:05.439Z',
+    },
+    {
+      id: 'a22e05d5-64c3-48ed-94f2-90ced33d4341',
+      cc_number: '**** **** **** 44324',
+      brand: 'mastercard',
+      type: 'virtual',
+      exp_month: 11,
+      exp_year: 2023,
+      cvv: '***',
       currency: 'USD',
       status: 'active',
       balance: 0,
@@ -57,16 +85,49 @@ export default async function Cards() {
     <DashboardShell>
       <DashboardHeader
         heading="Cards"
-        text="This is where you will find all of your generated cards."
+        text="This is where you will find all of your generated cards. Click on a card to view more details."
       >
         <CreateCardButton user={user} />
       </DashboardHeader>
-      <div className="mt-6">
+      <div className="mt-6 grid grid-cols-3 gap-8">
         {cards.length > 0 ? (
           cards.map((card) => (
-            <div key={card.id}>
-              <p>Card Number: {card.cc_number}</p>
-              <p>Card ID: {card.id}</p>
+            <div key={card.id} className="bg-slate-800 rounded-lg p-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-accent text-xs">Card balance</p>
+                  <p className="text-accent font-bold text-xl">
+                    ${card.balance}
+                  </p>
+                </div>
+                <div>
+                  <Image
+                    src={
+                      card.brand === 'visa' ? '/visa.svg' : '/mastercard.svg'
+                    }
+                    alt="Visa Icon"
+                    width={60}
+                    height={60}
+                  />
+                </div>
+              </div>
+              <div className="my-6">
+                <p className="text-accent text-2xl font-bold">
+                  {card.cc_number}
+                </p>
+              </div>
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-accent text-xs">Expiration</p>
+                  <p className="text-accent font-semibold">
+                    {card.exp_month}/{card.exp_year}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-accent text-xs">CVV</p>
+                  <p className="text-accent font-semibold">{card.cvv}</p>
+                </div>
+              </div>
             </div>
           ))
         ) : (
