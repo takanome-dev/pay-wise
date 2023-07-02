@@ -1,4 +1,4 @@
-import { IsEmail, IsIn, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class CreateCustomerDto {
   @IsString()
@@ -25,11 +25,6 @@ export class CreateCustomerDto {
   @IsString()
   @IsOptional()
   address: string;
-
-  @IsString()
-  @IsIn(['USD', 'EUR', 'GBP'])
-  @IsOptional()
-  currency: string;
 
   @IsString()
   @IsOptional()

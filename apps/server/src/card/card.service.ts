@@ -7,30 +7,44 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 import { Card } from './card.entity';
-import { CustomerService } from '../customer/customer.service';
-import { JwtConfigService } from '../jwt/jwt.service';
 
 import type { RegisterCardDto } from './card.dto';
+import { UserService } from '../user/user.service';
+import type { JwtUserDto } from '../user/user.dto';
+import { JwtConfigService } from '../jwt/jwt.service';
 
 @Injectable()
 export class CardService {
   constructor(
     @InjectRepository(Card) private cardRepository: Repository<Card>,
-    private customerService: CustomerService,
+    // private customerService: CustomerService,
+    private userService: UserService,
     private jwtConfigService: JwtConfigService,
   ) {}
 
-  getCards() {
+  async getCards(user: JwtUserDto) {
+    if (user.role !== 'admin') {
+      const foundUser = await this.userService.findById(user.sub);
+
+      if (!foundUser) {
+        throw new NotFoundException('User not found');
+      }
+
+      return this.cardRepository.find({ where: { user: foundUser } });
+    }
+
     return this.cardRepository.find();
   }
 
-  async createCard(cardInfos: RegisterCardDto, userId: string) {
-    // TODO: user should create a customer first and then send the customer id
-    const customer = await this.customerService.findById(userId);
+  async createUserCard(cardInfos: RegisterCardDto, userId: string) {
+    // TODO: check total cards per user (max 3)
+    const user = await this.userService.findById(userId);
 
-    if (!customer) {
-      throw new NotFoundException('Customer not found');
+    if (!user) {
+      throw new NotFoundException('User not found');
     }
+
+    // TODO: check if user is verified (email verified)
 
     let cardNumber = this.generateCardNumber();
     let cvv = this.generateCVV();
@@ -47,7 +61,6 @@ export class CardService {
     }
 
     const { exp_month, exp_year } = this.generateExpiryDate();
-    const hashedPin = await this.jwtConfigService.bcryptHash(cardInfos.pin);
 
     try {
       const result = await Promise.all([
@@ -59,18 +72,38 @@ export class CardService {
         ...cardInfos,
         cc_number: result[0],
         cvv: result[1],
-        pin: hashedPin,
         exp_month,
         exp_year,
-        customer,
+        user,
       });
 
-      return await this.cardRepository.save(newCard);
+      await this.cardRepository.save(newCard);
+      return {
+        data: null,
+        message: 'Card created successfully',
+      };
     } catch (error) {
       throw new InternalServerErrorException(
         'An unexpected error occurred, please try again later',
       );
     }
+  }
+
+  async deleteCard(id: string) {
+    const card = await this.cardRepository.findOne({
+      where: { id },
+    });
+
+    if (!card) {
+      throw new NotFoundException('Card not found');
+    }
+
+    await this.cardRepository.softDelete(id);
+
+    return {
+      data: null,
+      message: 'Card deleted successfully',
+    };
   }
 
   private generateCardNumber() {
