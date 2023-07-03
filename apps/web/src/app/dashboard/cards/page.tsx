@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { CreateCardButton } from '~/components/create-card-button';
@@ -12,6 +11,7 @@ import { getCurrentUser } from '~/lib/session';
 async function getCards() {
   const user = await getCurrentUser();
 
+  // TODO: mv api url to env
   const response = await fetch('http://localhost:3000/api/v1/cards', {
     method: 'GET',
     headers: {
@@ -24,7 +24,6 @@ async function getCards() {
   });
 
   const data = (await response.json()) as CardSchemaType[];
-  console.log({ data });
 
   return data;
 }
@@ -36,51 +35,7 @@ export default async function Cards() {
     return notFound();
   }
 
-  // const cards = await getCards();
-  const cards = [
-    {
-      id: 'a22e05d5-64c2-48ed-94f2-90cef33d4382',
-      cc_number: '4242 4242 4242 24242',
-      brand: 'visa',
-      type: 'virtual',
-      exp_month: 10,
-      exp_year: 2023,
-      cvv: '123',
-      currency: 'USD',
-      status: 'active',
-      balance: 0,
-      created_at: '2023-07-01T19:39:05.439Z',
-      updated_at: '2023-07-01T19:39:05.439Z',
-    },
-    {
-      id: 'a22e05d5-64c3-48ed-94f2-90cef33d4383',
-      cc_number: '4242 4242 4242 67514',
-      brand: 'mastercard',
-      type: 'virtual',
-      exp_month: 9,
-      exp_year: 2023,
-      cvv: '456',
-      currency: 'USD',
-      status: 'active',
-      balance: 0,
-      created_at: '2023-07-01T19:39:05.439Z',
-      updated_at: '2023-07-01T19:39:05.439Z',
-    },
-    {
-      id: 'a22e05d5-64c3-48ed-94f2-90ced33d4341',
-      cc_number: '4242 4242 4242 44324',
-      brand: 'mastercard',
-      type: 'virtual',
-      exp_month: 11,
-      exp_year: 2023,
-      cvv: '789',
-      currency: 'USD',
-      status: 'active',
-      balance: 0,
-      created_at: '2023-07-01T19:39:05.439Z',
-      updated_at: '2023-07-01T19:39:05.439Z',
-    },
-  ];
+  const cards = await getCards();
 
   return (
     <DashboardShell>

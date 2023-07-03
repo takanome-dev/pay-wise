@@ -63,15 +63,15 @@ export class CardService {
     const { exp_month, exp_year } = this.generateExpiryDate();
 
     try {
-      const result = await Promise.all([
-        await this.jwtConfigService.encrypt(cardNumber),
-        await this.jwtConfigService.encrypt(cvv),
-      ]);
+      // const result = await Promise.all([
+      //   await this.jwtConfigService.encrypt(cardNumber),
+      //   await this.jwtConfigService.encrypt(cvv),
+      // ]);
 
       const newCard = this.cardRepository.create({
         ...cardInfos,
-        cc_number: result[0],
-        cvv: result[1],
+        cc_number: cardNumber,
+        cvv,
         exp_month,
         exp_year,
         user,
@@ -113,7 +113,7 @@ export class CardService {
   }
 
   private generateCVV() {
-    const randomNumber = Math.floor(Math.random() * 1000);
+    const randomNumber = Math.floor(Math.random() * 1_000);
     const cvv = randomNumber.toString().padStart(3, '0');
     return cvv;
   }

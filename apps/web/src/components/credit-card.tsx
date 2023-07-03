@@ -16,7 +16,7 @@ const CreditCard = (props: CreditCardProps) => {
 
   return (
     <div
-      className="bg-slate-800 dark:bg-slate-700 rounded-lg p-6"
+      className="bg-slate-800 dark:bg-slate-700 rounded-lg p-6 overflow-hidden shadow-md"
       onClick={() => setShow(!show)}
       onKeyDown={() => setShow(!show)}
       role="button"
@@ -37,7 +37,7 @@ const CreditCard = (props: CreditCardProps) => {
         </div>
       </div>
       <div className="my-6">
-        <p className="text-slate-100 text-2xl font-bold">
+        <p className="text-slate-100 text-2xl font-bold max-w-xs overflow-hidden">
           {show ? card.cc_number : `**** **** **** ${card.cc_number.slice(-4)}`}
         </p>
       </div>
@@ -45,7 +45,7 @@ const CreditCard = (props: CreditCardProps) => {
         <div>
           <p className="text-slate-300 text-xs">Expiration</p>
           <p className="text-slate-100 font-semibold">
-            {show ? `${card.exp_month}/${card.exp_year}` : '**/**'}
+            {show ? `${card.exp_month}/${card.exp_year}` : '****'}
           </p>
         </div>
         <div>
