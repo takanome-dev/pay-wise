@@ -69,6 +69,8 @@ export function CreateCardButton({
 
   async function onSubmit(values: CreateCardSchema) {
     setIsLoading(true);
+
+    // TODO: mv api url to env
     const response = await fetch('http://localhost:3000/api/v1/cards/user', {
       method: 'POST',
       headers: {

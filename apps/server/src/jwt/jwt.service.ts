@@ -38,16 +38,13 @@ export class JwtConfigService {
 
   async encrypt(str: string) {
     const iv = randomBytes(16);
-
     const key = (await promisify(scrypt)(
       this.configService.get(JWT_KEYS.JWT_CYPHER_KEY)!,
       'salt',
       32,
     )) as Buffer;
     const cipher = createCipheriv('aes-256-ctr', key, iv);
-
     const encryptedText = Buffer.concat([cipher.update(str), cipher.final()]);
-
     return `${iv.toString('hex')}:${encryptedText.toString('hex')}`;
   }
 
@@ -67,7 +64,6 @@ export class JwtConfigService {
       decipher.update(Buffer.from(encryptedText, 'hex')),
       decipher.final(),
     ]);
-
     return decryptedText.toString();
   }
 }
