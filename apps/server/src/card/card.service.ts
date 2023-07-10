@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 import {
   Injectable,
   InternalServerErrorException,
@@ -11,6 +12,12 @@ import { Card } from './card.entity';
 import type { RegisterCardDto } from './card.dto';
 import { UserService } from '../user/user.service';
 import type { JwtUserDto } from '../user/user.dto';
+import type { CreditCardBrand } from './dtos/types';
+import {
+  CC_NUMBER_LENGTH,
+  mastercardPrefixes,
+  visaPrefixes,
+} from '../lib/utils/constants';
 // import { JwtConfigService } from '../jwt/jwt.service';
 
 @Injectable()
@@ -45,14 +52,14 @@ export class CardService {
 
     // TODO: check if user is verified (email verified)
 
-    let cardNumber = this.generateCardNumber();
+    let cardNumber = this.generateCardNumber(cardInfos.brand);
     let cvv = this.generateCVV();
     let card = await this.cardRepository.findOne({
       where: { cc_number: cardNumber, cvv },
     });
 
     while (card) {
-      cardNumber = this.generateCardNumber();
+      cardNumber = this.generateCardNumber(cardInfos.brand as CreditCardBrand);
       cvv = this.generateCVV();
       card = await this.cardRepository.findOne({
         where: { cc_number: cardNumber, cvv },
@@ -105,21 +112,12 @@ export class CardService {
     };
   }
 
-  // TODO: see https://github.com/takanome-dev/pay-wise/issues/82
-  private generateCardNumber() {
-    const randomNumber = Math.floor(Math.random() * 1_000_000_000_000);
-    const cardNumber = `4${randomNumber.toString().padStart(15, '0')}`;
-    return cardNumber;
-  }
-
-  // TODO: how to generate a valid CVV?
   private generateCVV() {
     const randomNumber = Math.floor(Math.random() * 1_000);
     const cvv = randomNumber.toString().padStart(3, '0');
     return cvv;
   }
 
-  // TODO: how to generate a valid expiry date?
   private generateExpiryDate() {
     const currentDate = new Date();
     const expiryDate = new Date(
@@ -132,5 +130,64 @@ export class CardService {
       exp_month: expiryMonth,
       exp_year: expiryYear,
     };
+  }
+
+  private getPrefixes(brand: CreditCardBrand) {
+    switch (brand) {
+      case 'visa':
+        return visaPrefixes;
+      case 'mastercard':
+        return mastercardPrefixes;
+      default:
+        return [];
+    }
+  }
+
+  // TODO: make it private
+  public generateCardNumber(brand: string) {
+    const prefixes = this.getPrefixes(brand as CreditCardBrand);
+    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    const numberWithPrefix = prefix + this.generateRandomNumber(prefix.length);
+    const checksum = this.calculateChecksum(numberWithPrefix);
+    return numberWithPrefix + checksum.toString();
+  }
+
+  private generateRandomNumber(prefixLength: number) {
+    const length = CC_NUMBER_LENGTH - prefixLength;
+    let cardNumber = '';
+
+    while (cardNumber.length < length - 1) {
+      cardNumber += Math.floor(Math.random() * 10);
+    }
+
+    return cardNumber;
+  }
+
+  private calculateChecksum(cardNumber: string): number {
+    const reversedCardNumberArray = cardNumber.split('').reverse();
+    let sum = 0;
+    for (let i = 1; i < reversedCardNumberArray.length; i++) {
+      sum +=
+        Number(reversedCardNumberArray[i]) +
+        Number(reversedCardNumberArray[i - 1]);
+    }
+
+    return ((Math.floor(sum / 10) + 1) * 10 - sum) % 10;
+  }
+
+  private calculateLuhnChecksum(cardNumber: string): number {
+    const reversedCardNumberArray = cardNumber.split('').reverse();
+    let sum = 0;
+    for (let i = 0; i < reversedCardNumberArray.length; i++) {
+      let digit = Number(reversedCardNumberArray[i]);
+      if (i % 2 === 1) {
+        digit *= 2;
+        if (digit > 9) {
+          digit -= 9;
+        }
+      }
+      sum += digit;
+    }
+    return (sum * 9) % 10;
   }
 }

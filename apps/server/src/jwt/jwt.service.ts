@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { JWT_KEYS } from '../common/utils/constants';
+import { JWT_KEYS } from '../lib/utils/constants';
 
 import type { JwtUserDto } from '../user/user.dto';
 

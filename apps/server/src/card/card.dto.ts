@@ -45,6 +45,13 @@ export class RegisterCardDto extends PickType(CreateCardDto, [
   'currency',
 ] as const) {}
 
+// TODO: remove this
+export class GenerateCardDto {
+  @IsString()
+  @IsIn(['visa', 'mastercard'])
+  brand: string;
+}
+
 // export class RegisterUserCardDto extends RegisterCardDto {
 //   @IsString()
 //   @MinLength(36)
