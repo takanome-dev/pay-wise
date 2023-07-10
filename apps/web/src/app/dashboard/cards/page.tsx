@@ -7,6 +7,7 @@ import { DashboardHeader } from '~/components/header';
 import { DashboardShell } from '~/components/shell';
 import { type CardSchemaType } from '~/lib/schemas/card';
 import { getCurrentUser } from '~/lib/session';
+import { tags } from '~/lib/tags';
 
 async function getCards() {
   const user = await getCurrentUser();
@@ -19,7 +20,7 @@ async function getCards() {
       Authorization: `Bearer ${user?.token}`,
     },
     next: {
-      tags: ['Cards'],
+      tags: [tags.cards],
     },
   });
 
@@ -45,9 +46,13 @@ export default async function Cards() {
       >
         <CreateCardButton user={user} />
       </DashboardHeader>
-      <div className="mt-6 grid grid-cols-3 gap-8">
+      <div className="mt-6">
         {cards.length > 0 ? (
-          cards.map((card) => <CreditCard key={card.id} card={card} />)
+          <div className="grid grid-cols-3 gap-8">
+            {cards.map((card) => (
+              <CreditCard key={card.id} card={card} />
+            ))}
+          </div>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="billing" />

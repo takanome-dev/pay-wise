@@ -35,6 +35,7 @@ import {
 } from '~/components/ui/select';
 import { toast } from '~/components/ui/use-toast';
 import { errorSchema } from '~/lib/schemas/common';
+import { tags } from '~/lib/tags';
 
 interface CreateCardButtonProps extends ButtonProps {
   user: User;
@@ -92,7 +93,7 @@ export function CreateCardButton({
       });
     }
 
-    fetch('/api/revalidate?tag=Cards').catch(console.error);
+    await fetch(`/api/revalidate?tag=${tags.cards}`).catch(console.error);
     setShowAlert(false);
     return toast({
       title: 'Success',
