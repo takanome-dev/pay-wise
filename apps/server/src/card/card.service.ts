@@ -11,15 +11,14 @@ import { Card } from './card.entity';
 import type { RegisterCardDto } from './card.dto';
 import { UserService } from '../user/user.service';
 import type { JwtUserDto } from '../user/user.dto';
-import { JwtConfigService } from '../jwt/jwt.service';
+// import { JwtConfigService } from '../jwt/jwt.service';
 
 @Injectable()
 export class CardService {
   constructor(
     @InjectRepository(Card) private cardRepository: Repository<Card>,
     // private customerService: CustomerService,
-    private userService: UserService,
-    private jwtConfigService: JwtConfigService,
+    private userService: UserService, // private jwtConfigService: JwtConfigService,
   ) {}
 
   async getCards(user: JwtUserDto) {
@@ -106,18 +105,21 @@ export class CardService {
     };
   }
 
+  // TODO: see https://github.com/takanome-dev/pay-wise/issues/82
   private generateCardNumber() {
     const randomNumber = Math.floor(Math.random() * 1_000_000_000_000);
     const cardNumber = `4${randomNumber.toString().padStart(15, '0')}`;
     return cardNumber;
   }
 
+  // TODO: how to generate a valid CVV?
   private generateCVV() {
     const randomNumber = Math.floor(Math.random() * 1_000);
     const cvv = randomNumber.toString().padStart(3, '0');
     return cvv;
   }
 
+  // TODO: how to generate a valid expiry date?
   private generateExpiryDate() {
     const currentDate = new Date();
     const expiryDate = new Date(

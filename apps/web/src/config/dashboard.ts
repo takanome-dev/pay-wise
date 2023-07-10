@@ -30,14 +30,10 @@ export const dashboardConfig: DashboardConfig = {
       icon: 'transaction',
     },
     {
-      title: 'History',
-      href: '/dashboard/history',
-      icon: 'history',
-    },
-    {
       title: 'Statistics',
       href: '/dashboard/statistics',
       icon: 'statistic',
+      disabled: true,
     },
   ],
   sidebarBottomNav: [
@@ -50,6 +46,7 @@ export const dashboardConfig: DashboardConfig = {
       title: 'Log out',
       href: '/logout',
       icon: 'logout',
+      disabled: true,
     },
   ],
 };
