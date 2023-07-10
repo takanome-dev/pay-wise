@@ -14,7 +14,7 @@ import { User, UserId } from '../lib/decorators/user.decorator';
 // import { RolesGuard } from '../lib/guards/roles.guard';
 import { CardService } from './card.service';
 
-import { GenerateCardDto, RegisterCardDto } from './card.dto';
+import { GenerateCardDto, RegisterCardDto, ValidateCardDto } from './card.dto';
 import { JwtUserDto } from '../user/user.dto';
 
 // @UseGuards(LocalAuthGuard, RolesGuard)
@@ -36,6 +36,11 @@ export class CardController {
   @Post('generate')
   generateCard(@Body() cardInfos: GenerateCardDto) {
     return this.cardService.generateCardNumber(cardInfos.brand);
+  }
+
+  @Post('validate')
+  validateCard(@Body() cardInfos: ValidateCardDto) {
+    return this.cardService.validateCardNumber(cardInfos.card_number);
   }
 
   @Delete(':id')

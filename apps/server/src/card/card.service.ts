@@ -1,5 +1,5 @@
-/* eslint-disable operator-linebreak */
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -7,6 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
+import valid from 'card-validator';
 import { Card } from './card.entity';
 
 import type { RegisterCardDto } from './card.dto';
@@ -18,6 +19,7 @@ import {
   mastercardPrefixes,
   visaPrefixes,
 } from '../lib/utils/constants';
+
 // import { JwtConfigService } from '../jwt/jwt.service';
 
 @Injectable()
@@ -148,8 +150,10 @@ export class CardService {
     const prefixes = this.getPrefixes(brand as CreditCardBrand);
     const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
     const numberWithPrefix = prefix + this.generateRandomNumber(prefix.length);
-    const checksum = this.calculateChecksum(numberWithPrefix);
-    return numberWithPrefix + checksum.toString();
+    const checksum1 = this.calculateLuhnChecksum(numberWithPrefix);
+    const checksum2 = this.calculateChecksum(numberWithPrefix);
+    console.log({ checksum1, checksum2 });
+    return numberWithPrefix + checksum2.toString();
   }
 
   private generateRandomNumber(prefixLength: number) {
@@ -189,5 +193,24 @@ export class CardService {
       sum += digit;
     }
     return (sum * 9) % 10;
+  }
+
+  validateCardNumber(cardNumber: string) {
+    // const checksum = Number(cardNumber.at(-1));
+    // const calculatedChecksum = this.calculateLuhnChecksum(cardNumber);
+    // const isValid = checksum === calculatedChecksum;
+    // console.log({ checksum, calculatedChecksum, isValid });
+    const numVal = valid.number(cardNumber);
+    console.log({ numVal });
+
+    if (!numVal.isPotentiallyValid) {
+      throw new BadRequestException('Invalid card number');
+    }
+
+    return {
+      message: 'Card number is valid',
+      // providedCardChecksum: checksum,
+      // calculatedCardChecksum: calculatedChecksum,
+    };
   }
 }

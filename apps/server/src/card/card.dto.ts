@@ -52,6 +52,11 @@ export class GenerateCardDto {
   brand: string;
 }
 
+export class ValidateCardDto {
+  @IsString()
+  card_number: string;
+}
+
 // export class RegisterUserCardDto extends RegisterCardDto {
 //   @IsString()
 //   @MinLength(36)
