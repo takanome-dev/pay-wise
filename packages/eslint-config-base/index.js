@@ -79,6 +79,7 @@ module.exports = {
     'no-multi-spaces': 'error',
     'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 1, maxBOF: 0 }],
     'no-nested-ternary': 'error',
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'no-shadow': ['error', { allow: ['err', 'resolve', 'reject'] }],
     'no-trailing-spaces': 'error',
     'no-var': 'error',

@@ -1,8 +1,8 @@
 import { Controller, UseGuards } from '@nestjs/common';
 
 import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
-import { Roles } from '../common/decorators/role.decorator';
-import { RolesGuard } from '../common/guards/roles.guard';
+import { Roles } from '../lib/decorators/role.decorator';
+import { RolesGuard } from '../lib/guards/roles.guard';
 
 @Roles('user')
 @UseGuards(LocalAuthGuard, RolesGuard)
