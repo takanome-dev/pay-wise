@@ -33,16 +33,6 @@ export class CardController {
     return this.cardService.createUserCard(cardInfos, id);
   }
 
-  @Post('generate')
-  generateCard(@Body() cardInfos: GenerateCardDto) {
-    return this.cardService.generateCardNumber(cardInfos.brand);
-  }
-
-  @Post('validate')
-  validateCard(@Body() cardInfos: ValidateCardDto) {
-    return this.cardService.validateCardNumber(cardInfos.card_number);
-  }
-
   @Delete(':id')
   deleteCard(@Param('id') id: string) {
     return this.cardService.deleteCard(id);
