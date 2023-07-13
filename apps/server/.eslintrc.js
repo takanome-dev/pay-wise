@@ -10,4 +10,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   extends: ['custom-server'],
+  rules: {
+    'operator-linebreak': 'off',
+  },
 };

@@ -7,54 +7,56 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
   DeleteDateColumn,
+  OneToMany,
+  Relation,
 } from 'typeorm';
 
 import { Customer } from '../customer/customer.entity';
 import { User } from '../user/user.entity';
+import { Transaction } from '../transaction/transaction.entity';
 
 @Entity({ name: 'cards' })
 export class Card {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  readonly id: string;
 
   @Column()
-  cc_number: string;
+  readonly cc_number: string;
 
   @Column()
-  brand: string;
+  readonly brand: string;
 
   @Column({ default: 'virtual' })
-  type: string;
+  readonly type: string;
 
   @Column()
-  exp_month: number;
+  readonly exp_month: number;
 
   @Column()
-  exp_year: number;
+  readonly exp_year: number;
 
   @Column()
-  cvv: string;
-
-  // TODO: is this necessary?
-  // @Column()
-  // pin: string;
+  readonly cvv: string;
 
   @Column({ default: 'USD' })
-  currency: string;
+  readonly currency: string;
 
   @Column({ default: 'active' })
-  status: string;
+  readonly status: string;
 
   @Column({ default: 0 })
-  balance: number;
+  public balance: number;
 
   @ManyToOne(() => Customer, (customer) => customer.cards)
   @JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
-  customer: Customer;
+  readonly customer: Relation<Customer>;
 
   @ManyToOne(() => User, (user) => user.cards)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-  user: User;
+  readonly user: Relation<User>;
+
+  @OneToMany(() => Transaction, (transaction) => transaction.card)
+  readonly transactions: Relation<Transaction[]>;
 
   @CreateDateColumn({
     type: 'timestamp without time zone',

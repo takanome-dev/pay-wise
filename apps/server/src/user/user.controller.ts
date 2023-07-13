@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
 
 import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
 import { Roles } from '../lib/decorators/role.decorator';
@@ -30,10 +30,10 @@ export class UserController {
   //   return await this.userService.update(userInfos, userId);
   // }
 
-  // @Delete()
-  // @Roles('admin')
-  // @UseGuards(RolesGuard)
-  // async deleteAllUsers() {
-  //   return this.userService.deleteAll();
-  // }
+  @Delete()
+  @Roles('admin')
+  @UseGuards(RolesGuard)
+  async deleteAllUsers() {
+    return this.userService.deleteAll();
+  }
 }

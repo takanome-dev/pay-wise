@@ -5,19 +5,18 @@ import {
   Get,
   Param,
   Post,
-  // UseGuards,
+  UseGuards,
 } from '@nestjs/common';
 
-// import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
-import { Roles } from '../lib/decorators/role.decorator';
 import { User, UserId } from '../lib/decorators/user.decorator';
-// import { RolesGuard } from '../lib/guards/roles.guard';
 import { CardService } from './card.service';
 
-import { GenerateCardDto, RegisterCardDto, ValidateCardDto } from './card.dto';
+import { RegisterCardDto } from './card.dto';
 import { JwtUserDto } from '../user/user.dto';
+import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
+import { RolesGuard } from '../lib/guards/roles.guard';
 
-// @UseGuards(LocalAuthGuard, RolesGuard)
+@UseGuards(LocalAuthGuard, RolesGuard)
 @Controller('cards')
 export class CardController {
   constructor(private cardService: CardService) {}
@@ -28,7 +27,6 @@ export class CardController {
   }
 
   @Post('user')
-  @Roles('user')
   createUserCard(@Body() cardInfos: RegisterCardDto, @UserId() id: string) {
     return this.cardService.createUserCard(cardInfos, id);
   }

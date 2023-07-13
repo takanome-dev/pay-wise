@@ -9,15 +9,13 @@ import { type CardSchemaType } from '~/lib/schemas/card';
 import { getCurrentUser } from '~/lib/session';
 import { tags } from '~/lib/tags';
 
-async function getCards() {
-  const user = await getCurrentUser();
-
+async function getCards(token: string) {
   // TODO: mv api url to env
   const response = await fetch('http://localhost:3000/api/v1/cards', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${user?.token}`,
+      Authorization: `Bearer ${token}`,
     },
     next: {
       tags: [tags.cards],
@@ -25,18 +23,18 @@ async function getCards() {
   });
 
   const data = (await response.json()) as CardSchemaType[];
-
   return data;
 }
 
 export default async function Cards() {
   const user = await getCurrentUser();
+  console.log({ user });
 
   if (!user) {
     return notFound();
   }
 
-  const cards = await getCards();
+  const cards = await getCards(user.token ?? '');
 
   return (
     <DashboardShell>

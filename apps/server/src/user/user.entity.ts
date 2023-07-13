@@ -6,10 +6,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  Relation,
 } from 'typeorm';
 
 import { Customer } from '../customer/customer.entity';
 import { Card } from '../card/card.entity';
+import { Transaction } from '../transaction/transaction.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -53,10 +55,13 @@ export class User {
   is_verified: boolean;
 
   @OneToMany(() => Customer, (customer) => customer.user)
-  customers: Customer[];
+  customers: Relation<Customer[]>;
 
   @OneToMany(() => Card, (card) => card.user)
-  cards: Card[];
+  cards: Relation<Card[]>;
+
+  @OneToMany(() => Transaction, (transaction) => transaction.user)
+  readonly transactions: Relation<Transaction[]>;
 
   @CreateDateColumn({
     type: 'timestamp without time zone',

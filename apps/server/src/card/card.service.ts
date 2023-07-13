@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -20,28 +19,25 @@ import {
   visaPrefixes,
 } from '../lib/utils/constants';
 
-// import { JwtConfigService } from '../jwt/jwt.service';
-
 @Injectable()
 export class CardService {
   constructor(
     @InjectRepository(Card) private cardRepository: Repository<Card>,
-    // private customerService: CustomerService,
-    private userService: UserService, // private jwtConfigService: JwtConfigService,
+    private userService: UserService,
   ) {}
 
-  async getCards(user: JwtUserDto) {
-    if (user.role !== 'admin') {
-      const foundUser = await this.userService.findById(user.sub);
-
-      if (!foundUser) {
-        throw new NotFoundException('User not found');
-      }
-
-      return this.cardRepository.find({ where: { user: foundUser } });
+  getCards(user: JwtUserDto) {
+    if (user.role === 'admin') {
+      return this.cardRepository.find();
     }
 
-    return this.cardRepository.find();
+    return this.cardRepository.find({ where: { user: { id: user.sub } } });
+  }
+
+  findById(id: string) {
+    return this.cardRepository.findOne({
+      where: { id },
+    });
   }
 
   async createUserCard(cardInfos: RegisterCardDto, userId: string) {
@@ -82,7 +78,7 @@ export class CardService {
 
       await this.cardRepository.save(newCard);
       return {
-        data: null,
+        data: newCard,
         message: 'Card created successfully',
       };
     } catch (error) {
@@ -90,6 +86,10 @@ export class CardService {
         'An unexpected error occurred, please try again later',
       );
     }
+  }
+
+  updateBalance(id: string, amount: number) {
+    return this.cardRepository.update(id, { balance: amount });
   }
 
   async deleteCard(id: string) {
@@ -159,17 +159,17 @@ export class CardService {
     return cardNumber;
   }
 
-  private calculateChecksum(cardNumber: string): number {
-    const reversedCardNumberArray = cardNumber.split('').reverse();
-    let sum = 0;
-    for (let i = 1; i < reversedCardNumberArray.length; i++) {
-      sum +=
-        Number(reversedCardNumberArray[i]) +
-        Number(reversedCardNumberArray[i - 1]);
-    }
+  // private calculateChecksum(cardNumber: string): number {
+  //   const reversedCardNumberArray = cardNumber.split('').reverse();
+  //   let sum = 0;
+  //   for (let i = 1; i < reversedCardNumberArray.length; i++) {
+  //     sum +=
+  //       Number(reversedCardNumberArray[i]) +
+  //       Number(reversedCardNumberArray[i - 1]);
+  //   }
 
-    return ((Math.floor(sum / 10) + 1) * 10 - sum) % 10;
-  }
+  //   return ((Math.floor(sum / 10) + 1) * 10 - sum) % 10;
+  // }
 
   private calculateLuhnChecksum(cardNumber: string) {
     const reversedCardNumberArray = cardNumber.split('').reverse();

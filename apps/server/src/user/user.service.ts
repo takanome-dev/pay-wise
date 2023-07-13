@@ -8,17 +8,15 @@ import type { RegisterUserDto } from '../auth/auth.dto';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
-  ) {}
+  constructor(@InjectRepository(User) private userService: Repository<User>) {}
 
   findAll() {
     // TODO: add params to include relations
-    return this.userRepository.find();
+    return this.userService.find();
   }
 
   findById(id: string) {
-    return this.userRepository.findOne({
+    return this.userService.findOne({
       where: {
         id,
       },
@@ -26,7 +24,7 @@ export class UserService {
   }
 
   findByEmail(email: string) {
-    return this.userRepository.findOne({
+    return this.userService.findOne({
       where: {
         email,
       },
@@ -34,7 +32,7 @@ export class UserService {
   }
 
   findByUsername(username: string) {
-    return this.userRepository.findOne({
+    return this.userService.findOne({
       where: {
         username,
       },
@@ -42,8 +40,8 @@ export class UserService {
   }
 
   async create(userInfos: RegisterUserDto) {
-    const newUser = this.userRepository.create(userInfos);
-    return this.userRepository.save(newUser);
+    const newUser = this.userService.create(userInfos);
+    return this.userService.save(newUser);
   }
 
   // TODO: break down this method into smaller ones
@@ -55,7 +53,7 @@ export class UserService {
   //     throw new BadRequestException('user not found');
   //   }
 
-  //   return this.userRepository.update(userId, {
+  //   return this.userService.update(userId, {
   //     ...foundUser,
   //     ...userInfos,
   //     password: foundUser.password,
@@ -64,7 +62,7 @@ export class UserService {
   //   });
   // }
 
-  // deleteAll() {
-  //   return this.userRepository.delete({});
-  // }
+  deleteAll() {
+    return this.userService.delete({});
+  }
 }
