@@ -93,6 +93,7 @@ export const authOptions: NextAuthOptions = {
       return {
         ...token,
         ...user,
+        // TODO: move this to the backend
         picture: avatarImages[Math.floor(Math.random() * avatarImages.length)],
       };
     },

@@ -10,6 +10,7 @@ import { CardModule } from './card/card.module';
 import { CustomerModule } from './customer/customer.module';
 import { JwtConfigModule } from './jwt/jwt.module';
 import { UserModule } from './user/user.module';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     JwtConfigModule,
     CustomerModule,
+    TransactionModule,
   ],
   controllers: [],
   providers: [],
