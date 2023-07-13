@@ -173,7 +173,7 @@ importers:
         version: 0.7.0
       '@headlessui/tailwindcss':
         specifier: ^0.1.3
-        version: 0.1.3(tailwindcss@3.3.2)
+        version: 0.1.3(tailwindcss@3.3.3)
       '@hookform/resolvers':
         specifier: ^3.1.0
         version: 3.1.0(react-hook-form@7.44.3)
@@ -224,7 +224,7 @@ importers:
         version: 0.6.0(typescript@5.1.6)(zod@3.21.4)
       '@tremor/react':
         specifier: ^3.2.1
-        version: 3.2.1(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.2)
+        version: 3.2.1(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.3)
       class-variance-authority:
         specifier: ^0.6.0
         version: 0.6.0(typescript@5.1.6)
@@ -263,7 +263,7 @@ importers:
         version: 1.13.0
       tailwindcss-animate:
         specifier: ^1.0.6
-        version: 1.0.6(tailwindcss@3.3.2)
+        version: 1.0.6(tailwindcss@3.3.3)
       zod:
         specifier: ^3.21.4
         version: 3.21.4
@@ -302,8 +302,8 @@ importers:
         specifier: ^4.15.0
         version: 4.15.0
       tailwindcss:
-        specifier: 3.3.2
-        version: 3.3.2
+        specifier: 3.3.3
+        version: 3.3.3
       tsconfig:
         specifier: workspace:*
         version: link:../../packages/tsconfig
@@ -919,13 +919,13 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@headlessui/tailwindcss@0.1.3(tailwindcss@3.3.2):
+  /@headlessui/tailwindcss@0.1.3(tailwindcss@3.3.3):
     resolution: {integrity: sha512-3aMdDyYZx9A15euRehpppSyQnb2gIw2s/Uccn2ELIoLQ9oDy0+9oRygNWNjXCD5Dt+w1pxo7C+XoiYvGcqA4Kg==}
     engines: {node: '>=10'}
     peerDependencies:
       tailwindcss: ^3.0
     dependencies:
-      tailwindcss: 3.3.2
+      tailwindcss: 3.3.3
     dev: false
 
   /@hookform/resolvers@3.1.0(react-hook-form@7.44.3):
@@ -2609,7 +2609,7 @@ packages:
       zod: 3.21.4
     dev: false
 
-  /@tremor/react@3.2.1(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.2):
+  /@tremor/react@3.2.1(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.3):
     resolution: {integrity: sha512-yuoRV8fVpLrk2Y55MtDF+1+7lp3jENlWjcVwPl9EHXwJJSm+SFBbRA4HoByhDDikkgYz3R6GVb73WcJWeMhguQ==}
     peerDependencies:
       react: ^18.0.0
@@ -2617,7 +2617,7 @@ packages:
     dependencies:
       '@floating-ui/react': 0.19.2(react-dom@18.2.0)(react@18.2.0)
       '@headlessui/react': 1.7.15(react-dom@18.2.0)(react@18.2.0)
-      '@headlessui/tailwindcss': 0.1.3(tailwindcss@3.3.2)
+      '@headlessui/tailwindcss': 0.1.3(tailwindcss@3.3.3)
       date-fns: 2.30.0
       react: 18.2.0
       react-day-picker: 8.7.1(date-fns@2.30.0)(react@18.2.0)
@@ -8483,16 +8483,16 @@ packages:
     resolution: {integrity: sha512-mUTmDbcU+IhOvJ0c42eLQ/nRkvolTqfpVaVQRSxfJAv9TabS6Y2zW/1wKpKLdKzyL3Gh8j6NTLl6MWNmvOM6kA==}
     dev: false
 
-  /tailwindcss-animate@1.0.6(tailwindcss@3.3.2):
+  /tailwindcss-animate@1.0.6(tailwindcss@3.3.3):
     resolution: {integrity: sha512-4WigSGMvbl3gCCact62ZvOngA+PRqhAn7si3TQ3/ZuPuQZcIEtVap+ENSXbzWhpojKB8CpvnIsrwBu8/RnHtuw==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
     dependencies:
-      tailwindcss: 3.3.2
+      tailwindcss: 3.3.3
     dev: false
 
-  /tailwindcss@3.3.2:
-    resolution: {integrity: sha512-9jPkMiIBXvPc2KywkraqsUfbfj+dHDb+JPWtSJa9MLFdrPyazI7q6WX2sUrm7R9eVR7qqv3Pas7EvQFzxKnI6w==}
+  /tailwindcss@3.3.3:
+    resolution: {integrity: sha512-A0KgSkef7eE4Mf+nKJ83i75TMyq8HqY3qmFIJSWy8bNt0v1lG7jUcpGpoTFxAwYcWOphcTBLPPJg+bDfhDf52w==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
@@ -8516,7 +8516,6 @@ packages:
       postcss-load-config: 4.0.1(postcss@8.4.25)
       postcss-nested: 6.0.1(postcss@8.4.25)
       postcss-selector-parser: 6.0.13
-      postcss-value-parser: 4.2.0
       resolve: 1.22.2
       sucrase: 3.32.0
     transitivePeerDependencies:
