@@ -1,8 +1,10 @@
 import { notFound } from 'next/navigation';
 
+import { columns } from './columns';
+import { DataTable } from './data-table';
+
 import type { TransactionSchemaType } from '~/lib/schemas/transaction';
 
-import { EmptyPlaceholder } from '~/components/empty-placeholder';
 import { DashboardHeader } from '~/components/header';
 import { DashboardShell } from '~/components/shell';
 import { getCurrentUser } from '~/lib/session';
@@ -40,24 +42,7 @@ export default async function Transactions() {
         text="This is where you will find all your transactions"
       />
       <div className="mt-6">
-        {transactions.length > 0 ? (
-          <div className="grid grid-cols-3 gap-8">
-            {transactions.map((t) => (
-              <p key={t.id}>{t.amount}</p>
-            ))}
-          </div>
-        ) : (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="transaction" />
-            <EmptyPlaceholder.Title>
-              No transactions created
-            </EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              You don&apos;t have any transactions yet.
-            </EmptyPlaceholder.Description>
-            {/* <CreateCardButton variant="outline" user={user} /> */}
-          </EmptyPlaceholder>
-        )}
+        <DataTable columns={columns} data={transactions} />
       </div>
     </DashboardShell>
   );
