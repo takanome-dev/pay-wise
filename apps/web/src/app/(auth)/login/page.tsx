@@ -10,6 +10,29 @@ export const metadata: Metadata = {
 };
 
 export default function LoginPage() {
+  // const supabase = createClientComponentClient()
+
+  // const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   await supabase.auth.signUp({
+  //     email,
+  //     password,
+  //     options: {
+  //       emailRedirectTo: `${location.origin}/auth/callback`,
+  //     },
+  //   })
+  //   setView('check-email')
+  // }
+
+  // const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   await supabase.auth.signInWithPassword({
+  //     email,
+  //     password,
+  //   })
+  //   router.push('/')
+  //   router.refresh()
+  // }
   return (
     <div className="container relative min-h-screen flex justify-center items-center mx-auto">
       {/* <div className="lg:p-8"> */}

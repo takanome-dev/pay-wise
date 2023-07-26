@@ -3,11 +3,13 @@ import { writeFile } from 'node:fs/promises';
 
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { Logger } from 'nestjs-pino';
+import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { major } from 'semver';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
+import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
+import type { GlobalConfigType } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

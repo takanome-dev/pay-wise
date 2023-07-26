@@ -1,3 +1,4 @@
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { notFound } from 'next/navigation';
 
 import { MainNav } from '~/components/main-nav';
@@ -15,11 +16,16 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  const user = await getCurrentUser();
+  const supabase = createServerComponentClient({ cookies });
 
-  if (!user) {
-    return notFound();
-  }
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  // const user = await getCurrentUser();
+
+  // if (!user) {
+  //   return notFound();
+  // }
 
   return (
     <div className="flex min-h-screen flex-col">
