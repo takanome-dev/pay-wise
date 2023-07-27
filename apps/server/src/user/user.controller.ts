@@ -6,12 +6,14 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { RolesGuard } from '../common/guards/roles.guard';
-import { Roles } from '../common/decorators/role.decorator';
-import { UserId } from '../common/decorators/user.decorator';
 import { User } from './user.entity';
+import { Roles } from '../lib/decorators/role.decorator';
+import { RolesGuard } from '../lib/guards/roles.guard';
 
-@UseGuards(LocalAuthGuard)
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { UserId } from '../lib/decorators/user.decorator';
+
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 @ApiTags('User service')
 export class UserController {

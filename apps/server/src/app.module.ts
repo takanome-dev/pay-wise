@@ -1,3 +1,4 @@
+import type { MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { Module } from '@nestjs/common';
 import { clc } from '@nestjs/common/utils/cli-colors.util';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -12,12 +13,13 @@ import { JwtConfigModule } from './jwt/jwt.module';
 import { UserModule } from './user/user.module';
 import { TransactionModule } from './transaction/transaction.module';
 import type { GlobalConfigType } from './config';
-import { DbConfig, ApiConfig } from './config';
+import { DbConfig, ApiConfig, SupabaseConfig, JwtConfig } from './config';
+import { AuthMiddleware } from './auth/auth.middleware';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [DbConfig, ApiConfig],
+      load: [DbConfig, ApiConfig, SupabaseConfig, JwtConfig],
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
@@ -62,4 +64,9 @@ import { DbConfig, ApiConfig } from './config';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+// export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('v1/auth/login');
+  }
+}

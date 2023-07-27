@@ -17,10 +17,10 @@ import { Card } from './card.entity';
 
 import { RegisterCardDto } from './card.dto';
 import { JwtUserDto } from '../user/user.dto';
-import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../lib/guards/roles.guard';
 
-@UseGuards(LocalAuthGuard, RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('cards')
 @ApiTags('Card service')
 export class CardController {

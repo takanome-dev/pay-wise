@@ -4,6 +4,7 @@ import { JwtConfigService } from '../jwt/jwt.service';
 import { UserService } from '../user/user.service';
 
 import type { LoginUserDto, RegisterUserDto } from './auth.dto';
+import type { User } from '../user/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -12,29 +13,22 @@ export class AuthService {
     private jwtConfigService: JwtConfigService,
   ) {}
 
-  async signIn(userInfos: LoginUserDto) {
+  async validateUser(userInfos: LoginUserDto) {
     const user = await this.userService.findByEmail(userInfos.email);
-
-    if (!user) {
-      throw new BadRequestException('Invalid email or password');
-    }
+    if (!user) return null;
 
     const isPasswordValid = await this.jwtConfigService.bcryptCompare(
       userInfos.password,
       user.password,
     );
 
-    if (!isPasswordValid) {
-      throw new BadRequestException('Invalid email or password');
-    }
+    if (!isPasswordValid) return null;
+    return user;
+  }
 
+  async login(user: User) {
     const payload = { sub: user.id, email: user.email, role: user.role };
-
     return {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
       access_token: await this.jwtConfigService.signAsync(payload),
     };
   }

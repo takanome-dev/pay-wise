@@ -5,26 +5,26 @@ import * as bcrypt from 'bcrypt';
 
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { JWT_KEYS } from '../lib/utils/constants';
 
 import type { JwtUserDto } from '../user/user.dto';
+import type { GlobalConfigType } from '../config';
 
 @Injectable()
 export class JwtConfigService {
   constructor(
     private jwtService: JwtService,
-    private configService: ConfigService,
+    private config: ConfigService<GlobalConfigType>,
   ) {}
 
   async signAsync(payload: Omit<JwtUserDto, 'exp' | 'iat'>) {
     return this.jwtService.signAsync(payload, {
-      secret: this.configService.get(JWT_KEYS.JWT_PASSWD_SECRET),
+      secret: this.config.get('jwt', { infer: true }).jwt_passwd_key,
     });
   }
 
   async verifyAsync(token: string) {
     return this.jwtService.verifyAsync(token, {
-      secret: this.configService.get(JWT_KEYS.JWT_PASSWD_SECRET),
+      secret: this.config.get('jwt', { infer: true }).jwt_passwd_key,
     });
   }
 
@@ -39,7 +39,7 @@ export class JwtConfigService {
   async encrypt(str: string) {
     const iv = randomBytes(16);
     const key = (await promisify(scrypt)(
-      this.configService.get(JWT_KEYS.JWT_CYPHER_KEY)!,
+      this.config.get('jwt', { infer: true }).jwt_cypher_key,
       'salt',
       32,
     )) as Buffer;
@@ -51,7 +51,7 @@ export class JwtConfigService {
   async decrypt(str: string) {
     const [iv, encryptedText] = str.split(':');
     const key = (await promisify(scrypt)(
-      this.configService.get(JWT_KEYS.JWT_CYPHER_KEY)!,
+      this.config.get('jwt', { infer: true }).jwt_cypher_key,
       'salt',
       32,
     )) as Buffer;

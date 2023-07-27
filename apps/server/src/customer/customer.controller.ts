@@ -1,11 +1,11 @@
 import { Controller, UseGuards } from '@nestjs/common';
 
-import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from '../lib/decorators/role.decorator';
 import { RolesGuard } from '../lib/guards/roles.guard';
 
 @Roles('user')
-@UseGuards(LocalAuthGuard, RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('customers')
 export class CustomerController {
   // constructor(private customerService: CustomerService) {}

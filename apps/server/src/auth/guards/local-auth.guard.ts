@@ -1,59 +1,65 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-  type CanActivate,
-  type ExecutionContext,
-} from '@nestjs/common';
-
-import { Reflector } from '@nestjs/core';
-import type { Request } from 'express';
-import { IS_PUBLIC_KEY } from '../../lib/decorators/skip-auth.decorator';
-import { JwtConfigService } from '../../jwt/jwt.service';
-
-import type { JwtUserDto } from '../../user/user.dto';
+import { Injectable } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
-export class LocalAuthGuard implements CanActivate {
-  constructor(
-    private jwtConfigService: JwtConfigService,
-    private reflector: Reflector,
-  ) {}
+export class LocalAuthGuard extends AuthGuard('local') {}
 
-  async canActivate(ctx: ExecutionContext) {
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      ctx.getHandler(),
-      ctx.getClass(),
-    ]);
+// import {
+//   BadRequestException,
+//   Injectable,
+//   UnauthorizedException,
+//   type CanActivate,
+//   type ExecutionContext,
+// } from '@nestjs/common';
 
-    if (isPublic) return true;
+// import { Reflector } from '@nestjs/core';
+// import type { Request } from 'express';
+// import { IS_PUBLIC_KEY } from '../../lib/decorators/skip-auth.decorator';
+// import { JwtConfigService } from '../../jwt/jwt.service';
 
-    const req = ctx.switchToHttp().getRequest<Request>();
-    const token = this.extractJwtFromHeader(req);
+// import type { JwtUserDto } from '../../user/user.dto';
 
-    if (!token) {
-      throw new UnauthorizedException('Authorization header is missing');
-    }
+// @Injectable()
+// export class LocalAuthGuard implements CanActivate {
+//   constructor(
+//     private jwtConfigService: JwtConfigService,
+//     private reflector: Reflector,
+//   ) {}
 
-    try {
-      const payload = (await this.jwtConfigService.verifyAsync(
-        token,
-      )) as JwtUserDto;
+//   async canActivate(ctx: ExecutionContext) {
+//     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+//       ctx.getHandler(),
+//       ctx.getClass(),
+//     ]);
 
-      req.user = payload;
-      return true;
-    } catch (err) {
-      throw new BadRequestException('Invalid token');
-    }
-  }
+//     if (isPublic) return true;
 
-  private extractJwtFromHeader(req: Request) {
-    if (!req.headers.authorization) {
-      throw new UnauthorizedException('Authorization header is missing');
-    }
+//     const req = ctx.switchToHttp().getRequest<Request>();
+//     const token = this.extractJwtFromHeader(req);
 
-    const [type, token] = req.headers.authorization.split(' ') ?? [];
+//     if (!token) {
+//       throw new UnauthorizedException('Authorization header is missing');
+//     }
 
-    return type === 'Bearer' ? token : null;
-  }
-}
+//     try {
+//       const payload = (await this.jwtConfigService.verifyAsync(
+//         token,
+//       )) as JwtUserDto;
+
+//       req.user = payload;
+//       return true;
+//     } catch (err) {
+//       throw new BadRequestException('Invalid token');
+//     }
+//   }
+
+//   private extractJwtFromHeader(req: Request) {
+//     if (!req.headers.authorization) {
+//       throw new UnauthorizedException('Authorization header is missing');
+//     }
+
+//     const [type, token] = req.headers.authorization.split(' ') ?? [];
+
+//     return type === 'Bearer' ? token : null;
+//   }
+// }
