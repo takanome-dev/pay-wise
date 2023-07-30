@@ -2,6 +2,7 @@ module.exports = {
   extends: ['eslint-config-base', 'airbnb-base', 'airbnb-typescript/base'],
   rules: {
     // '@typescript-eslint/dot-notation': 'warn',
+    '@typescript-eslint/brace-style': 'off',
     '@typescript-eslint/indent': 'off',
     '@typescript-eslint/naming-convention': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',

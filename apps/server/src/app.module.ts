@@ -15,6 +15,7 @@ import { TransactionModule } from './transaction/transaction.module';
 import type { GlobalConfigType } from './config';
 import { DbConfig, ApiConfig, SupabaseConfig, JwtConfig } from './config';
 import { AuthMiddleware } from './auth/auth.middleware';
+import { ExtendedAuthGuard } from './common/guards/auth.guard';
 
 @Module({
   imports: [
@@ -62,9 +63,13 @@ import { AuthMiddleware } from './auth/auth.middleware';
     TransactionModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: 'APP_GUARD',
+      useClass: ExtendedAuthGuard,
+    },
+  ],
 })
-// export class AppModule {}
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware).forRoutes('v1/auth/login');

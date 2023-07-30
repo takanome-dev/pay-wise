@@ -5,7 +5,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { IS_PUBLIC_KEY } from '../../common/decorators/public';
 
 @Injectable()
-export class SupabaseGuard extends AuthGuard('supabase') {
+export class JwtAuthGuard extends AuthGuard('jwt') {
   constructor(private reflector: Reflector) {
     super();
   }
@@ -15,8 +15,9 @@ export class SupabaseGuard extends AuthGuard('supabase') {
       context.getHandler(),
       context.getClass(),
     ]);
-
-    if (isPublic) return true;
+    if (isPublic) {
+      return true;
+    }
     return super.canActivate(context) as Promise<boolean>;
   }
 }

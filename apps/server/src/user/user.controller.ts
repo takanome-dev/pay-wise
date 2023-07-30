@@ -13,7 +13,6 @@ import { RolesGuard } from '../lib/guards/roles.guard';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UserId } from '../lib/decorators/user.decorator';
 
-@UseGuards(JwtAuthGuard)
 @Controller('users')
 @ApiTags('User service')
 export class UserController {
@@ -30,6 +29,7 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  // TODO: return all user's infos (logic in service)
   @Get('/me')
   @ApiBearerAuth()
   @ApiOperation({

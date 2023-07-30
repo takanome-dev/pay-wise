@@ -1,3 +1,4 @@
+/* eslint-disable */
 import type { NestMiddleware } from '@nestjs/common';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import type { Request, NextFunction } from 'express';

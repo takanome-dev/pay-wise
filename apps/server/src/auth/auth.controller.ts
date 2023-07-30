@@ -4,7 +4,7 @@ import { Request } from 'express';
 import { AuthService } from './auth.service';
 
 import { RegisterUserDto } from './auth.dto';
-import { LocalAuthGuard } from './guards/local-auth.guard';
+import { LocalAuthGuard } from './guards/local.guard';
 import type { User } from '../user/user.entity';
 
 @Controller('auth')

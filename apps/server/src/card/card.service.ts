@@ -17,7 +17,7 @@ import {
   CC_NUMBER_LENGTH,
   mastercardPrefixes,
   visaPrefixes,
-} from '../lib/utils/constants';
+} from '../common/utils/constants';
 
 @Injectable()
 export class CardService {

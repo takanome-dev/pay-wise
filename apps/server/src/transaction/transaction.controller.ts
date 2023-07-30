@@ -7,14 +7,10 @@ import {
 } from '@nestjs/swagger';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './transaction.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { RolesGuard } from '../lib/guards/roles.guard';
-import { User, UserId } from '../lib/decorators/user.decorator';
 import { JwtUserDto } from '../user/user.dto';
 import { User, UserId } from '../common/decorators/user.decorator';
 import { Transaction } from './transaction.entity';
 
-@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('transactions')
 @ApiTags('Transaction service')
 export class TransactionController {

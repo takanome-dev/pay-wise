@@ -15,21 +15,15 @@ import { RolesGuard } from '../common/guards/roles.guard';
 import { User, UserId } from '../common/decorators/user.decorator';
 import { Card } from './card.entity';
 
-import { RegisterCardDto } from './card.dto';
 import { JwtUserDto } from '../user/user.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { RolesGuard } from '../lib/guards/roles.guard';
 
-@UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(RolesGuard)
 @Controller('cards')
 @ApiTags('Card service')
 export class CardController {
   constructor(private cardService: CardService) {}
 
   @Get()
-<<<<<<< HEAD
-  getCards(@User() user: JwtUserDto) {
-=======
   @ApiBearerAuth()
   @ApiOperation({
     operationId: 'getCards',
@@ -38,7 +32,6 @@ export class CardController {
   @ApiOkResponse({ type: Card, isArray: true })
   getCards(@User() user: SupabaseAuthUser) {
     console.log({ user });
->>>>>>> fa0a7b1 (add swagger doc to server endpoints)
     return this.cardService.getCards(user);
   }
 
