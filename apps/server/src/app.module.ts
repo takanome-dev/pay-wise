@@ -1,4 +1,3 @@
-import type { MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { Module } from '@nestjs/common';
 import { clc } from '@nestjs/common/utils/cli-colors.util';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -14,8 +13,7 @@ import { UserModule } from './user/user.module';
 import { TransactionModule } from './transaction/transaction.module';
 import type { GlobalConfigType } from './config';
 import { DbConfig, ApiConfig, SupabaseConfig, JwtConfig } from './config';
-import { AuthMiddleware } from './auth/auth.middleware';
-import { ExtendedAuthGuard } from './common/guards/auth.guard';
+import { SupabaseGuard } from './auth/guards/supabase.guard';
 
 @Module({
   imports: [
@@ -66,12 +64,13 @@ import { ExtendedAuthGuard } from './common/guards/auth.guard';
   providers: [
     {
       provide: 'APP_GUARD',
-      useClass: ExtendedAuthGuard,
+      useClass: SupabaseGuard,
     },
   ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes('v1/auth/login');
-  }
-}
+export class AppModule {}
+// export class AppModule implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer.apply(AuthMiddleware).forRoutes('v1/auth/login');
+//   }
+// }

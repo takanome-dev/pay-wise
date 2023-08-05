@@ -6,12 +6,12 @@ import { EmptyPlaceholder } from '~/components/empty-placeholder';
 import { DashboardHeader } from '~/components/header';
 import { DashboardShell } from '~/components/shell';
 import { type CardSchemaType } from '~/lib/schemas/card';
-import { getCurrentUser } from '~/lib/session';
+import { getSession } from '~/lib/session';
 import { tags } from '~/lib/tags';
 
 async function getCards(token: string) {
   // TODO: mv api url to env
-  const response = await fetch('http://localhost:3000/api/v1/cards', {
+  const response = await fetch('http://localhost:3000/v1/cards', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -27,14 +27,14 @@ async function getCards(token: string) {
 }
 
 export default async function Cards() {
-  const user = await getCurrentUser();
-  console.log({ user });
+  const session = await getSession();
 
-  if (!user) {
+  if (!session) {
     return notFound();
   }
 
-  const cards = await getCards(user.token ?? '');
+  const cards = await getCards(session.access_token);
+  console.log({ cards });
 
   return (
     <DashboardShell>
@@ -42,7 +42,7 @@ export default async function Cards() {
         heading="Cards"
         text="This is where you will find all of your generated cards. Click on a card to view more details."
       >
-        <CreateCardButton user={user} />
+        <CreateCardButton user={session.user} />
       </DashboardHeader>
       <div className="mt-6">
         {cards.length > 0 ? (
@@ -58,7 +58,7 @@ export default async function Cards() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any cards yet. Create your first card.
             </EmptyPlaceholder.Description>
-            <CreateCardButton variant="outline" user={user} />
+            <CreateCardButton variant="outline" user={session.user} />
           </EmptyPlaceholder>
         )}
       </div>

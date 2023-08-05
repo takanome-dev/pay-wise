@@ -3,7 +3,6 @@
 import autoAnimate from '@formkit/auto-animate';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn } from 'next-auth/react';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -21,6 +20,7 @@ import { Icons } from '~/components/icons';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 import { toast } from '~/components/ui/use-toast';
+import useSupabaseAuth from '~/hooks/use-supabase-auth';
 import {
   errorSchema,
   registerSchema,
@@ -55,13 +55,15 @@ function Separator() {
 }
 
 export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
-  const [isCredentialsForm, setIsCredentialsForm] = React.useState(true);
+  const [isCredentialsForm, setIsCredentialsForm] = React.useState(false);
   const [isEmailForm, setIsEmailForm] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isGitHubLoading, setIsGitHubLoading] = React.useState(false);
+
   const parent = React.useRef(null);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { signIn } = useSupabaseAuth();
 
   const emailForm = useForm<UserEmailSchema>({
     defaultValues: {
@@ -88,128 +90,138 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
   });
 
   const toggleCredentialsForm = React.useCallback(() => {
-    setIsEmailForm(false);
-    setIsCredentialsForm(true);
+    // setIsEmailForm(false);
+    // setIsCredentialsForm(true);
+    toast({
+      title: 'Sign in method disabled.',
+      description: 'This feature is not yet available. Please use oauth.',
+      variant: 'destructive',
+    });
   }, []);
 
   const toggleEmailForm = React.useCallback(() => {
-    setIsEmailForm(true);
-    setIsCredentialsForm(false);
+    // setIsEmailForm(true);
+    // setIsCredentialsForm(false);
+    toast({
+      title: 'Sign in method disabled.',
+      description: 'This feature is not yet available. Please use oauth.',
+      variant: 'destructive',
+    });
   }, []);
 
-  function onSubmitEmail(data: UserEmailSchema) {
-    console.log({ data });
-    setIsLoading(true);
-    // const signInResult = await signIn('email', {
-    //   email: data.email.toLowerCase(),
-    //   redirect: false,
-    //   callbackUrl: searchParams?.get('from') || '/dashboard',
-    // });
+  // function onSubmitEmail(data: UserEmailSchema) {
+  //   console.log({ data });
+  //   setIsLoading(true);
+  //   // const signInResult = await signIn('email', {
+  //   //   email: data.email.toLowerCase(),
+  //   //   redirect: false,
+  //   //   callbackUrl: searchParams?.get('from') || '/dashboard',
+  //   // });
 
-    // console.log({ signInResult });
-    setIsLoading(false);
+  //   // console.log({ signInResult });
+  //   setIsLoading(false);
 
-    // if (!signInResult?.ok) {
-    //   return toast({
-    //     title: 'Something went wrong.',
-    //     description: 'Your sign in request failed. Please try again.',
-    //     variant: 'destructive',
-    //   });
-    // }
+  //   // if (!signInResult?.ok) {
+  //   //   return toast({
+  //   //     title: 'Something went wrong.',
+  //   //     description: 'Your sign in request failed. Please try again.',
+  //   //     variant: 'destructive',
+  //   //   });
+  //   // }
 
-    return toast({
-      title: 'Check your email',
-      description: 'We sent you a login link. Be sure to check your spam too.',
-    });
-  }
+  //   return toast({
+  //     title: 'Check your email',
+  //     description: 'We sent you a login link. Be sure to check your spam too.',
+  //   });
+  // }
 
-  async function onSubmitCredentials(data: UserCredentialsSchema) {
-    setIsLoading(true);
+  // async function onSubmitCredentials(data: UserCredentialsSchema) {
+  //   setIsLoading(true);
 
-    const signInResult = await signIn('credentials', {
-      ...data,
-      redirect: false,
-      callbackUrl: searchParams?.get('from') || '/dashboard',
-    });
+  //   const signInResult = await signIn('credentials', {
+  //     ...data,
+  //     redirect: false,
+  //     callbackUrl: searchParams?.get('from') || '/dashboard',
+  //   });
 
-    setIsLoading(false);
+  //   setIsLoading(false);
 
-    if (signInResult?.error) {
-      return toast({
-        title: 'Something went wrong.',
-        description: signInResult.error,
-        variant: 'destructive',
-      });
-    }
+  //   if (signInResult?.error) {
+  //     return toast({
+  //       title: 'Something went wrong.',
+  //       description: signInResult.error,
+  //       variant: 'destructive',
+  //     });
+  //   }
 
-    router.replace(signInResult?.url || '/dashboard');
-    return toast({
-      title: 'Login successful.',
-      description: 'You are now logged in.',
-    });
-  }
+  //   router.replace(signInResult?.url || '/dashboard');
+  //   return toast({
+  //     title: 'Login successful.',
+  //     description: 'You are now logged in.',
+  //   });
+  // }
 
-  async function onSubmitRegister(data: RegisterSchema) {
-    setIsLoading(true);
+  // async function onSubmitRegister(data: RegisterSchema) {
+  //   setIsLoading(true);
 
-    const resp = await fetch('http://localhost:3000/api/v1/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+  //   const resp = await fetch('http://localhost:3000/api/v1/auth/register', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(data),
+  //   });
 
-    const result = (await resp.json()) as
-      | ErrorSchemaType
-      | SuccessAuthSchemaType;
+  //   const result = (await resp.json()) as
+  //     | ErrorSchemaType
+  //     | SuccessAuthSchemaType;
 
-    const parsedError = errorSchema.safeParse(result);
+  //   const parsedError = errorSchema.safeParse(result);
 
-    if (parsedError.success) {
-      setIsLoading(false);
-      return toast({
-        title: 'Something went wrong.',
-        description: parsedError.data.message,
-        variant: 'destructive',
-      });
-    }
+  //   if (parsedError.success) {
+  //     setIsLoading(false);
+  //     return toast({
+  //       title: 'Something went wrong.',
+  //       description: parsedError.data.message,
+  //       variant: 'destructive',
+  //     });
+  //   }
 
-    const parsedData = successAuthSchema.safeParse(result);
+  //   const parsedData = successAuthSchema.safeParse(result);
 
-    if (!parsedData.success) {
-      setIsLoading(false);
-      return toast({
-        title: 'Something went wrong.',
-        description: 'Your sign up request failed. Please try again.',
-        variant: 'destructive',
-      });
-    }
+  //   if (!parsedData.success) {
+  //     setIsLoading(false);
+  //     return toast({
+  //       title: 'Something went wrong.',
+  //       description: 'Your sign up request failed. Please try again.',
+  //       variant: 'destructive',
+  //     });
+  //   }
 
-    const signUpResult = await signIn('credentials', {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-      callbackUrl: searchParams?.get('from') || '/dashboard',
-    });
+  //   const signUpResult = await signIn('credentials', {
+  //     email: data.email,
+  //     password: data.password,
+  //     redirect: false,
+  //     callbackUrl: searchParams?.get('from') || '/dashboard',
+  //   });
 
-    setIsLoading(false);
+  //   setIsLoading(false);
 
-    if (signUpResult?.error) {
-      return toast({
-        title: 'Something went wrong.',
-        description: signUpResult.error,
-        variant: 'destructive',
-      });
-    }
+  //   if (signUpResult?.error) {
+  //     return toast({
+  //       title: 'Something went wrong.',
+  //       description: signUpResult.error,
+  //       variant: 'destructive',
+  //     });
+  //   }
 
-    toast({
-      title: 'Registration successful.',
-      // eslint-disable-next-line quotes
-      description: "You've been successfully registered.",
-    });
-    return router.replace(signUpResult?.url || '/dashboard');
-  }
+  //   toast({
+  //     title: 'Registration successful.',
+  //     // eslint-disable-next-line quotes
+  //     description: "You've been successfully registered.",
+  //   });
+  //   return router.replace(signUpResult?.url || '/dashboard');
+  // }
 
   React.useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -221,7 +233,7 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
       {isCredentialsForm && path === 'login' && (
         <Form {...credentialsForm}>
           <form
-            onSubmit={credentialsForm.handleSubmit(onSubmitCredentials)}
+            // onSubmit={credentialsForm.handleSubmit(onSubmitCredentials)}
             className="space-y-6"
           >
             <FormField
@@ -274,7 +286,7 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
       {isCredentialsForm && path === 'register' && (
         <Form {...registerForm}>
           <form
-            onSubmit={registerForm.handleSubmit(onSubmitRegister)}
+            // onSubmit={registerForm.handleSubmit(onSubmitRegister)}
             className="space-y-6"
           >
             <FormField
@@ -355,7 +367,7 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
       {isEmailForm ? (
         <Form {...emailForm}>
           <form
-            onSubmit={emailForm.handleSubmit(onSubmitEmail)}
+            // onSubmit={emailForm.handleSubmit(onSubmitEmail)}
             className="space-y-6"
           >
             <FormField
@@ -403,7 +415,12 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
         type="button"
         onClick={() => {
           setIsGitHubLoading(true);
-          signIn('github').catch(console.error);
+          signIn({
+            provider: 'github',
+            options: {
+              redirectTo: `${window.location.origin}/auth/callback`,
+            },
+          });
         }}
         disabled={isLoading || isGitHubLoading}
       >

@@ -39,6 +39,12 @@ export class UserService {
     });
   }
 
+  findCurrentUser(id: string) {
+    return this.userService.findOne({
+      where: { id },
+    });
+  }
+
   async create(userInfos: RegisterUserDto) {
     const newUser = this.userService.create(userInfos);
     return this.userService.save(newUser);

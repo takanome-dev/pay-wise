@@ -1,9 +1,22 @@
-import { getServerSession } from 'next-auth/next';
-
-import { authOptions } from '~/lib/auth';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 
 export async function getCurrentUser() {
-  const session = await getServerSession(authOptions);
+  const supabase = createServerComponentClient({ cookies });
 
-  return session?.user;
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  return user;
+}
+
+export async function getSession() {
+  const supabase = createServerComponentClient({ cookies });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  return session;
 }
