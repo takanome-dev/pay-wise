@@ -5,6 +5,7 @@ import {
   SupabaseAuthStrategy,
   type SupabaseAuthUser,
 } from 'nestjs-supabase-auth';
+import type { Request } from 'express';
 
 @Injectable()
 export class SupabaseStrategy extends PassportStrategy(
@@ -26,8 +27,8 @@ export class SupabaseStrategy extends PassportStrategy(
     super.validate(payload);
   }
 
-  authenticate(req: never) {
-    console.log({ request: req });
+  authenticate(req: Request) {
+    console.log({ headers: req.headers });
     super.authenticate(req);
   }
 }

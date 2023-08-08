@@ -16,28 +16,28 @@ export class Customer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   first_name: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   last_name: string;
 
-  @Column({ unique: true })
+  @Column({ type: 'text', unique: true })
   email: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   phone: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   city: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   country: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   address: string;
 
-  @Column({ default: 'customer' })
+  @Column({ type: 'text', default: 'customer' })
   role: string;
 
   @OneToMany(() => User, (user) => user.customers)

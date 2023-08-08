@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import type {
   Session,
   SignInWithOAuthCredentials,
+  SignUpWithPasswordCredentials,
 } from '@supabase/supabase-js';
-
-import { env } from '~/env';
 
 const useSupabaseAuth = () => {
   const [session, setSession] = useState<Session | null>(null);
@@ -23,6 +22,7 @@ const useSupabaseAuth = () => {
     const {
       data: { subscription: listener },
     } = supabase.auth.onAuthStateChange((_, state) => {
+      console.log({ realtimeState: state });
       setSession(state);
     });
 
@@ -32,16 +32,20 @@ const useSupabaseAuth = () => {
   }, []);
 
   return {
-    signIn: (data: SignInWithOAuthCredentials) => {
-      supabase.auth
-        .signInWithOAuth({
-          ...data,
-          options: data.options ?? {
-            redirectTo: env.NEXT_PUBLIC_APP_URL ?? '/',
-          },
-        })
-        .catch(console.error);
-    },
+    signIn: (data: SignInWithOAuthCredentials) =>
+      supabase.auth.signInWithOAuth({
+        ...data,
+        options: data.options ?? {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      }),
+    signUp: (data: SignUpWithPasswordCredentials) =>
+      supabase.auth.signUp({
+        ...data,
+        options: data.options ?? {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      }),
     signOut: () => supabase.auth.signOut(),
     session,
   };

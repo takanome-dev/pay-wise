@@ -310,9 +310,6 @@ importers:
       next:
         specifier: 13.4.12
         version: 13.4.12(react-dom@18.2.0)(react@18.2.0)
-      next-auth:
-        specifier: 4.22.3
-        version: 4.22.3(next@13.4.12)(nodemailer@6.9.3)(react-dom@18.2.0)(react@18.2.0)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@13.4.12)(react-dom@18.2.0)(react@18.2.0)
@@ -1306,7 +1303,11 @@ packages:
       detect-libc: 2.0.1
       https-proxy-agent: 5.0.1
       make-dir: 3.1.0
+<<<<<<< HEAD
       node-fetch: 2.6.12
+=======
+      node-fetch: 2.6.12(encoding@0.1.13)
+>>>>>>> 445f1e7 (update auth pages)
       nopt: 5.0.0
       npmlog: 5.0.1
       rimraf: 3.0.2
