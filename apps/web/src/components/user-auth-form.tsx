@@ -18,7 +18,6 @@ import {
 import { Icons } from '~/components/icons';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
-import { toast } from '~/components/ui/use-toast';
 import useSupabaseAuth from '~/hooks/use-supabase-auth';
 import { userCredentialsSchema } from '~/lib/schemas/auth';
 import { cn } from '~/lib/utils';
@@ -60,8 +59,7 @@ export function UserAuthForm({ className, path, ...props }: UserAuthFormProps) {
 
   async function onSubmitCredentials(data: UserCredentialsSchema) {
     setIsLoading(true);
-    const resp = await signUp(data);
-    console.log({ resp });
+    await signUp(data);
     setIsLoading(false);
   }
 

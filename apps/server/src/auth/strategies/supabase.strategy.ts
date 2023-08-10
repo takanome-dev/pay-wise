@@ -6,13 +6,15 @@ import {
   type SupabaseAuthUser,
 } from 'nestjs-supabase-auth';
 import type { Request } from 'express';
+// import { ConfigService } from '@nestjs/config';
+// import { GlobalConfigType } from '../../config';
 
 @Injectable()
 export class SupabaseStrategy extends PassportStrategy(
   SupabaseAuthStrategy,
   'supabase',
 ) {
-  public constructor() {
+  constructor() {
     super({
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseKey: process.env.SUPABASE_ANON_KEY,
@@ -23,12 +25,10 @@ export class SupabaseStrategy extends PassportStrategy(
   }
 
   async validate(payload: SupabaseAuthUser): Promise<any> {
-    // console.log({ payload });
     super.validate(payload);
   }
 
   authenticate(req: Request) {
-    console.log({ headers: req.headers });
     super.authenticate(req);
   }
 }
