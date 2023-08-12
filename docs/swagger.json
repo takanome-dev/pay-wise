@@ -1,0 +1,509 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/users": {
+      "get": {
+        "operationId": "getAllUsers",
+        "summary": "Get all users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User service"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deleteAllUsers",
+        "summary": "Delete all users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User service"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/users/me": {
+      "get": {
+        "operationId": "getMe",
+        "summary": "Get current user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User service"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cards": {
+      "get": {
+        "operationId": "getCards",
+        "summary": "Get all cards",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Card"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Card service"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cards/user": {
+      "post": {
+        "operationId": "createUserCard",
+        "summary": "Create a card for the current user",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PickTypeClass"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Card"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Card service"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "login",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "operationId": "register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "get": {
+        "operationId": "getAllTransactions",
+        "summary": "Get all transactions of the current user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Transaction service"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/transactions/create": {
+      "post": {
+        "operationId": "createTransaction",
+        "summary": "Create a transaction",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransactionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Transaction service"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Pay Wise API",
+    "description": "",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "http://localhost:3000/v1",
+      "description": "Development"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User identifier",
+            "example": "kajdakj-dakjda-dakjda-dakjda"
+          },
+          "username": {
+            "type": "string",
+            "description": "User username",
+            "example": "johndoe"
+          },
+          "first_name": {
+            "type": "string",
+            "description": "User first name",
+            "example": "John"
+          },
+          "last_name": {
+            "type": "string",
+            "description": "User last name",
+            "example": "Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "johndoe@gmail.com"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User phone number",
+            "example": "+234 123 456 7890"
+          },
+          "city": {
+            "type": "string",
+            "description": "User city",
+            "example": "Lagos"
+          },
+          "country": {
+            "type": "string",
+            "description": "User country",
+            "example": "Nigeria"
+          },
+          "address": {
+            "type": "string",
+            "description": "User address",
+            "example": "No 1, John Doe Street, Lagos, Nigeria"
+          },
+          "image": {
+            "type": "string",
+            "description": "User image",
+            "example": "https://example.com/image.png"
+          },
+          "role": {
+            "type": "string",
+            "description": "User role",
+            "example": "user"
+          },
+          "is_verified": {
+            "type": "boolean",
+            "description": "User is verified",
+            "example": true
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date user was created",
+            "example": "11:54:58.440176+00"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date user was updated",
+            "example": "11:54:58.440176+00"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "role",
+          "is_verified"
+        ]
+      },
+      "Card": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Card identifier",
+            "example": "kajdakj-dakjda-dakjda-dakjda"
+          },
+          "cc_number": {
+            "type": "string",
+            "description": "Card number",
+            "example": "4242424242424242"
+          },
+          "brand": {
+            "type": "string",
+            "description": "Card brand",
+            "example": "visa"
+          },
+          "type": {
+            "type": "string",
+            "description": "Card type",
+            "example": "virtual"
+          },
+          "exp_month": {
+            "type": "number",
+            "description": "Card expiration month",
+            "example": 12
+          },
+          "exp_year": {
+            "type": "number",
+            "description": "Card expiration year",
+            "example": 2022
+          },
+          "cvv": {
+            "type": "string",
+            "description": "Card cvv",
+            "example": "123"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Card currency",
+            "example": "USD"
+          },
+          "status": {
+            "type": "string",
+            "description": "Card status",
+            "example": "active"
+          },
+          "balance": {
+            "type": "number",
+            "description": "Card balance",
+            "example": 0
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Card created date",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Card updated date",
+            "example": "2021-01-01T00:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "cc_number",
+          "brand",
+          "type",
+          "exp_month",
+          "exp_year",
+          "cvv",
+          "currency",
+          "status",
+          "balance"
+        ]
+      },
+      "PickTypeClass": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string",
+            "description": "Card brand",
+            "example": "visa"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Card currency",
+            "example": "USD"
+          }
+        },
+        "required": [
+          "brand",
+          "currency"
+        ]
+      },
+      "RegisterUserDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Transaction identifier",
+            "example": "kajdakj-dakjda-dakjda-dakjda"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Transaction amount",
+            "example": 1000
+          },
+          "status": {
+            "type": "string",
+            "description": "Transaction status",
+            "example": "pending"
+          },
+          "type": {
+            "type": "string",
+            "description": "Transaction type",
+            "example": "deposit"
+          },
+          "description": {
+            "type": "string",
+            "description": "Transaction description",
+            "example": "Deposit to card"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Transaction created date",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Transaction updated date",
+            "example": "2021-01-01T00:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "amount",
+          "status",
+          "type",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "CreateTransactionDto": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}

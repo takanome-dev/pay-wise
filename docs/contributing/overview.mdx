@@ -1,65 +1,42 @@
 ---
-title: 'Development'
-description: 'Contributions are welcome! Read our development guide to learn how to set up your local environment.'
+title: 'Overview'
+description: 'We welcome any contributions to Pay Wise, big or small.'
 ---
 
-<Info>
-  **Prerequisite** You should have installed Node.js (version 18.0.0 or higher).
-</Info>
+Thank you so much for your interest in contributing!. All types of contributions are encouraged and valued.
+Please read the [code of conduct](./code-of-conduct.mdx) before contributing.
 
-## Local Development
+## Bugs and issues
 
-Step 1. Fork the [Pay Wise repository](https://github.com/takanome-dev/paywise) on GitHub.
+Bug reports help make Pay Wise a better experience for everyone. When you report a bug, a template will be created automatically containing information we'd like to know.
 
-Step 2. Clone your forked repository to your local machine.
-
-```bash
-git clone https://github.com/<your-username>/pay-wise.git
-```
-
-Step 3. Navigate to the cloned directory and install the dependencies.
-
-```bash
-cd pay-wise && pnpm install
-```
+Before raising a new issue, please search existing ones to make sure you're not creating a duplicate.
 
 <Info>
-  This repo is a monorepo that uses [pnpm](https://pnpm.io/) as its package
-  manager. Running `pnpm install` will install all dependencies for all packages
-  in the monorepo.
+  If the issue is related to security, please email us directly at
+  [takanomedev@duck.com](mailto:takanomedev@duck.com)
 </Info>
-
-Step 5. Run the development server.
-
-```bash
-pnpm dev
-```
-
-This will start all the apps in the monorepo. You can access the web app at [http://localhost:8080](http://localhost:8080). The API server is running at [http://localhost:3000](http://localhost:3000). And for the documentation, it's not started when running `pnpm dev`, you need to run `cd docs && pnpm dev` to start it and access it at [http://localhost:3001](http://localhost:3001). Gotta figure out how to start it with the other apps.
-If you do, please open a PR! 😃
-
-## Issue
 
 If you see an open issue you would like to work on, just comment `.take` and our Github Action will assign you to the issue.
 
 Issues that are not assigned are assumed open, and to avoid conflicts, please assign yourself before beginning work on any issues.
 
-<Note>
+<Info>
   Assigned issues that have not had any activity in a week will be unassigned by
   the action. If you think that's too short, please open an issue to discuss it.
-</Note>
+</Info>
 
 Next, you can use `git checkout -b <branch_name>` or `git switch -c <branch_name>` to create a new branch for your work. It's always a good idea to avoid committing changes directly to your default branch (beta) - this keeps it clean and avoid some weird issues.
 
 Branch names should be a brief description of your changes, such as `fix-typo` for fixing a typo.
 
-<Note>
+<Info>
   In order to make git commit messages easier to read and faster to reason
   about, we follow some guidelines on most commits to keep the format
   predictable. Check [Conventional Commits
   specification](https://www.conventionalcommits.org/) for more information
   about our guidelines.
-</Note>
+</Info>
 
 ## Pull Request
 
@@ -73,4 +50,4 @@ Make sure to change the PR title in something like: `fix: correct typo` or `feat
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/takanome-dev/pay-wise/blob/main/LICENSE) file for details

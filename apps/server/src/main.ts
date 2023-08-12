@@ -1,3 +1,6 @@
+import path from 'node:path';
+import { writeFile } from 'node:fs/promises';
+
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Logger } from 'nestjs-pino';
@@ -24,14 +27,25 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options.build(), {
     operationIdFactory: (_, methodKey: string) => methodKey,
   });
+
+  const outputPath = path.resolve(process.cwd(), 'dist/swagger.json');
+
+  try {
+    await writeFile(outputPath, JSON.stringify(document, null, 2), {
+      encoding: 'utf8',
+    });
+  } catch (e) {
+    console.log(e);
+  }
+
   SwaggerModule.setup('/', app, document, {
     swaggerOptions: { persistAuthorization: true },
   });
+
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: String(major('1.0.0', { loose: false })),
   });
-  app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -39,7 +53,11 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+
   app.useLogger(app.get(Logger));
-  await app.listen(3000);
+  app.useGlobalInterceptors(new LoggerErrorInterceptor());
+
+  await app.listen(port, host);
 }
+
 bootstrap();
