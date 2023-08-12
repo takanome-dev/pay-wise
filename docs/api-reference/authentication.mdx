@@ -1,22 +1,152 @@
 ---
-title: "Authentication"
-description: "Example overview page before API endpoints"
+title: 'Authentication'
+description: 'Welcome to the Pay Wise API authentication guide. This section will walk you through the process of authenticating your requests to the API to ensure secure and authorized access.'
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et eros iaculis tortor dapibus cursus. Curabitur quis sapien nec tortor dictum gravida.
+## API Key Generation
 
-```bash
-'Authorization': 'Token <team_token>'
+Before you can start making requests to the **Pay Wise API**, you'll need to generate an API key. To do this:
+
+1. Log in to your **Pay Wise** account.
+2. Navigate to the settings section within your dashboard and click on the **API Keys** tab.
+3. Generate a new API key and copy it to a secure location.
+
+<Warning>
+  Treat your API key as confidential information and avoid sharing it publicly.
+  It's a best practice to store your API key in an environment variable and
+  reference it in your code. If you suspect that your API key has been
+  compromised, you can regenerate it at any time.
+</Warning>
+
+## Including API Keys in Requests
+
+To authenticate your requests, you'll need to include your API key as a bearer token in the `Authorization` header of your request. For example:
+
+<CodeGroup>
+```bash curl
+curl --request GET \
+  --url http://localhost:3000/v1/cards \
+  --header 'Authorization: Bearer YOUR_API_KEY'
 ```
 
-## API Tokens
+```javascript javascript
+fetch('http://localhost:3000/v1/cards', {
+  headers: {
+    Authorization: 'Bearer YOUR_API_KEY',
+  },
+});
+```
 
-Nullam convallis mauris at nunc consectetur, ac imperdiet leo rutrum. Maecenas cursus purus a pellentesque blandit. Pellentesque vitae lacinia libero, non mollis metus.
+```python python
+import http.client
 
-Nam id ullamcorper urna, at rutrum enim. [Maecenas vulputate](/introduction) vehicula libero, vitae sodales augue pretium nec. Quisque a magna tempor, semper risus vel, fermentum nunc. Pellentesque fermentum interdum ex, eu convallis massa blandit sed. Aliquam bibendum ipsum vel laoreet auctor.
+conn = http.client.HTTPConnection("localhost:3000")
 
-### Permissions
+headers = { 'Authorization: Bearer YOUR_API_KEY' }
 
-Etiam lobortis ut odio ut fermentum. Nunc odio velit, sollicitudin at consectetur id, tristique eget turpis. Aliquam at risus vitae dolor sodales venenatis. In hac habitasse platea dictumst.
+conn.request("GET", "/v1/cards", headers=headers)
 
-Aenean consequat diam eget mollis fermentum. [Quisque eu malesuada](/introduction) felis, non dignissim libero.
+res = conn.getresponse()
+data = res.read()
+
+print(data.decode("utf-8"))
+```
+
+</CodeGroup>
+
+Feel free to open an issue if you want to see examples in other languages.
+
+## Base URL
+
+The base URL for all requests is `http://localhost:3000/v1/`. All requests are served over HTTPS. Unencrypted HTTP is not supported.
+
+## API Versioning
+
+The **Pay Wise API** is currently on version `v1`. We may release new versions of the API from time to time. However, we'll always support older versions of the API for a reasonable amount of time.
+
+## Pagination
+
+Some API endpoints return a list of resources. For example, the [List Cards](/docs/api-reference/cards/list-cards) endpoint returns a list of cards. To improve performance, the API returns paginated results by default. You can specify the number of results to return per page by passing the `per_page` query parameter. For example, to return 10 cards per page, you would pass the `per_page=10` query parameter.
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url 'http://localhost:3000/v1/cards?per_page=10' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript javascript
+fetch('http://localhost:3000/v1/cards?per_page=10', {
+  headers: {
+    Authorization: 'Bearer YOUR_API_KEY',
+  },
+});
+```
+
+</CodeGroup>
+
+The API will return a `meta` property in the response which includes pagination information. For example:
+
+```json
+{
+  "data": [
+    {
+      "id": "card_1J5X2e2eZvKYlo2C0X2e2eZv",
+      "last4": "4242",
+      "exp_month": 8,
+      "exp_year": 2022,
+      "brand": "Visa"
+      // ...
+    }
+  ],
+  // well this is not actually the response, will be updated soon
+  "meta": {
+    "current_page": 1,
+    "next_page": 2,
+    "prev_page": null,
+    "total_pages": 2,
+    "total_count": 11
+  }
+}
+```
+
+## Error Handling
+
+If your request fails, the API will return an error response with an appropriate status code and an error message. For example, if you try to create a card with an invalid API key, you will receive a `401 Unauthorized` response with the following body:
+
+```json
+{
+  {
+    "statusCode": 401,
+    "code": "unauthorized",
+    "message": "The API key you provided is invalid."
+  }
+}
+```
+
+## Rate Limiting
+
+To prevent abuse and ensure a high quality of service for all users, the API enforces rate limits on all requests. If you exceed the rate limit, the API will return a `429 Too Many Requests` response with the following body:
+
+```json
+{
+  "statusCode": 429,
+  "code": "too_many_requests",
+  "message": "You have exceeded the rate limit. Please try again later."
+}
+```
+
+<Note> Rate limiting is not implemented yet, don't forget to update this</Note>
+
+Each IP address is limited to 60 requests per minute. This is measured by saving the timestamp of the first request in a minute and the number of requests made in that minute. If the number of requests exceeds 60, the API will return a `429 Too Many Requests` response.
+
+| Header Name             | Description                                                                                                             |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `X-RateLimit-Limit`     | The maximum number of requests allowed per minute.                                                                      |
+| `X-RateLimit-Remaining` | The number of requests remaining in the current minute.                                                                 |
+| `X-RateLimit-Reset`     | The time at which the current rate limit window resets in [UTC epoch seconds](https://en.wikipedia.org/wiki/Unix_time). |
+
+## Support
+
+If you have any questions or need help integrating with the API, please contact us at [takanomedev@duck.com](mailto:takanomedev@duck.com).

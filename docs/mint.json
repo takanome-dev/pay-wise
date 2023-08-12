@@ -51,10 +51,20 @@
       "url": "changelog"
     }
   ],
+  "api": {
+    "baseUrl": "http://localhost:3000/v1",
+    "auth": {
+      "method": "bearer",
+      "name": "Authorization"
+    },
+    "playground": {
+      "mode": "show"
+    }
+  },
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
+      "pages": ["introduction", "quickstart", "development", "faq"]
     },
     {
       "group": "API Documentation",
@@ -63,11 +73,15 @@
     {
       "group": "Endpoint Examples",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/update",
-        "api-reference/endpoint/delete"
+        "api-reference/endpoints/get",
+        "api-reference/endpoints/create",
+        "api-reference/endpoints/update",
+        "api-reference/endpoints/delete"
       ]
+    },
+    {
+      "group": "Cards",
+      "pages": ["api-reference/endpoints/cards/get"]
     }
   ],
   "footerSocials": {
