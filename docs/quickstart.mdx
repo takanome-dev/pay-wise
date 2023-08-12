@@ -1,86 +1,40 @@
 ---
 title: 'Quickstart'
-description: 'Start building awesome documentation in under 5 minutes'
+description: ''
 ---
 
-## Setup your development
+This section will walk you through the essential steps to get up and running with "Pay Wise" in no time.
 
-Learn how to update your docs locally and and deploy them to the public.
+## Sign Up
 
-### Edit and preview
+Before you can start using **"Pay Wise"**, you'll need to sign up for an account. If you haven't already done so, head to our [Sign Up page](http://localhost:8080/register) to create your account.
 
-<AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: ``` npm i -g mintlify ```
-    2. Run the following command at the root of your documentation (where
-    `mint.json` is): ``` mintlify dev ```
-  </Accordion>
-</AccordionGroup>
+<Info>
+  The sign-up with credentials is currently disabled. We encourage you to use
+  your Github account to sign up. If you really want to use email and password,
+  please open an issue on our [Github
+  Repo](https://github.com/takanome-dev/pay-wise/issues).
+</Info>
 
-### Deploy your changes
+Once you've completed the sign-up process, you'll be redirected to your dashboard.
+From here, you can manage your account, create cards, and view your payment history.
 
-<AccordionGroup>
+## Generate Your First Card
 
-<Accordion icon="message-bot" title="Install our Github app">
-  Our Github app automatically deploys your changes to your docs site, so you
-  don't need to manage deployments yourself. You can find the link to install on
-  your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-  successfully installed, there should be a check mark next to the commit hash
-  of the repo.
-</Accordion>
-<Accordion icon="rocket" title="Push your changes">
-  [Commit and push your changes to
-  Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-  for your changes to update in your docs site. If you push and don't see that
-  the Github app successfully deployed your changes, you can also manually
-  update your docs through our [dashboard](https://dashboard.mintlify.com).
-</Accordion>
+To begin accepting payments, you'll need to generate a card for your side project. Follow these steps to get started:
 
-</AccordionGroup>
+1. Navigate to the **"Cards"** section, which you can find in the sidebar navigation menu.
 
-## Update your docs
+2. Click on the **"Generate Card"** button to create a virtual card specifically for your side project. Remember, these cards are not real credit cards but are designed to securely handle payments for your projects.
 
-Add content directly in your files with MDX syntax and React components. You can use any of our components, or even build your own.
+3. You'll be prompted to provide some basic information about your side project and specify any relevant details. This information helps tailor the card to your project's needs.
 
-<CardGroup>
+4. Once you've provided the necessary information, click **"Generate Card"** to create your virtual card.
 
-<Card title="Style Your Docs" icon="paintbrush" href="/settings/global">
-  Add flair to your docs with personalized branding.
-</Card>
+5. Congratulations! You've just generated your first card with **"Pay Wise"**. You can now use this card to accept payments from users of your side project.
 
-<Card
-  title="Add API Endpoints"
-  icon="square-code"
-  href="/api-playground/configuration"
->
-  Implement your OpenAPI spec and enable API user interaction.
-</Card>
+## Obtain Your API Keys
 
-<Card
-  title="Integrate Analytics"
-  icon="chart-mixed"
-  href="/analytics/supported-integrations"
->
-  Draw insights from user interactions with your documentation.
-</Card>
+To start using **"Pay Wise"** in your side project, you'll need to obtain your **API keys**. These keys are used to authenticate your requests to the **"Pay Wise" API**. You can find your API keys in the **settings** section of your dashboard.
 
-<Card
-  title="Host on a Custom Domain"
-  icon="browser"
-  href="/settings/custom-domain/subdomain"
->
-  Keep your docs on your own website's subdomain.
-</Card>
-
-</CardGroup>
+And voila! You're now ready to start accepting payments with **"Pay Wise"**. Head over to the [API Reference](/api-reference/authentication) to learn more about how to use the **"Pay Wise" API**.

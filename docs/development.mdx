@@ -1,98 +1,75 @@
 ---
 title: 'Development'
-description: 'Learn how to preview changes locally'
+description: 'Contributions are welcome! Read our development guide to learn how to set up your local environment.'
 ---
 
 <Info>
-  **Prerequisite** You should have installed Node.js (version 18.10.0 or
-  higher).
+  **Prerequisite** You should have installed Node.js (version 18.0.0 or higher).
 </Info>
 
-Step 1. Install Mintlify on your OS:
+## Local Development
 
-<CodeGroup>
+Step 1. Fork the [Pay Wise repository](https://github.com/takanome-dev/paywise) on GitHub.
 
-```bash npm
-npm i -g mintlify
-```
-
-```bash yarn
-yarn global add mintlify
-```
-
-</CodeGroup>
-
-Step 2. Go to the docs are located (where you can find `mint.json`) and run the following command:
+Step 2. Clone your forked repository to your local machine.
 
 ```bash
-mintlify dev
+git clone https://github.com/<your-username>/pay-wise.git
 ```
 
-The documentation website is now available at `http://localhost:3000`.
-
-### Custom Ports
-
-Mintlify uses port 3000 by default. You can use the `--port` flag to customize the port Mintlify runs on. For example, use this command to run in port 3333:
+Step 3. Navigate to the cloned directory and install the dependencies.
 
 ```bash
-mintlify dev --port 3333
+cd pay-wise && pnpm install
 ```
 
-You will see an error like this if you try to run Mintlify in a port that's already taken:
+<Info>
+  This repo is a monorepo that uses [pnpm](https://pnpm.io/) as its package
+  manager. Running `pnpm install` will install all dependencies for all packages
+  in the monorepo.
+</Info>
 
-```md
-Error: listen EADDRINUSE: address already in use :::3000
+Step 5. Run the development server.
+
+```bash
+pnpm dev
 ```
 
-## Mintlify Versions
+This will start all the apps in the monorepo. You can access the web app at [http://localhost:8080](http://localhost:8080). The API server is running at [http://localhost:3000](http://localhost:3000).
 
-Each CLI is linked to a specific version of Mintlify. Please update the CLI if your local website looks different than production.
+## Issue
 
-<CodeGroup>
+If you see an open issue you would like to work on, just comment `.take` and our Github Action will assign you to the issue.
 
-```bash npm
-npm i -g mintlify@latest
-```
+Issues that are not assigned are assumed open, and to avoid conflicts, please assign yourself before beginning work on any issues.
 
-```bash yarn
-yarn global upgrade mintlify
-```
+<Note>
+  Assigned issues that have not had any activity in a week will be unassigned by
+  the action. If you think that's too short, please open an issue to discuss it.
+</Note>
 
-</CodeGroup>
+Next, you can use `git checkout -b <branch_name>` or `git switch -c <branch_name>` to create a new branch for your work. It's always a good idea to avoid committing changes directly to your default branch (beta) - this keeps it clean and avoid some weird issues.
 
-## Deployment
+Branch names should be a brief description of your changes, such as `fix-typo` for fixing a typo.
 
-<Tip>
-  Unlimited editors available under the [Startup
-  Plan](https://mintlify.com/pricing)
-</Tip>
+<Note>
+  In order to make git commit messages easier to read and faster to reason
+  about, we follow some guidelines on most commits to keep the format
+  predictable. Check [Conventional Commits
+  specification](https://www.conventionalcommits.org/) for more information
+  about our guidelines.
+</Note>
 
-You should see the following if the deploy successfully went through:
+## Pull Request
 
-<Frame>
-  <img src="/images/checks-passed.png" style={{ borderRadius: '0.5rem' }} />
-</Frame>
+Push your changes to your forked repository by using `git push -u origin <branch_name>`.
 
-## Troubleshooting
+- `-u` tells `git` to set the upstream, it's the same as `--set-upstream`
+- `origin` tells `git` to push to your fork
+- `branch_name` tells `git` to push to a branch - this MUST match the name of the branch you created locally.
 
-Here's how to solve some common problems when working with the CLI.
+Make sure to change the PR title in something like: `fix: correct typo` or `feat: add node latest`
 
-<AccordionGroup>
-  <Accordion title="Mintlify is not loading">
-    Update to Node v18. Run `mintlify install` and try again.
-  </Accordion>
-  <Accordion title="No such file or directory on Windows">
-Go to the `C:/Users/Username/.mintlify/` directory and remove the `mint`
-folder. Then Open the Git Bash in this location and run `git clone
-https://github.com/mintlify/mint.git`.
+## License
 
-Repeat step 3.
-
-  </Accordion>
-  <Accordion title="Getting an unknown error">
-    Try navigating to the root of your device and delete the ~/.mintlify folder.
-    Then run `mintlify dev` again.
-  </Accordion>
-</AccordionGroup>
-
-Curious about what changed in a CLI version? [Check out the CLI changelog.](/changelog/command-line)
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details

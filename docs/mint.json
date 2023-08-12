@@ -28,6 +28,11 @@
     "name": "Dashboard",
     "url": "https://dashboard.mintlify.com"
   },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
   "tabs": [
     {
       "name": "API Reference",
@@ -41,11 +46,6 @@
       "url": "http://localhost:8080"
     },
     {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
-    },
-    {
       "name": "Changelog",
       "icon": "clock-rotate-left",
       "url": "changelog"
@@ -55,16 +55,6 @@
     {
       "group": "Get Started",
       "pages": ["introduction", "quickstart", "development"]
-    },
-    {
-      "group": "Essentials",
-      "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation"
-      ]
     },
     {
       "group": "API Documentation",
@@ -81,8 +71,8 @@
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "twitter": "https://twitter.com/takanome_dev",
+    "github": "https://github.com/takanome-dev",
+    "linkedin": "https://www.linkedin.com/in/takanome-dev/"
   }
 }
