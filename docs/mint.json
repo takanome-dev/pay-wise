@@ -1,0 +1,119 @@
+{
+  "name": "Pay Wise Docs",
+  "logo": {
+    "dark": "/logo/test-dark-logo.svg",
+    "light": "/logo/test-light-logo.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#16a34a",
+    "light": "#22c55e",
+    "dark": "#16a34a",
+    "background": {
+      "dark": "#0c0a09"
+    },
+    "anchors": {
+      "from": "#16a34a",
+      "to": "#f4f4f5"
+    }
+  },
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "http://localhost:8080/dashboard"
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Home",
+      "icon": "house-blank",
+      "url": "http://localhost:8080"
+    },
+    {
+      "name": "Changelog",
+      "icon": "clock-rotate-left",
+      "url": "changelog"
+    },
+    {
+      "name": "Contributing",
+      "icon": "code",
+      "url": "contributing"
+    },
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/takanome-dev/pay-wise"
+    }
+  ],
+  "api": {
+    "baseUrl": "http://localhost:3000/v1",
+    "playground": {
+      "mode": "show"
+    }
+  },
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": ["introduction", "quickstart", "faq"]
+    },
+    {
+      "group": "API Documentation",
+      "pages": ["api-reference/overview/authentication"]
+    },
+    {
+      "group": "Auth service",
+      "pages": [
+        "api-reference/endpoints/auth-service/login",
+        "api-reference/endpoints/auth-service/register"
+      ]
+    },
+    {
+      "group": "User service",
+      "pages": [
+        "api-reference/endpoints/user-service/get-all-users",
+        "api-reference/endpoints/user-service/delete-all-users",
+        "api-reference/endpoints/user-service/get-current-user"
+      ]
+    },
+    {
+      "group": "Card service",
+      "pages": [
+        "api-reference/endpoints/card-service/get-all-cards",
+        "api-reference/endpoints/card-service/create-card"
+      ]
+    },
+    {
+      "group": "Transaction service",
+      "pages": [
+        "api-reference/endpoints/transaction-service/get-all-transactions",
+        "api-reference/endpoints/transaction-service/create-transaction"
+      ]
+    },
+    {
+      "group": "Overview",
+      "pages": ["changelog/overview"]
+    },
+    {
+      "group": "Contributing",
+      "pages": [
+        "contributing/overview",
+        "contributing/development",
+        "contributing/code-of-conduct"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/takanome_dev",
+    "github": "https://github.com/takanome-dev",
+    "linkedin": "https://www.linkedin.com/in/takanome-dev/"
+  }
+}

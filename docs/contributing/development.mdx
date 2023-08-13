@@ -1,0 +1,39 @@
+---
+title: 'Development'
+description: 'This guide will help you get started with development on Pay Wise.'
+---
+
+<Info>
+  **Prerequisite** You should have installed Node.js (version 18.0.0 or higher).
+</Info>
+
+## Local Development
+
+Step 1. Fork the [Pay Wise repository](https://github.com/takanome-dev/paywise) on GitHub.
+
+Step 2. Clone your forked repository to your local machine.
+
+```bash
+git clone https://github.com/<your-username>/pay-wise.git
+```
+
+Step 3. Navigate to the cloned directory and install the dependencies.
+
+```bash
+cd pay-wise && pnpm install
+```
+
+<Info>
+  This repo is a monorepo that uses [pnpm](https://pnpm.io/) as its package
+  manager. Running `pnpm install` will install all dependencies for all packages
+  in the monorepo.
+</Info>
+
+Step 5. Run the development server.
+
+```bash
+pnpm dev
+```
+
+This will start all the apps in the monorepo. You can access the web app at [http://localhost:8080](http://localhost:8080). The API server is running at [http://localhost:3000](http://localhost:3000). And for the documentation, it's not started when running `pnpm dev`, you need to run `cd docs && pnpm dev` to start it and access it at [http://localhost:3001](http://localhost:3001). Gotta figure out how to start it with the other apps.
+If you do, please open a PR! 😃
