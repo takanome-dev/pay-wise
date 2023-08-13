@@ -1,10 +1,10 @@
 {
-  "name": "Pay Wise",
+  "name": "Pay Wise Docs",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/test-dark-logo.svg",
+    "light": "/logo/test-light-logo.svg"
   },
-  "favicon": "/favicon.png",
+  "favicon": "/favicon.svg",
   "colors": {
     "primary": "#16a34a",
     "light": "#22c55e",
@@ -18,8 +18,8 @@
     }
   },
   "topbarCtaButton": {
-    "name": "Log In",
-    "url": "http://localhost:8080/login"
+    "name": "Dashboard",
+    "url": "http://localhost:8080/dashboard"
   },
   "feedback": {
     "thumbsRating": true,

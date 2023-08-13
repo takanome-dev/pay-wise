@@ -67,7 +67,7 @@ export const metadata = {
     creator: '@takanome_dev',
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/icon.svg',
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
