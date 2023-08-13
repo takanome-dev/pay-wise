@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { MainNav } from '~/components/main-nav';
+import { ModeToggle } from '~/components/mode-toggle';
 import { SiteFooter } from '~/components/site-footer';
 import { buttonVariants } from '~/components/ui/button';
 import { marketingConfig } from '~/config/marketing';
@@ -16,6 +17,7 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
         <div className="flex h-20 items-center justify-between py-6">
           <MainNav items={marketingConfig.mainNav} />
           <nav className="flex gap-4">
+            <ModeToggle />
             <Link
               href="/register"
               className={buttonVariants({ variant: 'outline' })}

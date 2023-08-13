@@ -45,7 +45,7 @@ export default function IndexPage() {
           >
             Follow along on Twitter
           </Link>
-          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="font-heading text-primary text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
             An open source payments app for developers.
           </h1>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
@@ -53,7 +53,12 @@ export default function IndexPage() {
             built with Next.js, Prisma, and Stripe.
           </p>
           <div className="space-x-4">
-            <Link href="/login" className={cn(buttonVariants({ size: 'lg' }))}>
+            <Link
+              href="/login"
+              className={cn(
+                buttonVariants({ size: 'lg', className: 'bg-primary' }),
+              )}
+            >
               Get Started
             </Link>
             <Link

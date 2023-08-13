@@ -1,5 +1,4 @@
 {
-  "$schema": "https://mintlify.com/schema.json",
   "name": "Pay Wise",
   "logo": {
     "dark": "/logo/dark.svg",
@@ -7,23 +6,21 @@
   },
   "favicon": "/favicon.png",
   "colors": {
-    "primary": "#003366",
-    "light": "#AE87FF",
-    "dark": "#0D001D",
+    "primary": "#16a34a",
+    "light": "#22c55e",
+    "dark": "#16a34a",
     "background": {
-      "dark": "#090014"
+      "dark": "#0c0a09"
     },
     "anchors": {
-      "from": "#FF7F57",
-      "to": "#9563FF"
+      "from": "#16a34a",
+      "to": "#f4f4f5"
     }
   },
-  "topbarLinks": [
-    {
-      "name": "Log In",
-      "url": "http://localhost:8080/login"
-    }
-  ],
+  "topbarCtaButton": {
+    "name": "Log In",
+    "url": "http://localhost:8080/login"
+  },
   "feedback": {
     "thumbsRating": true,
     "suggestEdit": true,
