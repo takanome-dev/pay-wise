@@ -9,5 +9,6 @@ export const siteConfig: SiteConfig = {
   links: {
     twitter: 'https://twitter.com/takanome_dev',
     github: 'https://github.com/takanome-dev/pay-wise',
+    docs: 'http://localhost:3001',
   },
 };

@@ -25,7 +25,8 @@ export class SupabaseStrategy extends PassportStrategy(
   }
 
   async validate(payload: SupabaseAuthUser): Promise<any> {
-    super.validate(payload);
+    return payload;
+    // super.validate(payload);
   }
 
   authenticate(req: Request) {

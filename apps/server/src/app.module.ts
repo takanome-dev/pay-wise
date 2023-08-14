@@ -13,7 +13,6 @@ import { UserModule } from './user/user.module';
 import { TransactionModule } from './transaction/transaction.module';
 import type { GlobalConfigType } from './config';
 import { DbConfig, ApiConfig, SupabaseConfig, JwtConfig } from './config';
-import { SupabaseGuard } from './auth/guards/supabase.guard';
 
 @Module({
   imports: [
@@ -61,12 +60,7 @@ import { SupabaseGuard } from './auth/guards/supabase.guard';
     TransactionModule,
   ],
   controllers: [],
-  providers: [
-    {
-      provide: 'APP_GUARD',
-      useClass: SupabaseGuard,
-    },
-  ],
+  providers: [],
 })
 export class AppModule {}
 // export class AppModule implements NestModule {

@@ -7,5 +7,6 @@ export const User = createParamDecorator((_, ctx: ExecutionContext) => {
 
 export const UserId = createParamDecorator((_, ctx: ExecutionContext) => {
   const request = ctx.switchToHttp().getRequest<Request>();
-  return parseInt(request.user?.user_metadata.sub as string, 10);
+  console.log({ userDecorator: request.user });
+  return request.user?.id;
 });

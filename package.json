@@ -8,9 +8,9 @@
     "node": ">=18.0.0"
   },
   "workspaces": [
+    "docs",
     "apps/*",
-    "packages/*",
-    "docs/*"
+    "packages/*"
   ],
   "scripts": {
     "build": "turbo run build",

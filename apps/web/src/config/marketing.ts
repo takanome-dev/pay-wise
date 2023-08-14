@@ -7,12 +7,8 @@ export const marketingConfig: MarketingConfig = {
       href: '/#features',
     },
     {
-      title: 'Blog',
-      href: '/blog',
-    },
-    {
       title: 'Documentation',
-      href: '/docs',
+      href: 'http://localhost:3001',
     },
   ],
 };

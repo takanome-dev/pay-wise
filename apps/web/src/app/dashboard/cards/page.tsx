@@ -34,7 +34,6 @@ export default async function Cards() {
   }
 
   const cards = await getCards(session.access_token);
-  console.log({ cards });
 
   return (
     <DashboardShell>
@@ -42,7 +41,7 @@ export default async function Cards() {
         heading="Cards"
         text="This is where you will find all of your generated cards. Click on a card to view more details."
       >
-        <CreateCardButton user={session.user} />
+        <CreateCardButton token={session.access_token} />
       </DashboardHeader>
       <div className="mt-6">
         {cards.length > 0 ? (
@@ -58,7 +57,7 @@ export default async function Cards() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any cards yet. Create your first card.
             </EmptyPlaceholder.Description>
-            <CreateCardButton variant="outline" user={session.user} />
+            <CreateCardButton variant="outline" token={session.access_token} />
           </EmptyPlaceholder>
         )}
       </div>

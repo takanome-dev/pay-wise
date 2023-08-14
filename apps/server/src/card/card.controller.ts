@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { SupabaseAuthUser } from 'nestjs-supabase-auth';
 
 import {
@@ -22,10 +14,9 @@ import { RegisterCardDto } from './card.dto';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { User, UserId } from '../common/decorators/user.decorator';
 import { Card } from './card.entity';
+import { SupabaseGuard } from '../auth/guards/supabase.guard';
 
-import { JwtUserDto } from '../user/user.dto';
-
-@UseGuards(RolesGuard)
+@UseGuards(SupabaseGuard, RolesGuard)
 @Controller('cards')
 @ApiTags('Card service')
 export class CardController {
@@ -39,7 +30,7 @@ export class CardController {
   })
   @ApiOkResponse({ type: Card, isArray: true })
   getCards(@User() user: SupabaseAuthUser) {
-    console.log({ user });
+    // console.log({ user });
     return this.cardService.getCards(user);
   }
 

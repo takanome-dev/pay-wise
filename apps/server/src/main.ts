@@ -48,6 +48,7 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: String(major('1.0.0', { loose: false })),
   });
+  app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

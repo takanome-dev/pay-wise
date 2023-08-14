@@ -27,12 +27,8 @@ export class CardService {
   ) {}
 
   getCards(user: SupabaseAuthUser) {
-    if (user.role === 'admin') {
-      return this.cardRepository.find();
-    }
-
     return this.cardRepository.find({
-      where: { user: { id: user.user_metadata.sub as string } },
+      where: { user: { id: user.id } },
     });
   }
 
