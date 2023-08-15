@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import type { SupabaseAuthUser } from 'nestjs-supabase-auth';
 
 import { Repository } from 'typeorm';
 import valid from 'card-validator';
@@ -11,13 +12,12 @@ import { Card } from './card.entity';
 
 import type { RegisterCardDto } from './card.dto';
 import { UserService } from '../user/user.service';
-import type { JwtUserDto } from '../user/user.dto';
 import type { CreditCardBrand } from './dtos/types';
 import {
   CC_NUMBER_LENGTH,
   mastercardPrefixes,
   visaPrefixes,
-} from '../lib/utils/constants';
+} from '../common/utils/constants';
 
 @Injectable()
 export class CardService {
@@ -26,12 +26,10 @@ export class CardService {
     private userService: UserService,
   ) {}
 
-  getCards(user: JwtUserDto) {
-    if (user.role === 'admin') {
-      return this.cardRepository.find();
-    }
-
-    return this.cardRepository.find({ where: { user: { id: user.sub } } });
+  getCards(user: SupabaseAuthUser) {
+    return this.cardRepository.find({
+      where: { user: { id: user.id } },
+    });
   }
 
   findById(id: string) {

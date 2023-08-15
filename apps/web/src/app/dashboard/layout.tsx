@@ -29,10 +29,13 @@ export default async function DashboardLayout({
           <div className="flex gap-4">
             <ModeToggle />
             <UserAccountNav
+              // TODO: add additional properties to supabase type
               user={{
-                name: user.name,
-                image: user.image,
-                email: user.email,
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                name: user?.user_metadata?.user_name ?? '',
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                image: user?.user_metadata?.avatar_url ?? '',
+                email: user?.email,
               }}
             />
           </div>

@@ -7,11 +7,11 @@ export const dashboardConfig: DashboardConfig = {
       href: '/docs',
       disabled: true,
     },
-    {
-      title: 'Support',
-      href: '/support',
-      disabled: true,
-    },
+    //   {
+    //     title: 'Support',
+    //     href: '/support',
+    //     disabled: true,
+    //   },
   ],
   sidebarTopNav: [
     {

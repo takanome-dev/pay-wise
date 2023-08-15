@@ -11,21 +11,24 @@ import { CustomerModule } from './customer/customer.module';
 import { JwtConfigModule } from './jwt/jwt.module';
 import { UserModule } from './user/user.module';
 import { TransactionModule } from './transaction/transaction.module';
+import type { GlobalConfigType } from './config';
+import { DbConfig, ApiConfig, SupabaseConfig, JwtConfig } from './config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      load: [DbConfig, ApiConfig, SupabaseConfig, JwtConfig],
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: async (config: ConfigService<GlobalConfigType>) => ({
         type: 'postgres',
-        host: configService.get('DB_HOST'),
-        port: configService.get('DB_PORT'),
-        username: configService.get('DB_USER'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_NAME'),
+        host: config.get('db', { infer: true }).host,
+        port: config.get('db', { infer: true }).port,
+        username: config.get('db', { infer: true }).username,
+        password: config.get('db', { infer: true }).password,
+        database: config.get('db', { infer: true }).database,
         entities: [path.join(`${__dirname}/**/*.entity.ts`)],
         autoLoadEntities: true,
         // TODO: remove synchronize in production
@@ -60,3 +63,8 @@ import { TransactionModule } from './transaction/transaction.module';
   providers: [],
 })
 export class AppModule {}
+// export class AppModule implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer.apply(AuthMiddleware).forRoutes('v1/auth/login');
+//   }
+// }

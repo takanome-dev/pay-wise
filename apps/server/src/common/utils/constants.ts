@@ -1,10 +1,23 @@
 export const JWT_KEYS = {
   JWT_PASSWD_SECRET: 'JWT_PASSWD_SECRET',
   JWT_PIN_SECRET: 'JWT_PIN_SECRET',
-  JWT_CC_SECRET: 'JWT_CC_SECRET',
   JWT_CYPHER_KEY: 'JWT_CYPHER_KEY',
 } as const;
 
+export const ROLES = {
+  ADMIN: 'admin',
+  USER: 'user',
+  CUSTOMER: 'customer',
+} as const;
+
+export const ROLES_KEY = 'roles';
+
+export type Role = (typeof ROLES)[keyof typeof ROLES];
+
+export enum OrderDirectionEnum {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}
 export const CC_NUMBER_LENGTH = 16;
 
 export const visaPrefixes = [

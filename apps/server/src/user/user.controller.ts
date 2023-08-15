@@ -6,12 +6,14 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { UserService } from './user.service';
+import { User } from './user.entity';
+
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/role.decorator';
 import { UserId } from '../common/decorators/user.decorator';
-import { User } from './user.entity';
+import { SupabaseGuard } from '../auth/guards/supabase.guard';
 
-@UseGuards(LocalAuthGuard)
+@UseGuards(SupabaseGuard)
 @Controller('users')
 @ApiTags('User service')
 export class UserController {
@@ -21,7 +23,7 @@ export class UserController {
   @ApiBearerAuth()
   @ApiOperation({
     operationId: 'getAllUsers',
-    summary: 'Get all users',
+    summary: 'Get all users data',
   })
   @ApiOkResponse({ type: User, isArray: true })
   async getUsers() {

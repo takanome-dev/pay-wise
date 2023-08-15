@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import type { User } from 'next-auth';
+import type { Session } from '@supabase/supabase-js';
 
 import {
   Form,
@@ -38,7 +38,7 @@ import { errorSchema } from '~/lib/schemas/common';
 import { tags } from '~/lib/tags';
 
 interface CreateCardButtonProps extends ButtonProps {
-  user: User;
+  token: Session['access_token'];
 }
 type CreateCardSchema = z.infer<typeof createCardSchema>;
 
@@ -54,7 +54,7 @@ const createCardSchema = z.object({
 export function CreateCardButton({
   className,
   variant,
-  user,
+  token,
   ...props
 }: CreateCardButtonProps) {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -72,18 +72,18 @@ export function CreateCardButton({
     setIsLoading(true);
 
     // TODO: mv api url to env
-    const response = await fetch('http://localhost:3000/api/v1/cards/user', {
+    const response = await fetch('http://localhost:3000/v1/cards/user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(values),
     });
-    setIsLoading(false);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const data = await response.json();
+    setIsLoading(false);
     const parsedError = errorSchema.safeParse(data);
 
     if (parsedError.success) {
