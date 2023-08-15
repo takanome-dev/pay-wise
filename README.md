@@ -19,6 +19,10 @@
 **Pay Wise** is currently _early_ in the development cycle. This app is
 not yet functional but is being actively developed. Please "watch" the project and leave a star and help us build this platform.
 
+> **Note**
+>
+> The logo is not final and will probably change in the future. If you have any ideas, please open an issue. Same goes for the name and branding 😃
+
 ## :bulb: Features
 
 - [x] Log in with oauth
