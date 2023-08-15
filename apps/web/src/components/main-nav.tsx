@@ -9,7 +9,6 @@ import type { MainNavItem } from '~/types';
 
 import { Icons } from '~/components/icons';
 import { MobileNav } from '~/components/mobile-nav';
-import { siteConfig } from '~/config/site';
 import { cn } from '~/lib/utils';
 
 interface MainNavProps {
@@ -38,14 +37,11 @@ export function MainNav({ items, children }: MainNavProps) {
           width={80}
           height={80}
         />
-        {/* <Icons.logo />
-        <span className="hidden font-bold sm:inline-block">
-          {siteConfig.name}
-        </span> */}
       </Link>
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
           {items?.map((item, index) => (
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <Link
               key={index}
               href={item.disabled ? '#' : item.href}

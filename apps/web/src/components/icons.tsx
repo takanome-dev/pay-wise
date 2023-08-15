@@ -28,11 +28,11 @@ import {
   User,
   Wallet,
   X,
-  type Icon as LucideIcon,
+  type XIcon,
   type LucideProps,
 } from 'lucide-react';
 
-export type Icon = LucideIcon;
+export type Icon = typeof XIcon;
 
 export const Icons = {
   logo: Command,

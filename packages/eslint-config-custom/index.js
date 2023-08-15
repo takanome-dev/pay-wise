@@ -9,7 +9,7 @@ module.exports = {
     'implicit-arrow-linebreak': 'off',
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
-    'import/no-extraneous-dependencies': 'warn',
+    'import/no-extraneous-dependencies': 'off',
     'jsx-a11y/anchor-is-valid': 'warn',
     'react/function-component-definition': 'off',
     'react/jsx-one-expression-per-line': 'off',

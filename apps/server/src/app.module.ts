@@ -1,9 +1,9 @@
+import path from 'path';
 import { Module } from '@nestjs/common';
 import { clc } from '@nestjs/common/utils/cli-colors.util';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerModule } from 'nestjs-pino';
-import path from 'path';
 
 import { AuthModule } from './auth/auth.module';
 import { CardModule } from './card/card.module';
