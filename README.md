@@ -14,9 +14,8 @@
   </a>
 </p>
 
-![app](https://github.com/takanome-dev/pay-wise/assets/79809121/c962d16d-697b-4ea4-9428-52f1b5cd8c9c)
-![docs](https://github.com/takanome-dev/pay-wise/assets/79809121/3d4a1e7c-fd2d-4eb9-9ae2-78dd4c967b52)
-
+![app](./public/app.png)
+![docs](./public/docs.png)
 
 ## :construction: Status :construction
 
