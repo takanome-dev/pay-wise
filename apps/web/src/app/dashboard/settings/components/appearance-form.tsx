@@ -5,6 +5,8 @@ import { ChevronDown } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
+import { toast } from '~/components/ui/use-toast';
+
 import {
   Form,
   FormControl,
@@ -16,7 +18,6 @@ import {
 } from '~/components/form';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
-import { toast } from '~/components/ui/use-toast';
 import { cn } from '~/lib/utils';
 
 const appearanceFormSchema = z.object({

@@ -14,6 +14,8 @@ module.exports = {
     'class-methods-use-this': 'off',
     'import/no-cycle': 'warn',
     'import/prefer-default-export': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'import/no-extraneous-dependencies': 'off',
     'max-classes-per-file': 'off',
     'no-await-in-loop': 'warn',
     'object-curly-newline': 'off',

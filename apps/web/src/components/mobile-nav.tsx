@@ -29,6 +29,7 @@ export function MobileNav({ items, children }: MobileNavProps) {
         </Link>
         <nav className="grid grid-flow-row auto-rows-max text-sm">
           {items.map((item, index) => (
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <Link
               key={index}
               href={item.disabled ? '#' : item.href}

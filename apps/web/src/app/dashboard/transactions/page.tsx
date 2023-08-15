@@ -7,7 +7,7 @@ import type { TransactionSchemaType } from '~/lib/schemas/transaction';
 
 import { DashboardHeader } from '~/components/header';
 import { DashboardShell } from '~/components/shell';
-import { getCurrentUser } from '~/lib/session';
+import { getSession } from '~/lib/session';
 import { tags } from '~/lib/tags';
 
 async function getTransactions(token: string) {
@@ -27,13 +27,13 @@ async function getTransactions(token: string) {
 }
 
 export default async function Transactions() {
-  const user = await getCurrentUser();
+  const session = await getSession();
 
-  if (!user) {
+  if (!session) {
     return notFound();
   }
 
-  const transactions = await getTransactions(user.token ?? '');
+  const transactions = await getTransactions(session.access_token);
 
   return (
     <DashboardShell>

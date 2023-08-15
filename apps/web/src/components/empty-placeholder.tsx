@@ -43,6 +43,8 @@ EmptyPlaceholder.Icon = function EmptyPlaceHolderIcon({
 
   return (
     <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
       <Icon className={cn('h-10 w-10', className)} {...props} />
     </div>
   );

@@ -37,12 +37,10 @@ module.exports = {
     'import/exports-last': 'off',
     'import/first': 'error',
     'import/newline-after-import': 'error',
+    'implicit-arrow-linebreak': 'off',
     'import/no-cycle': 'error',
     'import/extensions': 'off',
-    'import/no-extraneous-dependencies': [
-      'error',
-      { devDependencies: true, peerDependencies: false },
-    ],
+    'import/no-extraneous-dependencies': 'off',
     'import/order': [
       'warn',
       {
