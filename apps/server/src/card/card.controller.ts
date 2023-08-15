@@ -30,7 +30,7 @@ export class CardController {
   })
   @ApiOkResponse({ type: Card, isArray: true })
   getCards(@User() user: SupabaseAuthUser) {
-    // console.log({ user });
+    console.log({ user });
     return this.cardService.getCards(user);
   }
 
