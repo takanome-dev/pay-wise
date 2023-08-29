@@ -27,7 +27,7 @@
     "eslint-config-custom": "workspace:*",
     "eslint-config-custom-server": "workspace:*",
     "eslint-plugin-unused-imports": "^3.0.0",
-    "next": "13.4.12",
+    "next": "13.4.19",
     "prettier": "latest",
     "turbo": "latest",
     "typescript": "^5.0.0"
