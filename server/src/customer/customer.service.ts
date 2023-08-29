@@ -8,11 +8,16 @@ import { Customer } from './customer.entity';
 export class CustomerService {
   constructor(
     @InjectRepository(Customer)
-    private customerRepository: Repository<Customer>,
+    private customerService: Repository<Customer>,
   ) {}
 
+  baseQueryBuilder() {
+    const builder = this.customerService.createQueryBuilder('customers');
+    return builder;
+  }
+
   findById(id: string) {
-    return this.customerRepository.findOne({
+    return this.customerService.findOne({
       where: {
         id,
       },
@@ -20,7 +25,7 @@ export class CustomerService {
   }
 
   findByEmail(email: string) {
-    return this.customerRepository.findOne({
+    return this.customerService.findOne({
       where: {
         email,
       },
@@ -34,21 +39,33 @@ export class CustomerService {
   //     throw new NotFoundException('User not found');
   //   }
 
-  //   const newCustomer = this.customerRepository.create({
+  //   const newCustomer = this.customerService.create({
   //     ...customerInfos,
   //     user,
   //   });
 
-  //   return this.customerRepository.save(newCustomer);
+  //   return this.customerService.save(newCustomer);
   // }
 
   getNumberOfCustomersCreated(userId: string) {
-    return this.customerRepository.count({
-      where: {
-        user: {
-          id: userId,
-        },
-      },
-    });
+    // return this.customerService.count({
+    //   where: {
+    //     user: {
+    //       id: userId,
+    //     },
+    //   },
+    // });
+    const queryBuilder = this.baseQueryBuilder();
+
+    queryBuilder
+      .select('COUNT(customers.id)', 'count')
+      .innerJoinAndSelect('customers.user', 'user')
+      .where('user.id = :userId', { userId });
+    // .select('COUNT(customers.id)', 'count')
+    // .innerJoin('customers.user', 'user')
+    // .where('user.id = :userId', { userId });
+    // .where('customers.user_id = :userId', { userId });
+
+    return queryBuilder.getRawOne();
   }
 }

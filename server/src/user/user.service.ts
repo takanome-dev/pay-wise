@@ -1,19 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { User } from './user.entity';
-
-import type { RegisterUserDto } from '../auth/auth.dto';
 import { CardService } from '../card/card.service';
 import { CustomerService } from '../customer/customer.service';
 import { TransactionService } from '../transaction/transaction.service';
 
+import { User } from './user.entity';
+
+import type { RegisterUserDto } from '../auth/auth.dto';
+
 @Injectable()
 export class UserService {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     @InjectRepository(User) private readonly userService: Repository<User>,
+    @Inject(forwardRef(() => CardService))
     private readonly cardService: CardService,
     private readonly customerService: CustomerService,
     private readonly transactionService: TransactionService,
