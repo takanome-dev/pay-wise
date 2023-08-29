@@ -1,4 +1,5 @@
 import { OmitType, PartialType } from '@nestjs/mapped-types';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNumber, IsString, MinLength } from 'class-validator';
 
 export class CreateUserDto {
@@ -53,4 +54,38 @@ export class JwtUserDto {
 
   @IsNumber()
   exp: number;
+}
+
+// cardsCreated: { type: 'number' },
+// customersCreated: { type: 'number' },
+// transactionsMade: { type: 'number' },
+// totalAmountReceived: { type: 'number' },
+export class KPIDto {
+  @ApiProperty({
+    description: 'Number of cards created',
+    example: 2,
+  })
+  @IsNumber()
+  cardsCreated: number;
+
+  @ApiProperty({
+    description: 'Number of customers created',
+    example: 1,
+  })
+  @IsNumber()
+  customersCreated: number;
+
+  @ApiProperty({
+    description: 'Number of transactions made',
+    example: 1,
+  })
+  @IsNumber()
+  transactionsMade: number;
+
+  @ApiProperty({
+    description: 'Total amount received',
+    example: 1000,
+  })
+  @IsNumber()
+  totalAmountReceived: number;
 }

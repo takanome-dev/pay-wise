@@ -13,6 +13,7 @@ import { CardService } from './card.service';
   imports: [
     CustomerModule,
     UserModule,
+    // forwardRef(() => UserModule),
     TypeOrmModule.forFeature([Card]),
     JwtConfigModule,
   ],

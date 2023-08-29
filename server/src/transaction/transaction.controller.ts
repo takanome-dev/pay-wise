@@ -1,18 +1,20 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 
-import { User, UserId } from '../common/decorators/user.decorator';
-import { JwtUserDto } from '../user/user.dto';
+import { UserId } from '../common/decorators/user.decorator';
 
 import { CreateTransactionDto } from './transaction.dto';
 import { Transaction } from './transaction.entity';
 import { TransactionService } from './transaction.service';
+import { SupabaseGuard } from '../auth/guards/supabase.guard';
 
+@UseGuards(SupabaseGuard)
 @Controller('transactions')
 @ApiTags('Transaction service')
 export class TransactionController {
@@ -25,8 +27,8 @@ export class TransactionController {
     summary: 'Get all transactions of the current user',
   })
   @ApiOkResponse({ type: Transaction, isArray: true })
-  getAllTransactions(@User() user: JwtUserDto) {
-    return this.transactionService.findAll(user);
+  getAllTransactions(@UserId() userId: string) {
+    return this.transactionService.findAll(userId);
   }
 
   @Post('/create')
@@ -35,6 +37,7 @@ export class TransactionController {
     operationId: 'createTransaction',
     summary: 'Create a transaction',
   })
+  @ApiBody({ type: CreateTransactionDto })
   @ApiOkResponse({ type: Transaction })
   createTransaction(
     @Body() transactionInfos: CreateTransactionDto,

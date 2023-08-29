@@ -15,14 +15,14 @@ import { UserAvatar } from '~/components/user-avatar';
 import useSupabaseAuth from '~/hooks/use-supabase-auth';
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Session['user'];
+  session: Session;
 }
 
-export function UserAccountNav({ user }: UserAccountNavProps) {
+export function UserAccountNav({ session }: UserAccountNavProps) {
   const { signOut } = useSupabaseAuth();
 
-  const name = (user.user_metadata?.user_name as string) ?? '';
-  const avatar = (user?.user_metadata?.avatar_url as string) ?? '';
+  const name = (session?.user.user_metadata?.user_name as string) ?? '';
+  const avatar = (session?.user?.user_metadata?.avatar_url as string) ?? '';
 
   return (
     <DropdownMenu>
@@ -39,9 +39,9 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           )}
           <div className="flex flex-col space-y-1 leading-none">
             {name && <p className="font-medium">{name}</p>}
-            {user.email && (
+            {session?.user.email && (
               <p className="w-[200px] truncate text-sm text-muted-foreground">
-                {user.email}
+                {session?.user.email}
               </p>
             )}
           </div>
@@ -55,6 +55,12 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/dashboard/settings">Settings</Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => navigator.clipboard.writeText(session?.access_token)}
+        >
+          Copy Auth Token
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

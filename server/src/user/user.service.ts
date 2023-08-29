@@ -5,11 +5,19 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 
 import type { RegisterUserDto } from '../auth/auth.dto';
+import { CardService } from '../card/card.service';
+import { CustomerService } from '../customer/customer.service';
+import { TransactionService } from '../transaction/transaction.service';
 
 @Injectable()
 export class UserService {
   // eslint-disable-next-line no-useless-constructor
-  constructor(@InjectRepository(User) private userService: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private readonly userService: Repository<User>,
+    private readonly cardService: CardService,
+    private readonly customerService: CustomerService,
+    private readonly transactionService: TransactionService,
+  ) {}
 
   findAll() {
     // TODO: add params to include relations
@@ -44,6 +52,24 @@ export class UserService {
     return this.userService.findOne({
       where: { id },
     });
+  }
+
+  async getUserKPIs(userId: string) {
+    const user = await this.findById(userId);
+
+    if (!user) {
+      throw new Error('user not found');
+    }
+
+    const results = await Promise.all([
+      await this.cardService.getNumberOfCardsCreated(userId),
+      await this.customerService.getNumberOfCustomersCreated(userId),
+      await this.transactionService.getNumberOfTransactionsMade(userId),
+      await this.transactionService.getTotalAmountReceived(userId),
+    ]);
+
+    console.log({ results });
+    return results;
   }
 
   create(userInfos: RegisterUserDto) {

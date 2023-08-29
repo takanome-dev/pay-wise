@@ -8,7 +8,7 @@ import { Customer } from './customer.entity';
 export class CustomerService {
   constructor(
     @InjectRepository(Customer)
-    private customerRepository: Repository<Customer>, // private userService: UserService,
+    private customerRepository: Repository<Customer>,
   ) {}
 
   findById(id: string) {
@@ -41,4 +41,14 @@ export class CustomerService {
 
   //   return this.customerRepository.save(newCustomer);
   // }
+
+  getNumberOfCustomersCreated(userId: string) {
+    return this.customerRepository.count({
+      where: {
+        user: {
+          id: userId,
+        },
+      },
+    });
+  }
 }

@@ -7,12 +7,14 @@ import { JwtConfigModule } from '../jwt/jwt.module';
 import { TransactionController } from './transaction.controller';
 import { Transaction } from './transaction.entity';
 import { TransactionService } from './transaction.service';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([Transaction]),
+    UserModule,
     CardModule,
     JwtConfigModule,
-    TypeOrmModule.forFeature([Transaction]),
   ],
   providers: [TransactionService],
   controllers: [TransactionController],

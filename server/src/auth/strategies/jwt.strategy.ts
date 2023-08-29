@@ -8,6 +8,7 @@ import type { JwtUserDto } from '../../user/user.dto';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  // @ts-ignore
   constructor(private readonly config: ConfigService<GlobalConfigType>) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

@@ -1,5 +1,3 @@
-import { notFound } from 'next/navigation';
-
 import { CreateCardButton } from '~/components/create-card-button';
 import CreditCard from '~/components/credit-card';
 import { EmptyPlaceholder } from '~/components/empty-placeholder';
@@ -28,12 +26,7 @@ async function getCards(token: string) {
 
 export default async function Cards() {
   const session = await getSession();
-
-  if (!session) {
-    return notFound();
-  }
-
-  const cards = await getCards(session.access_token);
+  const cards = await getCards(session?.access_token ?? '');
 
   return (
     <DashboardShell>
@@ -41,7 +34,7 @@ export default async function Cards() {
         heading="Cards"
         text="This is where you will find all of your generated cards. Click on a card to view more details."
       >
-        <CreateCardButton token={session.access_token} />
+        <CreateCardButton token={session?.access_token ?? ''} />
       </DashboardHeader>
       <div className="mt-6">
         {cards.length > 0 ? (
@@ -57,7 +50,10 @@ export default async function Cards() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any cards yet. Create your first card.
             </EmptyPlaceholder.Description>
-            <CreateCardButton variant="outline" token={session.access_token} />
+            <CreateCardButton
+              variant="outline"
+              token={session?.access_token ?? ''}
+            />
           </EmptyPlaceholder>
         )}
       </div>

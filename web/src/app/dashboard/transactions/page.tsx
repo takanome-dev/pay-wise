@@ -1,5 +1,3 @@
-import { notFound } from 'next/navigation';
-
 import { columns } from './columns';
 import { DataTable } from './data-table';
 
@@ -12,7 +10,7 @@ import { tags } from '~/lib/tags';
 
 async function getTransactions(token: string) {
   // TODO: mv api url to env
-  const response = await fetch('http://localhost:3000/api/v1/transactions', {
+  const response = await fetch('http://localhost:3000/v1/transactions', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -29,11 +27,7 @@ async function getTransactions(token: string) {
 export default async function Transactions() {
   const session = await getSession();
 
-  if (!session) {
-    return notFound();
-  }
-
-  const transactions = await getTransactions(session.access_token);
+  const transactions = await getTransactions(session?.access_token ?? '');
 
   return (
     <DashboardShell>

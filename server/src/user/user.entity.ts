@@ -22,7 +22,7 @@ import { Transaction } from '../transaction/transaction.entity';
 export class User {
   @ApiModelProperty({
     description: 'User identifier',
-    example: 'kajdakj-dakjda-dakjda-dakjda',
+    example: 'ff292ec0-a5fa-40b6-9be3-51dc7f32d303',
   })
   @PrimaryGeneratedColumn('uuid')
   readonly id: string;
@@ -122,7 +122,7 @@ export class User {
 
   @ApiModelPropertyOptional({
     description: 'Date user was created',
-    example: '11:54:58.440176+00',
+    example: '2023-08-08T08:48:47.090Z',
   })
   @CreateDateColumn({
     type: 'timestamp without time zone',
@@ -132,7 +132,7 @@ export class User {
 
   @ApiModelPropertyOptional({
     description: 'Date user was updated',
-    example: '11:54:58.440176+00',
+    example: '2023-08-08T08:48:47.090Z',
   })
   @UpdateDateColumn({
     type: 'timestamp without time zone',

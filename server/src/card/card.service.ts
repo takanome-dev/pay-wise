@@ -39,6 +39,12 @@ export class CardService {
     });
   }
 
+  findByCardNumber(cardNumber: string) {
+    return this.cardRepository.findOne({
+      where: { cc_number: cardNumber },
+    });
+  }
+
   async createUserCard(cardInfos: RegisterCardDto, userId: string) {
     // TODO: check total cards per user (max 3)
     const user = await this.userService.findById(userId);
@@ -191,5 +197,11 @@ export class CardService {
   validateCardNumber(cardNumber: string) {
     const numVal = valid.number(cardNumber);
     return numVal.isPotentiallyValid;
+  }
+
+  getNumberOfCardsCreated(userId: string) {
+    return this.cardRepository.count({
+      where: { user: { id: userId } },
+    });
   }
 }
