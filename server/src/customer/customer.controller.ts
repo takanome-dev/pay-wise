@@ -3,9 +3,6 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { Roles } from '../common/decorators/role.decorator';
 import { RolesGuard } from '../common/guards/roles.guard';
 
-/**
- *
- */
 @UseGuards(RolesGuard)
 @Roles('user')
 @Controller('customers')

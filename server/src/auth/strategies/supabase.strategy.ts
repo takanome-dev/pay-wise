@@ -7,20 +7,12 @@ import {
 import { ExtractJwt } from 'passport-jwt';
 
 import type { Request } from 'express';
-// import { ConfigService } from '@nestjs/config';
-// import { GlobalConfigType } from '../../config';
 
-/**
- *
- */
 @Injectable()
 export class SupabaseStrategy extends PassportStrategy(
   SupabaseAuthStrategy,
   'supabase',
 ) {
-  /**
-   *
-   */
   constructor() {
     super({
       supabaseUrl: process.env.SUPABASE_URL,
@@ -31,19 +23,11 @@ export class SupabaseStrategy extends PassportStrategy(
     });
   }
 
-  /**
-   *
-   * @param payload
-   */
   async validate(payload: SupabaseAuthUser): Promise<any> {
     return payload;
     // super.validate(payload);
   }
 
-  /**
-   *
-   * @param req
-   */
   authenticate(req: Request) {
     super.authenticate(req);
   }

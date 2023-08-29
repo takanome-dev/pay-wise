@@ -11,9 +11,6 @@ import {
 
 import { OrderDirectionEnum } from '../utils/constants';
 
-/**
- *
- */
 export class RelationOptionsDto {
   // @ApiPropertyOptional({
   //   description: 'Relations to include',
@@ -25,9 +22,6 @@ export class RelationOptionsDto {
   readonly relations?: string;
 }
 
-/**
- *
- */
 export class PageOptionsDto {
   // @ApiPropertyOptional({
   //   minimum: 1,

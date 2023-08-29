@@ -6,17 +6,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import type { GlobalConfigType } from '../../config';
 import type { JwtUserDto } from '../../user/user.dto';
 
-/**
- *
- */
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  /**
-   *
-   * @param config
-   */
   constructor(private readonly config: ConfigService<GlobalConfigType>) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -25,10 +16,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  /**
-   *
-   * @param payload
-   */
   async validate(payload: JwtUserDto) {
     return { id: payload.sub, email: payload.email };
   }

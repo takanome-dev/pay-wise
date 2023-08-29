@@ -20,46 +20,25 @@ import type { RegisterCardDto } from './card.dto';
 import type { CreditCardBrand } from './dtos/types';
 import type { SupabaseAuthUser } from 'nestjs-supabase-auth';
 
-/**
- *
- */
 @Injectable()
 export class CardService {
-  /**
-   *
-   * @param cardRepository
-   * @param userService
-   */
   constructor(
     @InjectRepository(Card) private cardRepository: Repository<Card>,
     private userService: UserService,
   ) {}
 
-  /**
-   *
-   * @param user
-   */
   getCards(user: SupabaseAuthUser) {
     return this.cardRepository.find({
       where: { user: { id: user.id } },
     });
   }
 
-  /**
-   *
-   * @param id
-   */
   findById(id: string) {
     return this.cardRepository.findOne({
       where: { id },
     });
   }
 
-  /**
-   *
-   * @param cardInfos
-   * @param userId
-   */
   async createUserCard(cardInfos: RegisterCardDto, userId: string) {
     // TODO: check total cards per user (max 3)
     const user = await this.userService.findById(userId);
@@ -109,19 +88,10 @@ export class CardService {
     }
   }
 
-  /**
-   *
-   * @param id
-   * @param amount
-   */
   updateBalance(id: string, amount: number) {
     return this.cardRepository.update(id, { balance: amount });
   }
 
-  /**
-   *
-   * @param id
-   */
   async deleteCard(id: string) {
     const card = await this.cardRepository.findOne({
       where: { id },
@@ -218,10 +188,6 @@ export class CardService {
     return (sum * 9) % 10;
   }
 
-  /**
-   *
-   * @param cardNumber
-   */
   validateCardNumber(cardNumber: string) {
     const numVal = valid.number(cardNumber);
     return numVal.isPotentiallyValid;

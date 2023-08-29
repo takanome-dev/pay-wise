@@ -13,22 +13,11 @@ import { CreateTransactionDto } from './transaction.dto';
 import { Transaction } from './transaction.entity';
 import { TransactionService } from './transaction.service';
 
-/**
- *
- */
 @Controller('transactions')
 @ApiTags('Transaction service')
 export class TransactionController {
-  /**
-   *
-   * @param transactionService
-   */
   constructor(private transactionService: TransactionService) {}
 
-  /**
-   *
-   * @param user
-   */
   @Get()
   @ApiBearerAuth()
   @ApiOperation({
@@ -40,11 +29,6 @@ export class TransactionController {
     return this.transactionService.findAll(user);
   }
 
-  /**
-   *
-   * @param transactionInfos
-   * @param userId
-   */
   @Post('/create')
   @ApiBearerAuth()
   @ApiOperation({

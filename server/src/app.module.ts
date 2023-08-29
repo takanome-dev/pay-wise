@@ -20,9 +20,6 @@ import { JwtConfigModule } from './jwt/jwt.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { UserModule } from './user/user.module';
 
-/**
- *
- */
 @Module({
   imports: [
     ConfigModule.forRoot({

@@ -1,9 +1,6 @@
 import { OmitType, PartialType } from '@nestjs/mapped-types';
 import { IsEmail, IsNumber, IsString, MinLength } from 'class-validator';
 
-/**
- *
- */
 export class CreateUserDto {
   @IsString()
   username: string;
@@ -37,16 +34,10 @@ export class CreateUserDto {
   image: string;
 }
 
-/**
- *
- */
 export class UpdateUserDto extends PartialType(
   OmitType(CreateUserDto, ['password']),
 ) {}
 
-/**
- *
- */
 export class JwtUserDto {
   @IsString()
   sub: string;

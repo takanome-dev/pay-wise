@@ -6,25 +6,13 @@ import { UserService } from '../user/user.service';
 import type { LoginUserDto, RegisterUserDto } from './auth.dto';
 import type { User } from '../user/user.entity';
 
-/**
- *
- */
 @Injectable()
 export class AuthService {
-  /**
-   *
-   * @param userService
-   * @param jwtConfigService
-   */
   constructor(
     private userService: UserService,
     private jwtConfigService: JwtConfigService,
   ) {}
 
-  /**
-   *
-   * @param userInfos
-   */
   async validateUser(userInfos: LoginUserDto) {
     const user = await this.userService.findByEmail(userInfos.email);
     if (!user) return null;
@@ -38,10 +26,6 @@ export class AuthService {
     return user;
   }
 
-  /**
-   *
-   * @param user
-   */
   async login(user: User) {
     const payload = { sub: user.id, email: user.email, role: user.role };
     return {
@@ -49,10 +33,6 @@ export class AuthService {
     };
   }
 
-  /**
-   *
-   * @param userInfos
-   */
   async signUp(userInfos: RegisterUserDto) {
     const foundUserByMail = await this.userService.findByEmail(userInfos.email);
 

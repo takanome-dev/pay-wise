@@ -1,8 +1,5 @@
 import { IsEmail, IsOptional, IsString } from 'class-validator';
 
-/**
- *
- */
 export class CreateCustomerDto {
   @IsString()
   first_name: string;

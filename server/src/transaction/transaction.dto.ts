@@ -1,8 +1,5 @@
 import { IsIn, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
-/**
- *
- */
 export class CreateTransactionDto {
   @IsString()
   @IsIn(['recharge', 'transfer'])

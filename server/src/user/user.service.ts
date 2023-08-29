@@ -6,30 +6,16 @@ import { User } from './user.entity';
 
 import type { RegisterUserDto } from '../auth/auth.dto';
 
-/**
- *
- */
 @Injectable()
 export class UserService {
-  /**
-   *
-   * @param userService
-   */
   // eslint-disable-next-line no-useless-constructor
   constructor(@InjectRepository(User) private userService: Repository<User>) {}
 
-  /**
-   *
-   */
   findAll() {
     // TODO: add params to include relations
     return this.userService.find();
   }
 
-  /**
-   *
-   * @param id
-   */
   findById(id: string) {
     return this.userService.findOne({
       where: {
@@ -38,10 +24,6 @@ export class UserService {
     });
   }
 
-  /**
-   *
-   * @param email
-   */
   findByEmail(email: string) {
     return this.userService.findOne({
       where: {
@@ -50,10 +32,6 @@ export class UserService {
     });
   }
 
-  /**
-   *
-   * @param username
-   */
   findByUsername(username: string) {
     return this.userService.findOne({
       where: {
@@ -62,20 +40,12 @@ export class UserService {
     });
   }
 
-  /**
-   *
-   * @param id
-   */
   findCurrentUser(id: string) {
     return this.userService.findOne({
       where: { id },
     });
   }
 
-  /**
-   *
-   * @param userInfos
-   */
   create(userInfos: RegisterUserDto) {
     const newUser = this.userService.create(userInfos);
     return this.userService.save(newUser);
@@ -99,9 +69,6 @@ export class UserService {
   //   });
   // }
 
-  /**
-   *
-   */
   deleteAll() {
     return this.userService.delete({});
   }

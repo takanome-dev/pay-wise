@@ -1,9 +1,6 @@
 import { PickType } from '@nestjs/mapped-types';
 import { IsIn, IsOptional, IsString, MinLength } from 'class-validator';
 
-/**
- *
- */
 export class CreateCardDto {
   @IsString()
   cc_number: string;
@@ -43,27 +40,17 @@ export class CreateCardDto {
   user_id: string;
 }
 
-/**
- *
- */
 export class RegisterCardDto extends PickType(CreateCardDto, [
   'brand',
   'currency',
 ] as const) {}
 
-// TODO: remove this
-/**
- *
- */
 export class GenerateCardDto {
   @IsString()
   @IsIn(['visa', 'mastercard'])
   brand: string;
 }
 
-/**
- *
- */
 export class ValidateCardDto {
   @IsString()
   card_number: string;
@@ -75,9 +62,6 @@ export class ValidateCardDto {
 //   user_id: string;
 // }
 
-/**
- *
- */
 export class RegisterCustomerCardDto extends RegisterCardDto {
   @IsString()
   @MinLength(36)

@@ -5,19 +5,10 @@ import { cliDuration } from '../utils/cli-duration';
 
 import type { Request, Response, NextFunction } from 'express';
 
-/**
- *
- */
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
   private logger = new Logger('HTTP');
 
-  /**
-   *
-   * @param request
-   * @param response
-   * @param next
-   */
   use(request: Request, response: Response, next: NextFunction) {
     const startTime = Date.now();
 

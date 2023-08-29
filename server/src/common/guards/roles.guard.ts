@@ -7,21 +7,10 @@ import { Reflector } from '@nestjs/core';
 
 import { ROLES_KEY, type Role } from '../utils/constants';
 
-/**
- *
- */
 @Injectable()
 export class RolesGuard implements CanActivate {
-  /**
-   *
-   * @param reflector
-   */
   constructor(private reflector: Reflector) {}
 
-  /**
-   *
-   * @param context
-   */
   canActivate(context: ExecutionContext): boolean {
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
       context.getHandler(),

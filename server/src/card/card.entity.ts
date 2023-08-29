@@ -20,9 +20,6 @@ import { Customer } from '../customer/customer.entity';
 import { Transaction } from '../transaction/transaction.entity';
 import { User } from '../user/user.entity';
 
-/**
- *
- */
 @Entity({ name: 'cards' })
 export class Card {
   @ApiModelProperty({

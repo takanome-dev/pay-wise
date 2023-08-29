@@ -4,9 +4,6 @@ import { IsArray, ValidateNested } from 'class-validator';
 
 import { PageMetaDto } from './page-meta.dto';
 
-/**
- *
- */
 export class PageDto<T> {
   @IsArray()
   // @ApiProperty({ isArray: true })
@@ -19,11 +16,6 @@ export class PageDto<T> {
   @Type(() => PageMetaDto)
   readonly meta: PageMetaDto;
 
-  /**
-   *
-   * @param data
-   * @param meta
-   */
   constructor(data: T[], meta: PageMetaDto) {
     this.data = data;
     this.meta = meta;

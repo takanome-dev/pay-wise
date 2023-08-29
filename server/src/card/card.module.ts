@@ -9,9 +9,6 @@ import { CardController } from './card.controller';
 import { Card } from './card.entity';
 import { CardService } from './card.service';
 
-/**
- *
- */
 @Module({
   imports: [
     CustomerModule,

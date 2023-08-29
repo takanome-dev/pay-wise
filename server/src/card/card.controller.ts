@@ -17,23 +17,12 @@ import { RegisterCardDto } from './card.dto';
 import { Card } from './card.entity';
 import { CardService } from './card.service';
 
-/**
- *
- */
 @UseGuards(SupabaseGuard, RolesGuard)
 @Controller('cards')
 @ApiTags('Card service')
 export class CardController {
-  /**
-   *
-   * @param cardService
-   */
   constructor(private cardService: CardService) {}
 
-  /**
-   *
-   * @param user
-   */
   @Get()
   @ApiBearerAuth()
   @ApiOperation({
@@ -46,11 +35,6 @@ export class CardController {
     return this.cardService.getCards(user);
   }
 
-  /**
-   *
-   * @param cardInfos
-   * @param id
-   */
   @Post('user')
   @ApiBearerAuth()
   @ApiOperation({

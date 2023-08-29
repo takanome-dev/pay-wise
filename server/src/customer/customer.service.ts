@@ -2,29 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-// import { UserService } from '../user/user.service';
 import { Customer } from './customer.entity';
 
-// import type { CreateCustomerDto } from './customer.dto';
-
-/**
- *
- */
 @Injectable()
 export class CustomerService {
-  /**
-   *
-   * @param customerRepository
-   */
   constructor(
     @InjectRepository(Customer)
     private customerRepository: Repository<Customer>, // private userService: UserService,
   ) {}
 
-  /**
-   *
-   * @param id
-   */
   findById(id: string) {
     return this.customerRepository.findOne({
       where: {
@@ -33,10 +19,6 @@ export class CustomerService {
     });
   }
 
-  /**
-   *
-   * @param email
-   */
   findByEmail(email: string) {
     return this.customerRepository.findOne({
       where: {

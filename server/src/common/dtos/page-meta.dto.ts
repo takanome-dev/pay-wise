@@ -1,8 +1,5 @@
 import type { PageMetaParameters } from './page-meta-params.dto';
 
-/**
- *
- */
 export class PageMetaDto {
   // @ApiProperty({
   //   description: 'The current page',
@@ -40,12 +37,6 @@ export class PageMetaDto {
   // })
   readonly hasNextPage: boolean;
 
-  /**
-   *
-   * @param root0
-   * @param root0.pageOptionsDto
-   * @param root0.itemCount
-   */
   constructor({ pageOptionsDto, itemCount }: PageMetaParameters) {
     this.page = pageOptionsDto.page ?? 1;
     this.limit = pageOptionsDto.limit ?? 10;

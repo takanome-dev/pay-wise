@@ -11,9 +11,6 @@ import {
 import { Card } from '../card/card.entity';
 import { User } from '../user/user.entity';
 
-/**
- *
- */
 @Entity({ name: 'customers' })
 export class Customer {
   @PrimaryGeneratedColumn('uuid')

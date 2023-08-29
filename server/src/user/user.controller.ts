@@ -14,22 +14,12 @@ import { RolesGuard } from '../common/guards/roles.guard';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
-/**
- *
- */
 @UseGuards(SupabaseGuard)
 @Controller('users')
 @ApiTags('User service')
 export class UserController {
-  /**
-   *
-   * @param userService
-   */
   constructor(private userService: UserService) {}
 
-  /**
-   *
-   */
   @Get()
   @ApiBearerAuth()
   @ApiOperation({
@@ -41,10 +31,6 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  /**
-   *
-   * @param userId
-   */
   @Get('/me')
   @ApiBearerAuth()
   @ApiOperation({
@@ -67,9 +53,6 @@ export class UserController {
   //   return await this.userService.update(userInfos, userId);
   // }
 
-  /**
-   *
-   */
   @Delete()
   @Roles('admin')
   @UseGuards(RolesGuard)
