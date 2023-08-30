@@ -1,7 +1,9 @@
 import {
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import valid from 'card-validator';
@@ -23,24 +25,30 @@ import type { SupabaseAuthUser } from 'nestjs-supabase-auth';
 @Injectable()
 export class CardService {
   constructor(
-    @InjectRepository(Card) private cardRepository: Repository<Card>,
+    @InjectRepository(Card) private cardService: Repository<Card>,
+    @Inject(forwardRef(() => UserService))
     private userService: UserService,
   ) {}
 
+  baseQueryBuilder() {
+    const builder = this.cardService.createQueryBuilder('cards');
+    return builder;
+  }
+
   getCards(user: SupabaseAuthUser) {
-    return this.cardRepository.find({
+    return this.cardService.find({
       where: { user: { id: user.id } },
     });
   }
 
   findById(id: string) {
-    return this.cardRepository.findOne({
+    return this.cardService.findOne({
       where: { id },
     });
   }
 
   findByCardNumber(cardNumber: string) {
-    return this.cardRepository.findOne({
+    return this.cardService.findOne({
       where: { cc_number: cardNumber },
     });
   }
@@ -57,7 +65,7 @@ export class CardService {
 
     let cardNumber = this.generateCardNumber(cardInfos.brand);
     let cvv = this.generateCVV();
-    let card = await this.cardRepository.findOne({
+    let card = await this.cardService.findOne({
       where: { cc_number: cardNumber, cvv },
     });
 
@@ -65,7 +73,7 @@ export class CardService {
       cardNumber = this.generateCardNumber(cardInfos.brand as CreditCardBrand);
       cvv = this.generateCVV();
       // eslint-disable-next-line no-await-in-loop
-      card = await this.cardRepository.findOne({
+      card = await this.cardService.findOne({
         where: { cc_number: cardNumber, cvv },
       });
     }
@@ -73,7 +81,7 @@ export class CardService {
     const { exp_month, exp_year } = this.generateExpiryDate();
 
     try {
-      const newCard = this.cardRepository.create({
+      const newCard = this.cardService.create({
         ...cardInfos,
         cc_number: cardNumber,
         cvv,
@@ -82,7 +90,7 @@ export class CardService {
         user,
       });
 
-      await this.cardRepository.save(newCard);
+      await this.cardService.save(newCard);
       return {
         data: newCard,
         message: 'Card created successfully',
@@ -95,11 +103,11 @@ export class CardService {
   }
 
   updateBalance(id: string, amount: number) {
-    return this.cardRepository.update(id, { balance: amount });
+    return this.cardService.update(id, { balance: amount });
   }
 
   async deleteCard(id: string) {
-    const card = await this.cardRepository.findOne({
+    const card = await this.cardService.findOne({
       where: { id },
     });
 
@@ -107,7 +115,7 @@ export class CardService {
       throw new NotFoundException('Card not found');
     }
 
-    await this.cardRepository.softDelete(id);
+    await this.cardService.softDelete(id);
 
     return {
       data: null,
@@ -199,9 +207,19 @@ export class CardService {
     return numVal.isPotentiallyValid;
   }
 
-  getNumberOfCardsCreated(userId: string) {
-    return this.cardRepository.count({
-      where: { user: { id: userId } },
-    });
+  async getKpis(userId: string) {
+    const queryBuilder = this.baseQueryBuilder();
+
+    queryBuilder.select('*').where('cards.user_id = :userId', { userId });
+
+    const [itemCount, entities] = await Promise.all([
+      queryBuilder.getCount(),
+      queryBuilder.getRawMany(),
+    ]);
+
+    return {
+      totalCards: itemCount,
+      cards: entities,
+    };
   }
 }

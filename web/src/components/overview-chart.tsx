@@ -15,7 +15,9 @@ import {
 import { InfoIcon } from 'lucide-react';
 import { useState } from 'react';
 
-const usNumberformatter = (number: number, decimals = 0) =>
+import { type DailyPerformance } from '~/app/dashboard/page';
+
+const usNumberFormatter = (number: number, decimals = 0) =>
   Intl.NumberFormat('us', {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
@@ -24,55 +26,52 @@ const usNumberformatter = (number: number, decimals = 0) =>
     .toString();
 
 const formatters: { [key: string]: any } = {
-  Sales: (number: number) => `$ ${usNumberformatter(number)}`,
-  Profit: (number: number) => `$ ${usNumberformatter(number)}`,
-  Customers: (number: number) => `${usNumberformatter(number)}`,
-  Delta: (number: number) => `${usNumberformatter(number, 2)}%`,
+  Transactions: (number: number) => `$ ${usNumberFormatter(number)}`,
+  Cards: (number: number) => `$ ${usNumberFormatter(number)}`,
+  Customers: (number: number) => `${usNumberFormatter(number)}`,
+  Delta: (number: number) => `${usNumberFormatter(number, 2)}%`,
 };
 
 const Kpis = {
-  Sales: 'Sales',
-  Profit: 'Profit',
+  Transactions: 'Transactions',
+  Cards: 'Cards',
   Customers: 'Customers',
 };
 
-const kpiList = [Kpis.Sales, Kpis.Profit, Kpis.Customers];
+const kpiList = [Kpis.Transactions, Kpis.Cards, Kpis.Customers];
 
-export type DailyPerformance = {
-  date: string;
-  Sales: number;
-  Profit: number;
-  Customers: number;
-};
+// export const performance: DailyPerformance[] = [
+//   {
+//     date: '2023-05-01',
+//     Transactions: 900.73,
+//     Profit: 173,
+//     Customers: 73,
+//   },
+//   {
+//     date: '2023-05-02',
+//     Transactions: 1000.74,
+//     Profit: 174.6,
+//     Customers: 74,
+//   },
+//   {
+//     date: '2023-05-03',
+//     Transactions: 1100.93,
+//     Profit: 293.1,
+//     Customers: 293,
+//   },
+//   {
+//     date: '2023-05-04',
+//     Transactions: 1200.9,
+//     Profit: 290.2,
+//     Customers: 29,
+//   },
+// ];
 
-export const performance: DailyPerformance[] = [
-  {
-    date: '2023-05-01',
-    Sales: 900.73,
-    Profit: 173,
-    Customers: 73,
-  },
-  {
-    date: '2023-05-02',
-    Sales: 1000.74,
-    Profit: 174.6,
-    Customers: 74,
-  },
-  {
-    date: '2023-05-03',
-    Sales: 1100.93,
-    Profit: 293.1,
-    Customers: 293,
-  },
-  {
-    date: '2023-05-04',
-    Sales: 1200.9,
-    Profit: 290.2,
-    Customers: 29,
-  },
-];
+interface ChartOverviewProps {
+  performance: DailyPerformance[];
+}
 
-export default function ChartOverview() {
+export default function ChartOverview({ performance }: ChartOverviewProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedKpi = kpiList[selectedIndex];
 
@@ -109,8 +108,8 @@ export default function ChartOverview() {
         <div>
           <TabGroup index={selectedIndex} onIndexChange={setSelectedIndex}>
             <TabList color="gray" variant="solid">
-              <Tab>Sales</Tab>
-              <Tab>Profit</Tab>
+              <Tab>Transactions</Tab>
+              <Tab>Cards</Tab>
               <Tab>Customers</Tab>
             </TabList>
           </TabGroup>

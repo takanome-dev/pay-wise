@@ -1,8 +1,16 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
+/* eslint-disable */
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+// import { Card } from '../card/card.entity';
 import { CardService } from '../card/card.service';
+// import { Customer } from '../customer/customer.entity';
 import { CustomerService } from '../customer/customer.service';
 import { TransactionService } from '../transaction/transaction.service';
 
@@ -16,6 +24,7 @@ export class UserService {
     @InjectRepository(User) private readonly userService: Repository<User>,
     @Inject(forwardRef(() => CardService))
     private readonly cardService: CardService,
+    @Inject(forwardRef(() => CustomerService))
     private readonly customerService: CustomerService,
     private readonly transactionService: TransactionService,
   ) {}
@@ -59,18 +68,52 @@ export class UserService {
     const user = await this.findById(userId);
 
     if (!user) {
-      throw new Error('user not found');
+      throw new NotFoundException('user not found');
     }
 
     const results = await Promise.all([
-      await this.cardService.getNumberOfCardsCreated(userId),
-      await this.customerService.getNumberOfCustomersCreated(userId),
-      await this.transactionService.getNumberOfTransactionsMade(userId),
-      await this.transactionService.getTotalAmountReceived(userId),
+      await this.cardService.getKpis(userId),
+      await this.customerService.getKpis(userId),
+      await this.transactionService.getKpis(userId),
     ]);
 
-    console.log({ results });
-    return results;
+    const cardKPIs = results[0];
+    const customerKPIs = results[1];
+    const transactionKPIs = results[2];
+
+    const data = [
+      ...customerKPIs.customers,
+      ...cardKPIs.cards,
+      ...transactionKPIs.transactions,
+    ].map((item) => ({
+      date: new Date(item.created_at).toISOString().substring(0, 10),
+      type:
+        item.role === 'customer'
+          ? 'Customers'
+          : item.cc_number
+          ? 'Cards'
+          : 'Transactions',
+    }));
+
+    const dates = Array.from(new Set(data.map((item) => item.date))).sort();
+
+    const groupedData = dates.reduce((acc, date) => {
+      acc[date] = { date, Customers: 0, Cards: 0, Transactions: 0 };
+      return acc;
+    }, {});
+
+    data.forEach((item) => {
+      const { date, type } = item;
+      groupedData[date][type]++;
+    });
+
+    return {
+      performance: Object.values(groupedData),
+      totalCustomers: customerKPIs.totalCustomers,
+      totalCards: cardKPIs.totalCards,
+      totalTransactions: transactionKPIs.totalTransactions,
+      totalAmount: transactionKPIs.totalAmount,
+    };
   }
 
   create(userInfos: RegisterUserDto) {

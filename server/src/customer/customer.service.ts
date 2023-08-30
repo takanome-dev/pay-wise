@@ -1,7 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { UserService } from '../user/user.service';
+
+import { type CreateCustomerDto } from './customer.dto';
 import { Customer } from './customer.entity';
 
 @Injectable()
@@ -9,6 +12,7 @@ export class CustomerService {
   constructor(
     @InjectRepository(Customer)
     private customerService: Repository<Customer>,
+    private readonly userService: UserService,
   ) {}
 
   baseQueryBuilder() {
@@ -32,40 +36,34 @@ export class CustomerService {
     });
   }
 
-  // async create(customerInfos: CreateCustomerDto, userId: string) {
-  //   const user = await this.userService.findById(userId);
+  async create(customerInfos: CreateCustomerDto, userId: string) {
+    const user = await this.userService.findById(userId);
 
-  //   if (!user) {
-  //     throw new NotFoundException('User not found');
-  //   }
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
 
-  //   const newCustomer = this.customerService.create({
-  //     ...customerInfos,
-  //     user,
-  //   });
+    const newCustomer = this.customerService.create({
+      ...customerInfos,
+      user,
+    });
 
-  //   return this.customerService.save(newCustomer);
-  // }
+    return this.customerService.save(newCustomer);
+  }
 
-  getNumberOfCustomersCreated(userId: string) {
-    // return this.customerService.count({
-    //   where: {
-    //     user: {
-    //       id: userId,
-    //     },
-    //   },
-    // });
+  async getKpis(userId: string) {
     const queryBuilder = this.baseQueryBuilder();
 
-    queryBuilder
-      .select('COUNT(customers.id)', 'count')
-      .innerJoinAndSelect('customers.user', 'user')
-      .where('user.id = :userId', { userId });
-    // .select('COUNT(customers.id)', 'count')
-    // .innerJoin('customers.user', 'user')
-    // .where('user.id = :userId', { userId });
-    // .where('customers.user_id = :userId', { userId });
+    queryBuilder.select('*').where('customers.user_id = :userId', { userId });
 
-    return queryBuilder.getRawOne();
+    const [itemCount, entities] = await Promise.all([
+      queryBuilder.getCount(),
+      queryBuilder.getRawMany(),
+    ]);
+
+    return {
+      totalCustomers: itemCount,
+      customers: entities,
+    };
   }
 }

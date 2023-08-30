@@ -1,10 +1,8 @@
 import {
   Inject,
-  // Inject,
   Injectable,
   NotFoundException,
   forwardRef,
-  // forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -26,7 +24,11 @@ export class TransactionService {
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
   ) {}
-  // @Inject(forwardRef(() => UserService))
+
+  baseQueryBuilder() {
+    const builder = this.transactionService.createQueryBuilder('transactions');
+    return builder;
+  }
 
   async findAll(userId: string) {
     const user = await this.userService.findById(userId);
@@ -78,21 +80,27 @@ export class TransactionService {
     };
   }
 
-  getNumberOfTransactionsMade(userId: string) {
-    return this.transactionService.count({
-      where: {
-        user: {
-          id: userId,
-        },
-      },
-    });
-  }
+  async getKpis(userId: string) {
+    const queryBuilder = this.baseQueryBuilder();
 
-  getTotalAmountReceived(userId: string) {
-    return this.transactionService
-      .createQueryBuilder('transaction')
-      .select('SUM(transaction.amount)', 'totalAmountReceived')
-      .where('transaction.user = :userId', { userId })
-      .getRawOne();
+    queryBuilder
+      .select('*')
+      .where('transactions.user_id = :userId', { userId });
+
+    const [itemCount, entities] = await Promise.all([
+      queryBuilder.getCount(),
+      queryBuilder.getRawMany(),
+    ]);
+
+    const totalAmount = entities.reduce(
+      (acc: number, curr: Transaction) => acc + Number(curr.amount),
+      0,
+    ) as number;
+
+    return {
+      totalTransactions: itemCount,
+      totalAmount,
+      transactions: entities,
+    };
   }
 }
