@@ -6,7 +6,7 @@ import { DashboardNav } from '~/components/nav';
 import { SiteFooter } from '~/components/site-footer';
 import { UserAccountNav } from '~/components/user-account-nav';
 import { dashboardConfig } from '~/config/dashboard';
-import { getCurrentUser } from '~/lib/session';
+import { getSession } from '~/lib/session';
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -15,9 +15,9 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  const user = await getCurrentUser();
+  const session = await getSession();
 
-  if (!user) {
+  if (!session) {
     return notFound();
   }
 
@@ -28,7 +28,7 @@ export default async function DashboardLayout({
           <MainNav items={dashboardConfig.mainNav} />
           <div className="flex gap-4">
             <ModeToggle />
-            <UserAccountNav user={user} />
+            <UserAccountNav session={session} />
           </div>
         </div>
       </header>

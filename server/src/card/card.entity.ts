@@ -24,7 +24,7 @@ import { User } from '../user/user.entity';
 export class Card {
   @ApiModelProperty({
     description: 'Card identifier',
-    example: 'kajdakj-dakjda-dakjda-dakjda',
+    example: 'ff292ec0-a5fa-40b6-9be3-51dc7f32d305',
   })
   @PrimaryGeneratedColumn('uuid')
   readonly id: string;
@@ -109,7 +109,7 @@ export class Card {
 
   @ApiModelPropertyOptional({
     description: 'Card created date',
-    example: '2021-01-01T00:00:00.000Z',
+    example: '2023-08-08T08:48:47.090Z',
   })
   @CreateDateColumn({
     type: 'timestamp without time zone',
@@ -119,7 +119,7 @@ export class Card {
 
   @ApiModelPropertyOptional({
     description: 'Card updated date',
-    example: '2021-01-01T00:00:00.000Z',
+    example: '2023-08-08T08:48:47.090Z',
   })
   @UpdateDateColumn({
     type: 'timestamp without time zone',

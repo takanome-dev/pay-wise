@@ -1,4 +1,7 @@
+import { PickType } from '@nestjs/swagger';
 import { IsEmail, IsOptional, IsString } from 'class-validator';
+
+import { Customer } from './customer.entity';
 
 export class CreateCustomerDto {
   @IsString()
@@ -25,8 +28,13 @@ export class CreateCustomerDto {
   @IsString()
   @IsOptional()
   address: string;
-
-  @IsString()
-  @IsOptional()
-  user_id: string;
 }
+export class CreateCustomerBodyDto extends PickType(Customer, [
+  'address',
+  'city',
+  'country',
+  'email',
+  'first_name',
+  'last_name',
+  'phone',
+]) {}

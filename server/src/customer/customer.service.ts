@@ -1,18 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { UserService } from '../user/user.service';
+
+import { type CreateCustomerDto } from './customer.dto';
 import { Customer } from './customer.entity';
 
 @Injectable()
 export class CustomerService {
   constructor(
     @InjectRepository(Customer)
-    private customerRepository: Repository<Customer>, // private userService: UserService,
+    private customerService: Repository<Customer>,
+    private readonly userService: UserService,
   ) {}
 
+  baseQueryBuilder() {
+    const builder = this.customerService.createQueryBuilder('customers');
+    return builder;
+  }
+
   findById(id: string) {
-    return this.customerRepository.findOne({
+    return this.customerService.findOne({
       where: {
         id,
       },
@@ -20,25 +29,41 @@ export class CustomerService {
   }
 
   findByEmail(email: string) {
-    return this.customerRepository.findOne({
+    return this.customerService.findOne({
       where: {
         email,
       },
     });
   }
 
-  // async create(customerInfos: CreateCustomerDto, userId: string) {
-  //   const user = await this.userService.findById(userId);
+  async create(customerInfos: CreateCustomerDto, userId: string) {
+    const user = await this.userService.findById(userId);
 
-  //   if (!user) {
-  //     throw new NotFoundException('User not found');
-  //   }
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
 
-  //   const newCustomer = this.customerRepository.create({
-  //     ...customerInfos,
-  //     user,
-  //   });
+    const newCustomer = this.customerService.create({
+      ...customerInfos,
+      user,
+    });
 
-  //   return this.customerRepository.save(newCustomer);
-  // }
+    return this.customerService.save(newCustomer);
+  }
+
+  async getKpis(userId: string) {
+    const queryBuilder = this.baseQueryBuilder();
+
+    queryBuilder.select('*').where('customers.user_id = :userId', { userId });
+
+    const [itemCount, entities] = await Promise.all([
+      queryBuilder.getCount(),
+      queryBuilder.getRawMany(),
+    ]);
+
+    return {
+      totalCustomers: itemCount,
+      customers: entities,
+    };
+  }
 }

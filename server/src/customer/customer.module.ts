@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { JwtConfigModule } from '../jwt/jwt.module';
@@ -9,7 +9,11 @@ import { Customer } from './customer.entity';
 import { CustomerService } from './customer.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Customer]), UserModule, JwtConfigModule],
+  imports: [
+    JwtConfigModule,
+    forwardRef(() => UserModule),
+    TypeOrmModule.forFeature([Customer]),
+  ],
   controllers: [CustomerController],
   providers: [CustomerService],
   exports: [CustomerService],

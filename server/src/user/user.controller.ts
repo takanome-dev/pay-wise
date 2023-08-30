@@ -13,14 +13,16 @@ import { RolesGuard } from '../common/guards/roles.guard';
 
 import { User } from './user.entity';
 import { UserService } from './user.service';
+import { KPIDto } from './user.dto';
 
-@UseGuards(SupabaseGuard)
+@UseGuards(SupabaseGuard, RolesGuard)
 @Controller('users')
 @ApiTags('User service')
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
+  @Roles('admin')
   @ApiBearerAuth()
   @ApiOperation({
     operationId: 'getAllUsers',
@@ -40,6 +42,17 @@ export class UserController {
   @ApiOkResponse({ type: User })
   getMe(@UserId() userId: string) {
     return this.userService.findCurrentUser(userId);
+  }
+
+  @Get('/kpis/user')
+  @ApiBearerAuth()
+  @ApiOperation({
+    operationId: 'getKPIs',
+    summary: 'Get KPIs data',
+  })
+  @ApiOkResponse({ type: KPIDto })
+  getKPIs(@UserId() userId: string) {
+    return this.userService.getUserKPIs(userId);
   }
 
   // @Post()

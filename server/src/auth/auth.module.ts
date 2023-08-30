@@ -11,6 +11,6 @@ import { SupabaseStrategy } from './strategies/supabase.strategy';
 @Module({
   imports: [UserModule, JwtConfigModule, PassportModule],
   controllers: [AuthController],
-  providers: [AuthService, SupabaseStrategy],
+  providers: [SupabaseStrategy, AuthService],
 })
 export class AuthModule {}
