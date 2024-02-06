@@ -6,6 +6,6 @@
     "devs": "mintlify dev --port 3001"
   },
   "devDependencies": {
-    "mintlify": "3.0.98"
+    "mintlify": "4.0.122"
   }
 }
